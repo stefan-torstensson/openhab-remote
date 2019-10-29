@@ -1,0 +1,44 @@
+{
+    "compilerOptions": {
+        // Target latest version of ECMAScript.
+        "target": "esnext",
+        // Search under node_modules for non-relative imports.
+        "moduleResolution": "node",
+        // Process & infer types from .js files.
+        "allowJs": true,
+        // Don't emit; allow Babel to transform files.
+        "noEmit": true,
+        // Enable strictest settings like strictNullChecks & noImplicitAny.
+        "strict": true,
+        // Disallow features that require cross-file information for emit.
+        "isolatedModules": false,
+        // Import non-ES modules as default imports.
+        "esModuleInterop": true,
+        "strictNullChecks": false,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "noImplicitAny": true,
+        "sourceMap": true,
+        "lib": [
+            "esnext",
+            "dom",
+            "dom.iterable",
+            "scripthost"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "@app/*": ["src/*"],
+            "test-env": ["test/test-env.ts"]
+        }
+    },
+
+    "include": [
+        "src/**/*.ts",
+        //    "src/**/*.js",
+        "src/**/*.vue",
+        "test/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

@@ -1,0 +1,16 @@
+@media (max-height: 120px) {
+   .application-root {
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+}
+
+@mixin kb-hidden {
+  @media (max-height: 120px) {
+    display: none;
+  }
+}
+
+.kb-hidden {
+  @include kb-hidden;
+}

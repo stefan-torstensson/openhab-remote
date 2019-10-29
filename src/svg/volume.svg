@@ -1,0 +1,13 @@
+<svg class="svg-icon" viewBox="0 0 40 40" preserveAspectRatio="xMinYMin meet"
+     xmlns="http://www.w3.org/2000/svg">
+    <style>
+        * {
+            stroke-width:4;
+            stroke: blue;
+            background: transparent;
+            fill :none;
+        }
+    </style>
+    <circle cx="20" cy="20" r="18"/>
+    <line x1="20" y1="20" x2="7" y2="7"/>
+</svg>

@@ -1,0 +1,12 @@
+.ripple-effect {
+  background: radial-gradient(
+      ellipse farthest-corner,
+      #555 0%,
+      transparent 80%) no-repeat 50%;
+  background-size: 0 0;
+  transition: all 0.2s ease;
+
+  &#{&}--active {
+    background-size: 100% 100%;
+  }
+}

@@ -1,0 +1,15 @@
+<svg class="svg-icon" viewBox="0 0 40 40" preserveAspectRatio="xMinYMin meet"
+     xmlns="http://www.w3.org/2000/svg">
+    <style>
+        * {
+            stroke-width:4;
+            stroke: blue;
+            background: transparent;
+            fill :none;
+        }
+    </style>
+    <rect x="2" y="2" width="36" height="36" rx="4" ry="4"/>
+    <path d="M8 12 h4 m4 0 h16"/>
+    <path d="M8 20 h4 m4 0 h16"/>
+    <path d="M8 28 h4 m4 0 h16"/>
+</svg>

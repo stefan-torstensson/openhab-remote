@@ -1,0 +1,14 @@
+<svg class="svg-icon" viewBox="0 0 10 40"  preserveAspectRatio="xMinYMin meet"
+     xmlns="http://www.w3.org/2000/svg">
+    <style>
+        * {
+            <!-- stroke-width:4; -->
+            stroke: blue;
+            background: transparent;
+            fill :blue;
+        }
+    </style>
+    <circle cx="5" cy="10" r="2"/>
+    <circle cx="5" cy="20" r="2"/>
+    <circle cx="5" cy="30" r="2"/>
+</svg>

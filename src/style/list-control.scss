@@ -1,0 +1,56 @@
+@import "settings";
+
+@mixin center-vertically {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.list-control {
+  display: block;
+  height: 100%;
+
+  input {
+    display: none;
+  }
+
+  label {
+    display: block;
+    width: 100%;
+    //white-space: nowrap;
+  }
+
+  &_text {
+    @include center-vertically;
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    padding-left: 75px;
+  }
+
+  &_label {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &_sublabel {
+    display: block;
+    font-size: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: $color-accent;
+  }
+
+  &_icon {
+    @include center-vertically;
+    width: 40px;
+    height: 40px;
+    left: 0;
+    color: $color-accent;
+    margin-left: 15px;
+    text-align: center;
+  }
+}
+

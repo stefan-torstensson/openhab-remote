@@ -1,0 +1,36 @@
+<svg class="svg-icon" viewBox="0 0 200 200"  preserveAspectRatio="xMinYMin meet"
+     xmlns="http://www.w3.org/2000/svg">
+    <style>
+        * {
+            fill :none;
+        }
+        .bg {
+            fill: #00B
+        }
+        .house {
+            stroke-width: 12;
+            stroke: #FFF;
+            fill: #FFF;
+
+        }
+        .roof {
+            stroke: #FFF;
+            stroke-width:12;
+        }
+    </style>
+    <circle cx="100" cy="100" r="100" class="bg"/>
+    <path class="house" d="
+    M 100 68 l
+    45 40
+    0 45
+    -25 0
+    0 -35
+    -40 0
+    0 35
+    -25 0
+    0 -45 z" stroke-linejoin="round" />
+    <polyline class="roof" points="40 90 100 38 160 90"
+              stroke-linejoin="round"
+              stroke-linecap="round"
+    />
+</svg>

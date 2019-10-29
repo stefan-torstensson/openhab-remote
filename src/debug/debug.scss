@@ -1,0 +1,44 @@
+@import "../style/settings";
+
+.watch-container {
+  position: absolute;
+  max-width: $screen-width;
+  max-height: $screen-height;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.input-enabled .watch-container {
+  height: $screen-height/3;
+}
+
+.watch-circle {
+  position: absolute;
+  top:-40px;
+  left:-40px;
+  pointer-events: none;
+  box-sizing: content-box;
+  width: $screen-width;
+  height: $screen-height;
+  border-radius: 50%;
+  border: 40px solid #222;
+}
+@media (min-width: $screen-width + 120) {
+  .watch-container {
+    left:60px;
+    top:60px
+  }
+  .watch-circle {
+    left: 20px;
+    top: 20px;
+  }
+}
+@media (-tizen-geometric-shape: circle) {
+  .watch-container {
+    width: 100%;
+    height: 100%;
+    border: inherit;
+    border-radius: inherit;
+  }
+}

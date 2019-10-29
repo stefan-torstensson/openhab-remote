@@ -1,0 +1,10 @@
+.startup-logo {
+  background: url("app-icon.svg") no-repeat;
+  background-size: 100%;
+  width: 160px;
+  height: 160px;
+  top:50%;
+  left:50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
