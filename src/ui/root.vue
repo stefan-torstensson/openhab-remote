@@ -1,11 +1,11 @@
 <template>
     <div class="application-root">
-        <loading-indicator class="loading-indicator" :running="loading"></loading-indicator>
         <router-view/>
         <div class="settings center-vertically">
             <settings-button></settings-button>
         </div>
         <modal ref="modal"></modal>
+        <loading-indicator class="loading-indicator" :running="loading"></loading-indicator>
     </div>
 </template>
 
