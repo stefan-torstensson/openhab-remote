@@ -1,4 +1,8 @@
-declare var global: Window;
+declare var global: AppGlobal;
+
+interface AppGlobal extends Window {
+    __logLevel: number;
+}
 
 declare module "*.vue" {
     import Vue from 'vue';

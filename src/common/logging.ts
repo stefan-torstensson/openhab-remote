@@ -6,7 +6,15 @@ export enum LogLevel {
     NONE = 5
 }
 
-let logLevel: LogLevel = LogLevel.ERROR;
+global.__logLevel = LogLevel.WARN;
+
+export function getLogLevel(): LogLevel {
+    return global.__logLevel;
+}
+
+export function setLogLevel(value: LogLevel): void {
+    global.__logLevel = value;
+}
 
 export class Logger {
     private readonly name: string;
@@ -16,40 +24,31 @@ export class Logger {
     }
 
     debug(...args: any[]): void {
-        if (logLevel <= LogLevel.DEBUG) {
+        if (getLogLevel() <= LogLevel.DEBUG) {
             console.debug(this.name, ...args);
         }
     }
 
     info(...args: any[]): void {
-        if (logLevel <= LogLevel.INFO) {
+        if (getLogLevel() <= LogLevel.INFO) {
             console.info(this.name, ...args);
         }
     }
 
     warn(...args: any[]): void {
-        if (logLevel <= LogLevel.WARN) {
+        if (getLogLevel() <= LogLevel.WARN) {
             console.warn(this.name, ...args);
         }
     }
 
     error(...args: any[]): void {
-        if (logLevel <= LogLevel.ERROR) {
+        if (getLogLevel() <= LogLevel.ERROR) {
             console.error(this.name, ...args);
         }
     }
 }
 
 export class LoggerFactory {
-
-    static set logLevel(value: LogLevel) {
-        logLevel = value;
-    }
-
-    static get logLevel(): LogLevel {
-        return logLevel;
-    }
-
     static get(nameOrClass?: string | (new(...args: any[]) => any)) {
         let name = null;
         if (!nameOrClass) {

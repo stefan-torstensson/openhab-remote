@@ -1,5 +1,5 @@
 import {expect, sinon} from "test-env";
-import {Logger, LoggerFactory, LogLevel} from "@app/common/logging";
+import {Logger, LoggerFactory, LogLevel, setLogLevel} from "@app/common/logging";
 
 describe("Logging tests", () => {
 
@@ -37,7 +37,7 @@ describe("Logging tests", () => {
 
         describe("When log level is DEBUG", () => {
             beforeEach(() => {
-                LoggerFactory.logLevel = LogLevel.DEBUG;
+                setLogLevel(LogLevel.DEBUG);
             });
 
             it("should debug log", () => {
@@ -63,7 +63,7 @@ describe("Logging tests", () => {
 
         describe("When log level is INFO", () => {
             beforeEach(() => {
-                LoggerFactory.logLevel = LogLevel.INFO;
+                setLogLevel(LogLevel.INFO);
             });
 
             it("should not debug log", () => {
@@ -89,7 +89,7 @@ describe("Logging tests", () => {
 
         describe("When log level is WARN", () => {
             beforeEach(() => {
-                LoggerFactory.logLevel = LogLevel.WARN;
+                setLogLevel(LogLevel.WARN);
             });
 
             it("should not debug log", () => {
@@ -115,7 +115,7 @@ describe("Logging tests", () => {
 
         describe("When log level is ERROR", () => {
             beforeEach(() => {
-                LoggerFactory.logLevel = LogLevel.ERROR;
+                setLogLevel(LogLevel.ERROR);
             });
 
             it("should not debug log", () => {
