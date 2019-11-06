@@ -25,9 +25,6 @@
     @import "~settings";
 
     .svg-icon {
-        fill: transparent;
-        stroke-width: 4px;
-        stroke: $color-primary;
 
         &_elem--active {
             & {

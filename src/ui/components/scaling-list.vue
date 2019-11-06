@@ -18,7 +18,7 @@
     import {logger} from "@app/common/logging";
     import {AppEvent, PubSub} from "../event-bus";
     import {Inject} from "../ioc";
-    import ScalingListItem from "./scaling-list-item";
+    import ScalingListItem from "./scaling-list-item.vue";
 
     @Component({
         components: {ScalingListItem}
@@ -169,7 +169,7 @@
 
     }
 
-    function toArray(what) {
+    function toArray(what: NodeList): any[] {
         return Array.prototype.slice.call(what);
     }
 

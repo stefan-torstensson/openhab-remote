@@ -4,6 +4,7 @@
         <div class="settings center-vertically">
             <settings-button></settings-button>
         </div>
+        <notification-area class="notification-area"></notification-area>
         <modal ref="modal"></modal>
         <loading-indicator class="loading-indicator" :running="loading"></loading-indicator>
     </div>
@@ -18,6 +19,13 @@
         height: 100%;
     }
 
+    .notification-area {
+        position: absolute;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+    }
+
     .settings {
         position:absolute;
         right:0;
@@ -29,7 +37,7 @@
 <script lang="ts">
     import Vue from "vue";
     import {Component, Watch} from "vue-property-decorator";
-    import {SettingsButton, Modal} from "@app/ui/components";
+    import {SettingsButton, Modal, NotificationArea} from "@app/ui/components";
     import {AppEvent, PubSub} from "../ui/event-bus";
     import {Inject} from "@app/ui/ioc";
     import {ApplicationError} from "@app/common/application-error";
@@ -37,7 +45,7 @@
     import LoadingIndicator from "@app/ui/components/loading-indicator.vue";
 
     @Component({
-        components: {LoadingIndicator, SettingsButton, Modal}
+        components: {LoadingIndicator, SettingsButton, Modal, NotificationArea}
     })
     export default class Root extends Vue {
         @Inject(PubSub)

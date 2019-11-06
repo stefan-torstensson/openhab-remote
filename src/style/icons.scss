@@ -1,0 +1,20 @@
+@import "settings";
+
+.svg-icon {
+  stroke: $color-primary;
+  stroke-width: 4;
+  background: transparent;
+  fill: none;
+
+  .background-fill {
+    fill: $color-background;
+  }
+
+  .fill {
+    fill: $color-primary;
+  }
+
+  .alert {
+    stroke: $color-alert;
+  }
+}

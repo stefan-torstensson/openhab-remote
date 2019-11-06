@@ -62,7 +62,7 @@ export class OpenhabSitemapSubscriber extends SitemapSubscriber {
     }
 
     async start(): Promise<void> {
-        if (this._eventSource.started) {
+        if (!(this._pageId && this._sitemapName) || this._eventSource.started) {
             return;
         }
         const params = {

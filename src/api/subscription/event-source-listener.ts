@@ -19,17 +19,21 @@ export class EventSourceListener {
             throw new Error("Event source listener already started");
         }
         return new Promise((resolve, reject) => {
+            let onerror: EventListener;
             this.eventSource = new EventSource(url);
             this.eventSource.addEventListener("event", this.eventReceived);
-            this.eventSource.addEventListener("error", e => {
-                log.info("Error opening event source", e);
-                this.stop();
-                reject(e);
-            });
-            this.eventSource.addEventListener("open", e => {
-                log.info("Event source open", e);
+            this.eventSource.addEventListener("error", this.onError);
+            this.eventSource.addEventListener("error", onerror = (e: Event) => {
+                if ((e.target as EventSource).readyState === EventSource.CLOSED) {
+                    this.stop();
+                    reject(new Error("Failed opening event source"));
+                }
+            }, {once: true});
+            this.eventSource.addEventListener("open", (e: Event) => {
+                log.info("Event source open", url);
+                this.eventSource.removeEventListener("error", onerror);
                 resolve();
-            });
+            }, {once: true});
         });
     }
 
@@ -37,9 +41,14 @@ export class EventSourceListener {
         if (this.eventSource) {
             log.info("Stopping event listener");
             this.eventSource.removeEventListener("event", this.eventReceived);
+            this.eventSource.removeEventListener("error", this.onError);
             this.eventSource.close();
             this.eventSource = null;
         }
+    }
+
+    private onError = (e: Event) => {
+        log.error("Event source error", e);
     }
 
     private eventReceived = (e: any) => {

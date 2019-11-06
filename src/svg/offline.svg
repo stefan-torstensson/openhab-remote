@@ -1,0 +1,18 @@
+<svg class="svg-icon" viewBox="0 0 40 40"  preserveAspectRatio="xMinYMin meet"
+     xmlns="http://www.w3.org/2000/svg">
+    <style>
+        * {
+            stroke-width:2;
+            stroke: blue;
+            background: transparent;
+            fill: none;
+<!--            stroke-linecap: round;-->
+        }
+    </style>
+    <circle cx="20" cy="20" r="18" class="alert background-fill"/>
+    <path d="M 8 16 A 18 18, 0, 0, 1, 32 16" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 12 20 A 13 13, 0, 0, 1, 28 20" stroke-width="2" stroke-linecap="round"/>
+    <path d="M 16 24 A 7 7, 0, 0, 1, 24 24" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="20" cy="30" r="2" class="fill" stroke-width="2"/>
+    <line x1="8" x2="32" y1="8" y2="32" class="alert"/>
+</svg>

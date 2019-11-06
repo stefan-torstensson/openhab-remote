@@ -25,6 +25,9 @@ export class SitemapState {
 
     public pageTitle: string;
 
+    private readonly log = logger.get(SitemapState);
+    private offlineRequest: {pageId: string, sitemapName: string};
+    private isOnline: boolean = false;
     private sitemap: Sitemap;
     private currentPage: Page;
     private client: SitemapClient;
@@ -35,7 +38,7 @@ export class SitemapState {
         this.client = client;
         this.sitemapSubscriber = sitemapSubscriber;
         this.sitemapSubscriber.onUpdate(this.updateWidget.bind(this));
-        pubsub.$on(AppEvent.VISIBILITY_CHANGE, this.visibilityChange.bind(this));
+        pubsub.$on(AppEvent.ONLINE_CHANGE, this.onOnlineChange.bind(this));
     }
 
     get widgets(): Widget[] {
@@ -62,6 +65,10 @@ export class SitemapState {
     @synchronized()
     @loadingIndication()
     async setActivePage(sitemapName: string, pageId: string): Promise<void> {
+        if (!this.isOnline) {
+            this.offlineRequest = {pageId, sitemapName};
+            return;
+        }
         await this.setSitemap(sitemapName);
         this.currentPage = await this.client.getPage(sitemapName, pageId, this.sitemapSubscriber.subscriptionId);
         this.pageTitle = this.currentPage.title;
@@ -78,13 +85,17 @@ export class SitemapState {
     }
 
     private async refreshActivePage(): Promise<void> {
+        if (this.offlineRequest) {
+            const {sitemapName, pageId } = this.offlineRequest;
+            return this.setActivePage(sitemapName, pageId);
+        }
         if (this.currentPage) {
             return this.setActivePage(this.sitemap.name, this.currentPage.id);
         }
     }
 
     private updateWidget(e: UpdateEvent) {
-        log.debug(`Updating ${e.widgetId} on page ${e.pageId}`);
+        this.log.debug(`Updating ${e.widgetId} on page ${e.pageId}`);
         if (this.currentPage && this.currentPage.id === e.pageId) {
             const widget = SitemapState.findWidgetById(this.widgets, e.widgetId);
             assign(widget.item, e.item);
@@ -94,18 +105,12 @@ export class SitemapState {
         }
     }
 
-    private visibilityChange(state: VisibilityState) {
-        switch (state) {
-            case "visible":
-                // noinspection JSIgnoredPromiseFromCall
-                this.restart();
-                break;
-            case "hidden":
-                this.stop();
-                break;
+    private onOnlineChange(online: boolean) {
+        this.isOnline = online;
+        if (this.isOnline) {
+            this.restart();
+        } else {
+            this.stop();
         }
     }
-
 }
-
-const log = logger.get("SitemapState");
