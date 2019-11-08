@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" version="<%= version %>"
         viewmodes="maximized" id="https://github.com/stefan-torstensson/openhab-remote" >
-    <tizen:application id="2qUDDFeeek.OpenHABRemote" package="2qUDDFeeek" required_version="3.0"/>
-    <name>OpenHAB Remote</name>
+    <tizen:application id="<%= appId %>" package="<%= package %>" required_version="3.0"/>
+    <name><%= appName %></name>
     <content src="tizen.html"/>
     <icon src="app-icon.png"/>
+    <tizen:profile name="wearable"/>
     <feature name="http://tizen.org/feature/screen.shape.circle"/>
     <feature name="http://tizen.org/feature/screen.size.normal.360.360"/>
     <feature name="http://tizen.org/feature/network.internet"/>
     <tizen:privilege name="http://tizen.org/privilege/internet"/>
     <access origin="*" subdomains="true"/>
-    <tizen:profile name="wearable"/>
+    <%_ additionalPrivileges.forEach(p => { _%>
+    <tizen:privilege name="http://tizen.org/privilege/<%= p %>"/>
+    <%_ }); _%>
 </widget>

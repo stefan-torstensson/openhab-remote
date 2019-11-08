@@ -2,7 +2,7 @@ const common = require("./webpack.common");
 const merge = require("webpack-merge");
 const HtmlPlugin = require('html-webpack-plugin');
 
-module.exports = merge(common, {
+module.exports = env => merge(common(env), {
     mode: "development",
     devtool: 'source-map',
     entry: {
@@ -10,7 +10,7 @@ module.exports = merge(common, {
         'playground': './test/playground/playground.ts'
     },
     devServer: {
-        contentBase: common.output.path + "_dev",
+        // contentBase: common.output.path + "_dev",
         stats: "errors-warnings"
     },
     plugins: [

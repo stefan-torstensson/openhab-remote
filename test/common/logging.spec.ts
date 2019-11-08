@@ -1,5 +1,6 @@
 import {expect, sinon} from "test-env";
-import {Logger, LoggerFactory, LogLevel, setLogLevel} from "@app/common/logging";
+import {Logger, LogLevel, setLogLevel} from "@app/common/logging";
+import {LoggerFactory} from "@app/common/logging/logger-factory";
 
 describe("Logging tests", () => {
 
@@ -16,7 +17,9 @@ describe("Logging tests", () => {
     });
 
     it("should use class name as prefix", () => {
-        class MockClass {}
+        class MockClass {
+        }
+
         const mockLogger = LoggerFactory.get(MockClass);
         mockLogger.error("message");
         expect(console.error).calledOnceWith("MockClass: ", "message");

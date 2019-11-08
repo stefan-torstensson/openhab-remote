@@ -8,6 +8,8 @@ const convertSvg = require("./grunt/svg2png");
 module.exports = grunt => {
     const certificate = "Samsung";
     const prod = grunt.option("prod");
+    const logLevel = grunt.option("logLevel");
+    const fileLogger = grunt.option("fileLogger");
 
     if (grunt.option("time")) {
         require("time-grunt")(grunt);
@@ -18,12 +20,18 @@ module.exports = grunt => {
 
     grunt.config.init({
         env: require("./grunt/options/env"),
-        tizen: require("./grunt/options/tizen")(grunt, options),
+        tizen: require("./package").tizen,
         shell: require("./grunt/options/shell")(grunt, options),
         clean: {
             build: [options.outPath]
         },
     });
+
+    const bundleParams = [
+        prod ? "prod" : "",
+        typeof(logLevel) === "string" ? "LOG_LEVEL=" + logLevel : "",
+        fileLogger ? "FILE_LOGGER" : ""
+    ].join(":");
 
     grunt.registerTask("convert-icon", function() {
         const done = this.async();
@@ -44,9 +52,8 @@ module.exports = grunt => {
         ["start", "shell:portForward:4711"]);
 
     grunt.registerTask("bundle", "Build application bundle. Add --prod flag for optimized bundling.",
-        ["env:prod", `shell:bundle${prod ? ":prod" : ""}`]);
+        ["env:prod", `shell:bundle:${bundleParams}`]);
     grunt.registerTask("package", "Assemble Tizen package from build output.",
         ["convert-icon", "shell:tizen-build", `shell:tizen-package:${certificate}`]);
-    grunt.registerTask("watch", "Start dev server on port 80 and watch for file changes", ["shell:watch"]);
-    grunt.registerTask("watch-offline", "Same as watch but with event listener disabled ", ["shell:watch:OFFLINE"]);
+    grunt.registerTask("watch", "Start dev server on port 80 and watch for file changes", [`shell:watch:${bundleParams}`]);
 };

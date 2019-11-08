@@ -16,17 +16,22 @@ module.exports = (grunt, options) => {
         return grunt.config.get("tizen");
     }
 
+    function envParams(params) {
+        return params.filter(p => p).map(p => `--env.${p}`).join(" ");
+    }
+
+    function withLog(cmdline) {
+        grunt.log.writeln("webpack command: " + cmdline);
+        return cmdline;
+    }
+
     return {
-        bundle: target => {
+        bundle: (target, ...params)=> {
             const prodParams = (target === "prod") ?  "-p --devtool none" : "";
-            return `webpack --config webpack.bundle.js ${prodParams}`
+            return withLog(`webpack --config webpack.bundle.js ${prodParams} ${envParams(params)}`);
         },
-        watch: params => {
-            const cmd = "webpack-dev-server --config webpack.dev.js";
-            if (params) {
-                return cmd + ` --define ${params}`;
-            }
-            return cmd;
+        watch: (...params) => {
+            return withLog("webpack-dev-server --config webpack.dev.js " + envParams(params));
         },
         "tizen-build": {
             command: `${tizenCmd} build-web -- ${buildDir}`

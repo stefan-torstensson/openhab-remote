@@ -1,6 +1,7 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const DefinePlugin = require("webpack").DefinePlugin;
 
 const SRC_PATH = path.resolve(__dirname, 'src');
 const TEST_PATH = path.resolve(__dirname, 'test');
@@ -12,7 +13,17 @@ const INCLUDE_PATHS = [SRC_PATH, TEST_PATH];
 const noop = () => {};
 const isProduction = (process.env.NODE_ENV === "production");
 
-module.exports = {
+function definitions(env) {
+    if (!env)
+        return {};
+    const result = {};
+    for(const key in env) {
+        result[key] = JSON.stringify(env[key]);
+    }
+    return result;
+}
+
+module.exports = env => ({
     target: 'web',
     mode: 'development',
     entry: {
@@ -105,6 +116,7 @@ module.exports = {
             // both options are optional
             filename: "[name].css",
             chunkFilename: "[id].css"
-        }) : noop
+        }) : noop,
+        new DefinePlugin(definitions(env))
     ]
-};
+});

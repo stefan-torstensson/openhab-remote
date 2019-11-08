@@ -3,6 +3,11 @@
     "version": "0.1.0",
     "description": "OpenHAB UI for Tizen based smart watches",
     "main": "src/ui/main.ts",
+    "tizen": {
+        "appName": "OpenHAB Remote",
+        "appId": "2qUDDFeeek.OpenHABRemote",
+        "package": "2qUDDFeeek"
+    },
     "scripts": {
         "start": "grunt watch",
         "test": "grunt test"

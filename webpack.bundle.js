@@ -7,29 +7,38 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const pkg = require("./package.json");
 const path = require("path");
 
-const xmlConfig = {
-    files: [{
-        template: path.join(__dirname, "tizen", "config.xml"),
-        filename: 'config.xml',
-        data: {
-            version: pkg.version
-        }
-    }]
+
+const xmlConfig = env => {
+    return {
+        files: [{
+            template: path.join(__dirname, "tizen", "config.ejs"),
+            filename: 'config.xml',
+            data: {
+                version: pkg.version,
+                appId: pkg.tizen.appId,
+                appName: pkg.tizen.appName,
+                package: pkg.tizen.package,
+                additionalPrivileges: (env && env.FILE_LOGGER) ? ["filesystem.read", "filesystem.write"] : []
+            }
+        }]
+    }
 };
 
-module.exports = merge(common, {
-    devtool: "source-map",
+module.exports = env => {
+    return merge(common(env), {
+        devtool: "source-map",
 
-    plugins: [
-        new HtmlPlugin({
-            filename: 'tizen.html',
-            template: 'src/tizen.html',
-            chunks: ['vendors', 'main']
-        }),
-        new ScriptExtHtmlWebpackPlugin({
-            defaultAttribute: 'defer'
-        }),
-        new XMLWebpackPlugin(xmlConfig),
-        // new BundleAnalyzerPlugin({analyzerMode: 'server'})
-    ]
-});
+        plugins: [
+            new HtmlPlugin({
+                filename: 'tizen.html',
+                template: 'src/tizen.html',
+                chunks: ['vendors', 'main']
+            }),
+            new ScriptExtHtmlWebpackPlugin({
+                defaultAttribute: 'defer'
+            }),
+            new XMLWebpackPlugin(xmlConfig(env)),
+            // new BundleAnalyzerPlugin({analyzerMode: 'server'})
+        ]
+    });
+};

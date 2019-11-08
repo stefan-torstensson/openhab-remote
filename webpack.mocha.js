@@ -4,7 +4,7 @@ const nodeExternals = require('webpack-node-externals');
 
 delete common.entry;
 
-module.exports = merge(common, {
+module.exports = env => merge(common(env), {
     mode: "development",
     devtool: "inline-source-map",
     externals: [nodeExternals()],
