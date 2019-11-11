@@ -1,8 +1,13 @@
 import { inject } from "aurelia-dependency-injection";
 
+export interface ResponseParser {
+    parse<T>(response: Response): Promise<T>;
+    looksLikeOpenhab(response: Response): Promise<boolean>;
+}
+
 @inject(JSON)
-export class ResponseParser {
-    private static reviver(key: string, value: any): any {
+export class JsonResponseParser implements ResponseParser {
+    private static reviver(_key: string, value: any): any {
         if (typeof value === "string") {
             if (value === "NULL") {
                 return null;
@@ -20,10 +25,10 @@ export class ResponseParser {
         this.json = json;
     }
 
-    async parse(response: Response): Promise<any> {
+    async parse<T>(response: Response): Promise<T> {
         const text = await response.text();
         if (text) {
-            return this.json.parse(text, ResponseParser.reviver);
+            return this.json.parse(text, JsonResponseParser.reviver) as T;
         }
     }
 
@@ -36,7 +41,6 @@ export class ResponseParser {
         }
         return (data.version === "1" && data.links);
     }
-
 }
 
 

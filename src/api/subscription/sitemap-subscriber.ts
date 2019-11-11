@@ -15,27 +15,6 @@ export abstract class SitemapSubscriber {
     public abstract get subscriptionId(): string;
 }
 
-export class DummySitemapSubscriber extends SitemapSubscriber {
-    constructor() {
-        super();
-    }
-    onUpdate(f: (e: UpdateEvent) => void): void {}
-
-    start(): Promise<void> {
-        return Promise.resolve(null);
-    }
-
-    stop(): void {}
-
-    subscribeTo(sitemapName: string, pageId: string): Promise<void> {
-        return Promise.resolve(null);
-    }
-
-    get subscriptionId(): string {
-        return "";
-    }
-}
-
 @inject(EventSourceListener, SitemapClient, Configuration)
 export class OpenhabSitemapSubscriber extends SitemapSubscriber {
     private _sitemapName: string;
@@ -121,7 +100,7 @@ export class OpenhabSitemapSubscriber extends SitemapSubscriber {
 
     private async createSubscription(): Promise<Subscription> {
         log.info(`Creating subscription`);
-        const result = await this._sitemapClient.post("sitemaps/events/subscribe");
+        const result = await this._sitemapClient.post("sitemaps/events/subscribe") as SubscriptionResponse;
         if (result.status === "CREATED") {
             const location = result.context.headers.Location[0];
             return new Subscription(location);
@@ -136,6 +115,15 @@ export class OpenhabSitemapSubscriber extends SitemapSubscriber {
             this._listener(receivedData);
         }
     }
+}
+
+interface SubscriptionResponse {
+    status: string;
+    context: {
+        headers: {
+            Location: string[]
+        }
+    };
 }
 
 const log = logger.get(OpenhabSitemapSubscriber);

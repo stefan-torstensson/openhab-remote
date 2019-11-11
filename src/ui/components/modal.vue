@@ -1,10 +1,8 @@
 <template>
     <page v-if="showModal" class="modal">
-        <template v-slot:header>
-            <div class="center-text center-vertically modal_heading">
-                {{heading}}
-            </div>
-        </template>
+        <div class="modal_heading">
+            {{heading}}
+        </div>
         <div class="modal_content text">
             {{content}}
         </div>
@@ -19,8 +17,8 @@
 <script lang="ts">
     import Vue from "vue";
     import {Component} from "vue-property-decorator";
-    import ArcButton from "./arc-button";
-    import Page from "./page";
+    import ArcButton from "./arc-button.vue";
+    import Page from "./page.vue";
 
     @Component({
         components: {Page, ArcButton}
@@ -57,15 +55,11 @@
         background-color: $color-background;
 
         &_heading {
-            padding: 0 80px;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-
+            margin-bottom: 15px;
+            word-wrap: break-word;
         }
 
         &_content {
-            padding: 0 30px;
             word-wrap: break-word;
         }
     }

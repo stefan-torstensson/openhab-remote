@@ -2,10 +2,10 @@ import {Page, Sitemap} from "./openhab-types";
 import {parse, resolve} from "url";
 import {inject} from "aurelia-dependency-injection";
 import {PubSub} from "@app/ui/event-bus";
-import {ApplicationError} from "@app/common/application-error";
+import {NetworkError, ResponseError} from "@app/common/application-error";
 import {AppSettings} from "@app/configuration/app-settings";
 import {logger, Logger} from "@app/common/logging";
-import {ResponseParser} from "./response-parser";
+import {ResponseParser, JsonResponseParser} from "./response-parser";
 
 export enum VerificationResult {
     OK,
@@ -15,7 +15,7 @@ export enum VerificationResult {
     NOT_OPENHAB
 }
 
-@inject("fetch", ResponseParser, PubSub, AppSettings)
+@inject("fetch", JsonResponseParser, PubSub, AppSettings)
 export class SitemapClient {
     private static readonly log: Logger = logger.get(SitemapClient);
     private static readonly URL_VALIDATOR = new RegExp("^https?:\/\/.*", "i");
@@ -35,11 +35,6 @@ export class SitemapClient {
         this.appSettings = appSettings;
     }
 
-
-    async getSitemaps(): Promise<Sitemap[]> {
-        return await this.get(this.sitemapPath()) as Sitemap[];
-    }
-
     async verifyUrl(url: string): Promise<VerificationResult> {
         if (!SitemapClient.URL_VALIDATOR.test(url)) {
             return VerificationResult.INVALID_URL;
@@ -56,7 +51,7 @@ export class SitemapClient {
         if (!response.ok) {
             return VerificationResult.BAD_RESPONSE;
         }
-        return this.responseParser.looksLikeOpenhab(response) ?
+        return await this.responseParser.looksLikeOpenhab(response) ?
             VerificationResult.OK :
             VerificationResult.NOT_OPENHAB;
     }
@@ -70,36 +65,51 @@ export class SitemapClient {
         return false;
     }
 
-    async getSitemap(sitemapName: string): Promise<Sitemap> {
-        return await this.get(this.sitemapPath(sitemapName)) as Sitemap;
+    getSitemaps(): Promise<Sitemap[]> {
+        return this.get<Sitemap[]>(this.sitemapPath());
     }
 
-    async getPage(sitemapName: string, pageId: string, subscriptionId?: string): Promise<Page> {
-        return await this.get(this.sitemapPath(sitemapName, pageId), subscriptionId) as Page;
+    getSitemap(sitemapName: string): Promise<Sitemap> {
+        return this.get<Sitemap>(this.sitemapPath(sitemapName));
     }
 
-    get(path: string, subscriptionId?: string): Promise<any> {
+    getPage(sitemapName: string, pageId: string, subscriptionId?: string): Promise<Page> {
+        return this.get<Page>(this.sitemapPath(sitemapName, pageId), subscriptionId);
+    }
+
+    get<T>(path: string, subscriptionId?: string): Promise<T> {
         const url = parse(resolve(this.baseUrl, path));
         if (subscriptionId) {
             url.query = {subscriptionid: subscriptionId};
         }
-        return this.fetch(url.format())
-            .then(r => this.responseParser.parse(r))
-            .catch(this.reportAndRethrow.bind(this, url.format()));
+        return this.execute<T>(new Request(url.format()));
     }
 
-
-    post(path: string, data?: any): Promise<any> {
-        const url = new URL(path, this.baseUrl).href;
-        const params = {
+    post<T>(path: string, data?: any): Promise<T> {
+        const request = new Request(new URL(path, this.baseUrl).href, {
             method: "POST",
             body: data
-        };
-        return this.fetch(url, params)
-            .then(r => this.responseParser.parse(r))
-            .catch(this.reportAndRethrow.bind(this, url));
-
+        });
+        return this.execute<T>(request);
     }
+
+    private async execute<T>(request: Request): Promise<T> {
+        let response: Response;
+        try {
+            response = await this.fetch(request);
+        } catch (e) {
+            SitemapClient.log.error("Fetch error", e);
+            throw new NetworkError(`Could not connect to ${request.url}`, e);
+        }
+        if (!response.ok) {
+            const data = await response.json();
+            const message = (data.error && data.error.message) || "";
+            SitemapClient.log.error(`Unexpected response: ${response.status}, ${message}`);
+            throw new ResponseError(`${response.statusText}: ${message}`);
+        }
+        return this.responseParser.parse<T>(response);
+    }
+
 
     private get baseUrl(): string {
         return resolve(this.appSettings.remoteUrl, SitemapClient.REST_PATH);
@@ -108,12 +118,5 @@ export class SitemapClient {
     private sitemapPath(...path: string[]): string {
         return ["sitemaps"].concat(path).join("/");
     }
-
-    private reportAndRethrow(url: string, error: Error) {
-        this.pubsub.$emit(ApplicationError.eventName,
-            new ApplicationError(error.name, `${error.message}  ${url}`, error));
-        throw error;
-    }
-
 }
 

@@ -8,6 +8,7 @@ import {logger} from "../common/logging";
 import {UpdateEvent} from "./subscription/update-event";
 import {synchronized} from "@app/common/synchronized";
 import {loadingIndication} from "@app/ui/loading-state";
+import {ApplicationError} from "@app/common/application-error";
 
 @inject(SitemapClient, SitemapSubscriber, PubSub)
 export class SitemapState {
@@ -26,7 +27,8 @@ export class SitemapState {
     public pageTitle: string;
 
     private readonly log = logger.get(SitemapState);
-    private offlineRequest: {pageId: string, sitemapName: string};
+    private pubsub: PubSub;
+    private offlineRequest: { pageId: string, sitemapName: string };
     private isOnline: boolean = false;
     private sitemap: Sitemap;
     private currentPage: Page;
@@ -38,6 +40,7 @@ export class SitemapState {
         this.client = client;
         this.sitemapSubscriber = sitemapSubscriber;
         this.sitemapSubscriber.onUpdate(this.updateWidget.bind(this));
+        this.pubsub = pubsub;
         pubsub.$on(AppEvent.ONLINE_CHANGE, this.onOnlineChange.bind(this));
     }
 
@@ -69,10 +72,15 @@ export class SitemapState {
             this.offlineRequest = {pageId, sitemapName};
             return;
         }
-        await this.setSitemap(sitemapName);
-        this.currentPage = await this.client.getPage(sitemapName, pageId, this.sitemapSubscriber.subscriptionId);
-        this.pageTitle = this.currentPage.title;
-        this.setWidgets(this.currentPage.widgets);
+        try {
+            await this.setSitemap(sitemapName);
+            this.currentPage = await this.client.getPage(sitemapName, pageId, this.sitemapSubscriber.subscriptionId);
+            this.pageTitle = this.currentPage.title;
+            this.setWidgets(this.currentPage.widgets);
+        } catch (e) {
+            this.log.error("setActivePage failed:", e);
+            this.pubsub.$emit(ApplicationError.eventName, e);
+        }
     }
 
     getWidget(widgetId: string): Widget {
@@ -86,7 +94,7 @@ export class SitemapState {
 
     private async refreshActivePage(): Promise<void> {
         if (this.offlineRequest) {
-            const {sitemapName, pageId } = this.offlineRequest;
+            const {sitemapName, pageId} = this.offlineRequest;
             return this.setActivePage(sitemapName, pageId);
         }
         if (this.currentPage) {

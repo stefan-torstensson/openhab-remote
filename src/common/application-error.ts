@@ -1,27 +1,34 @@
 import {AppEvent} from "@app/ui/event-bus";
 
-export class ApplicationError {
+export class ApplicationError extends Error {
     static eventName = AppEvent.ERROR;
 
-    private readonly _heading: string;
-    private readonly _message: string;
     private readonly _exception: Error;
+    private readonly _heading: string;
 
-    constructor(heading: string, message: string, exception: Error) {
-        this._heading = heading;
-        this._message = message;
+    constructor(message: string, heading: string, exception?: Error) {
+        super(message);
         this._exception = exception;
+        this._heading = heading;
     }
 
-    get message(): string {
-        return this._message;
+    get error(): Error {
+        return this._exception;
     }
 
     get heading(): string {
         return this._heading;
     }
+}
 
-    get error(): Error {
-        return this._exception;
+export class ResponseError extends ApplicationError {
+    constructor(message: string, exception?: Error) {
+        super(message, "Unexpected response", exception);
+    }
+}
+
+export class NetworkError extends ApplicationError {
+    constructor(message: string, exception?: Error) {
+        super(message, "Network error", exception);
     }
 }
