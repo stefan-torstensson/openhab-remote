@@ -6,8 +6,10 @@ export enum AppEvent {
     BEZEL_ROTATION = "bezelRotation",
     NAVIGATE_BACK = "navigateBack",
     HIDE = "hide",
+    REFRESH_PAGE = "refreshPage",
     ONLINE_CHANGE = "onlineChange",
-    LOADING_CHANGE = "loadingChange"
+    LOADING_CHANGE = "loadingChange",
+    SUBSCRIPTION_ACTIVE_CHANGE = "subscriptionChange"
 }
 
 export class PubSub extends Vue {}

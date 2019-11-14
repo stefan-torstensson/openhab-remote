@@ -23,13 +23,11 @@ export class EventSourceListener {
             this.eventSource = new EventSource(url);
             this.eventSource.addEventListener("event", this.eventReceived);
             this.eventSource.addEventListener("error", this.onError);
-            this.eventSource.addEventListener("error", onerror = (e: Event) => {
-                if ((e.target as EventSource).readyState === EventSource.CLOSED) {
-                    this.stop();
-                    reject(new Error("Failed opening event source"));
-                }
+            this.eventSource.addEventListener("error", onerror = (_e: Event) => {
+                this.stop();
+                reject(new Error("Failed opening event source"));
             }, {once: true});
-            this.eventSource.addEventListener("open", (e: Event) => {
+            this.eventSource.addEventListener("open", (_e: Event) => {
                 log.info("Event source open", url);
                 this.eventSource.removeEventListener("error", onerror);
                 resolve();

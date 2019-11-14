@@ -9,10 +9,15 @@ export class LocalStorage implements Configuration {
         this.localStorage = localStorage;
     }
 
-    get<T>(key: string, defaultValue?: T): T {
+    get<T>(key: string, targetType?: new (...args: any[]) => T): T | any {
         const item = this.localStorage.getItem(key);
         if (item) {
-            return JSON.parse(item) as T;
+            const data = JSON.parse(item);
+            if (targetType) {
+                const instance = Object.create(targetType.prototype);
+                return Object.assign(instance, data);
+            }
+            return data;
         }
         return null;
     }

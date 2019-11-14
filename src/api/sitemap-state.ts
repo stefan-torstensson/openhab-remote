@@ -1,5 +1,5 @@
 import {inject} from "aurelia-dependency-injection";
-import {Page, Sitemap, Widget} from "./openhab-types";
+import {Item, Page, Sitemap, Widget} from "./openhab-types";
 import {SitemapClient} from "./sitemap-client";
 import {SitemapSubscriber} from "./subscription/sitemap-subscriber";
 import {assign} from "./util";
@@ -35,6 +35,7 @@ export class SitemapState {
     private client: SitemapClient;
     private sitemapSubscriber: SitemapSubscriber;
     private _widgets: Widget[] = [];
+    private _subscriptionActive: boolean = true;
 
     constructor(client: SitemapClient, sitemapSubscriber: SitemapSubscriber, pubsub: PubSub) {
         this.client = client;
@@ -42,6 +43,7 @@ export class SitemapState {
         this.sitemapSubscriber.onUpdate(this.updateWidget.bind(this));
         this.pubsub = pubsub;
         pubsub.$on(AppEvent.ONLINE_CHANGE, this.onOnlineChange.bind(this));
+        pubsub.$on(AppEvent.REFRESH_PAGE, this.refreshActivePage.bind(this));
     }
 
     get widgets(): Widget[] {
@@ -53,14 +55,15 @@ export class SitemapState {
     }
 
     async restart(): Promise<void> {
-        await this.sitemapSubscriber.start();
+        this.emitSubscriptionState(await this.sitemapSubscriber.start());
         return this.refreshActivePage();
     }
 
     async setSitemap(name: string): Promise<Sitemap> {
         if (!this.sitemap || this.sitemap.name !== name) {
             this.sitemap = await this.client.getSitemap(name);
-            await this.sitemapSubscriber.subscribeTo(this.sitemap.name, this.sitemap.homepage.id);
+            this.emitSubscriptionState(
+                await this.sitemapSubscriber.subscribeTo(this.sitemap.name, this.sitemap.homepage.id));
         }
         return this.sitemap;
     }
@@ -85,6 +88,20 @@ export class SitemapState {
 
     getWidget(widgetId: string): Widget {
         return SitemapState.findWidgetById(this.widgets, widgetId);
+    }
+
+    async postUpdate(item: Item, state: string): Promise<void> {
+        const link = (item && item.link);
+        if (link && state) {
+            await this.client.post(link, state);
+        }
+    }
+
+    private emitSubscriptionState(active: boolean) {
+        if (this._subscriptionActive !== active) {
+            this.pubsub.$emit(AppEvent.SUBSCRIPTION_ACTIVE_CHANGE, active);
+        }
+        this._subscriptionActive = active;
     }
 
     private setWidgets(value: Widget[]) {

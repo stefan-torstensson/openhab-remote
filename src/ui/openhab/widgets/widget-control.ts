@@ -11,9 +11,6 @@ export default class WidgetControl extends Vue {
     @Inject(SitemapState)
     sitemapState: SitemapState;
 
-    @Inject(SitemapClient)
-    sitemapClient: SitemapClient;
-
     get item(): Item {
         return this.widget.item;
     }
@@ -37,6 +34,6 @@ export default class WidgetControl extends Vue {
     }
 
     setState(state: string): void {
-            this.sitemapClient.post(this.item.link, state);
+        this.sitemapState.postUpdate(this.item, state);
     }
 }

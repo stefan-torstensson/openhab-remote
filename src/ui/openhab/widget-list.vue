@@ -9,9 +9,9 @@
     import Vue from "vue";
     import {Component, Prop} from "vue-property-decorator";
     import {WidgetMapper} from "./widget-mapper";
-    import ScalingList from "../components/scaling-list";
-    import ScalingListItem from "../components/scaling-list-item";
-    import { Widget } from "@app/api/openhab-types";
+    import ScalingList from "../components/scaling-list.vue";
+    import ScalingListItem from "../components/scaling-list-item.vue";
+    import {Widget} from "@app/api/openhab-types";
     import {Inject} from "@app/ui/ioc";
 
     @Component({
