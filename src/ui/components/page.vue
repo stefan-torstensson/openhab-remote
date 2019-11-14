@@ -1,9 +1,9 @@
 <template>
     <div class="flex-area">
-        <div class="header kb-hidden">
+        <div class="header kb-hidden" v-if="hasHeader">
             <slot name="header"></slot>
         </div>
-        <div class="content" :class="{'content--footer-hidden': !hasFooter}">
+        <div class="content" :class="{'content--footer-hidden': !hasFooter, 'content--header-hidden': !hasHeader}">
             <slot></slot>
         </div>
         <div class="footer kb-hidden" v-if="hasFooter">
@@ -20,6 +20,10 @@
     export default class Page extends Vue {
         get hasFooter(): boolean {
             return !!this.$slots.footer;
+        }
+
+        get hasHeader(): boolean {
+            return !!this.$slots.header;
         }
     }
 </script>
@@ -65,6 +69,22 @@
                 height: 80%;
             }
         }
+
+        &--header-hidden {
+            padding-top: 60px;
+
+            &::after {
+                height: 80%;
+            }
+        }
+
+        &--header-hidden.content--footer-hidden {
+            &::after {
+                top:0;
+                height: 100%;
+            }
+        }
+
     }
 
     .footer {

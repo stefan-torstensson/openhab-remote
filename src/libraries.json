@@ -1,0 +1,131 @@
+[
+    {
+        "licenses": "MIT",
+        "publisher": "Evan You",
+        "name": "vue",
+        "version": "2.6.10",
+        "description": "Reactive, component-oriented view layer for modern web interfaces.",
+        "copyright": "Copyright (c) 2013-present, Yuxi (Evan) You"
+    },
+    {
+        "licenses": "MIT",
+        "publisher": "Evan You",
+        "name": "vue-class-component",
+        "version": "7.1.0",
+        "description": "ES201X/TypeScript class decorator for Vue components",
+        "copyright": "Copyright (c) 2015-present Evan You"
+    },
+    {
+        "licenses": "MIT",
+        "publisher": "kaorun343",
+        "name": "vue-property-decorator",
+        "version": "8.3.0",
+        "description": "property decorators for Vue Component",
+        "copyright": "Copyright (c) 2018 kaorun343"
+    },
+    {
+        "licenses": "MIT",
+        "publisher": "Evan You",
+        "name": "vue-router",
+        "version": "3.1.3",
+        "description": "Official router for Vue.js 2",
+        "copyright": "Copyright (c) 2013-present Evan You"
+    },
+    {
+        "licenses": "MIT",
+        "publisher": "Rob Eisenberg",
+        "email": "rob@bluespire.com",
+        "url": "http://robeisenberg.com/",
+        "name": "aurelia-dependency-injection",
+        "version": "1.5.1",
+        "description": "A lightweight, extensible dependency injection container for JavaScript.",
+        "copyright": "Copyright (c) 2010 - 2018 Blue Spire Inc."
+    },
+    {
+        "licenses": "MIT",
+        "publisher": "Rob Eisenberg",
+        "email": "rob@bluespire.com",
+        "url": "http://robeisenberg.com/",
+        "name": "aurelia-metadata",
+        "version": "1.0.6",
+        "description": "Utilities for reading and writing the metadata of JavaScript functions.",
+        "copyright": "Copyright (c) 2010 - 2018 Blue Spire Inc."
+    },
+    {
+        "licenses": "MIT",
+        "publisher": "Rob Eisenberg",
+        "email": "rob@bluespire.com",
+        "url": "http://robeisenberg.com/",
+        "name": "aurelia-pal",
+        "version": "1.8.2",
+        "description": "Aurelia's platform abstraction layer (PAL).",
+        "copyright": "Copyright (c) 2010 - 2018 Blue Spire Inc."
+    },
+    {
+        "licenses": "MIT",
+        "name": "core-js",
+        "version": "3.4.1",
+        "description": "Standard library",
+        "copyright": "Copyright (c) 2014-2019 Denis Pushkarev"
+    },
+    {
+        "licenses": "MIT",
+        "publisher": "Brian Vaughn",
+        "name": "debounce-decorator",
+        "version": "1.0.6",
+        "description": "Decorator component for debouncing class methods",
+        "copyright": "Copyright (c) 2015 Juho Vepsalainen"
+    },
+    {
+        "licenses": "MIT",
+        "publisher": "Mathias Bynens",
+        "url": "https://mathiasbynens.be/",
+        "name": "punycode",
+        "version": "1.3.2",
+        "description": "A robust Punycode converter that fully complies to RFC 3492 and RFC 5891, and works on nearly all JavaScript platforms.",
+        "copyright": "Copyright Mathias Bynens <https://mathiasbynens.be/>"
+    },
+    {
+        "licenses": "MIT",
+        "publisher": "Irakli Gozalishvili",
+        "email": "rfobic@gmail.com",
+        "name": "querystring",
+        "version": "0.2.0",
+        "description": "Node's querystring module for all engines.",
+        "copyright": ""
+    },
+    {
+        "licenses": "Apache-2.0",
+        "publisher": "Ron Buckton",
+        "email": "ron.buckton@microsoft.com",
+        "url": "http://github.com/rbuckton",
+        "name": "reflect-metadata",
+        "version": "0.1.13",
+        "description": "Polyfill for Metadata Reflection API",
+        "copyright": ""
+    },
+    {
+        "licenses": "BSD-3-Clause",
+        "publisher": "Alexandru Mărășteanu",
+        "email": "hello@alexei.ro",
+        "name": "sprintf-js",
+        "version": "1.1.2",
+        "description": "JavaScript sprintf implementation",
+        "copyright": "Copyright (c) 2007-present, Alexandru Mărășteanu <hello@alexei.ro>. All rights reserved."
+    },
+    {
+        "licenses": "MIT",
+        "publisher": "umanghome",
+        "name": "swipe-listener",
+        "version": "1.1.0",
+        "description": "Zero-dependency, minimal swipe-gesture listener for the web.",
+        "copyright": "Copyright (c) 2018 Umang Galaiya"
+    },
+    {
+        "licenses": "MIT",
+        "name": "url",
+        "version": "0.11.0",
+        "description": "The core `url` packaged standalone for use with Browserify.",
+        "copyright": "Copyright Joyent, Inc. and other Node contributors."
+    }
+]

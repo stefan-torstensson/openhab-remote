@@ -22,9 +22,24 @@ body {
   line-height: 1.2;
 }
 
+h1 {
+  font-size: 1.3em;
+}
+h2 {
+  font-size: 1.2em;
+}
+h3 {
+  font-size: 1.1em;
+}
+
 .text {
   font-weight: normal;
   font-size: .8em;
+}
+
+.text-small {
+  font-weight: normal;
+  font-size: .65em;
 }
 
 a, a:active, a:visited, a:hover, a:focus {
