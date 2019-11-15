@@ -74,6 +74,7 @@
             padding-top: 60px;
 
             &::after {
+                top: 0;
                 height: 80%;
             }
         }
