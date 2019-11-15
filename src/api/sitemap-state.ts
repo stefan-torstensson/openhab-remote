@@ -28,8 +28,6 @@ export class SitemapState {
 
     private readonly log = logger.get(SitemapState);
     private pubsub: PubSub;
-    private offlineRequest: { pageId: string, sitemapName: string };
-    private isOnline: boolean = false;
     private sitemap: Sitemap;
     private currentPage: Page;
     private client: SitemapClient;
@@ -43,7 +41,6 @@ export class SitemapState {
         this.sitemapSubscriber.onUpdate(this.updateWidget.bind(this));
         this.pubsub = pubsub;
         pubsub.$on(AppEvent.ONLINE_CHANGE, this.onOnlineChange.bind(this));
-        pubsub.$on(AppEvent.REFRESH_PAGE, this.refreshActivePage.bind(this));
     }
 
     get widgets(): Widget[] {
@@ -54,27 +51,10 @@ export class SitemapState {
         this.sitemapSubscriber.stop();
     }
 
-    async restart(): Promise<void> {
-        this.emitSubscriptionState(await this.sitemapSubscriber.start());
-        return this.refreshActivePage();
-    }
-
-    async setSitemap(name: string): Promise<Sitemap> {
-        if (!this.sitemap || this.sitemap.name !== name) {
-            this.sitemap = await this.client.getSitemap(name);
-            this.emitSubscriptionState(
-                await this.sitemapSubscriber.subscribeTo(this.sitemap.name, this.sitemap.homepage.id));
-        }
-        return this.sitemap;
-    }
-
     @synchronized()
     @loadingIndication()
     async setActivePage(sitemapName: string, pageId: string): Promise<void> {
-        if (!this.isOnline) {
-            this.offlineRequest = {pageId, sitemapName};
-            return;
-        }
+        this.log.info(`setActivePage(${sitemapName}, ${pageId})`);
         try {
             await this.setSitemap(sitemapName);
             this.currentPage = await this.client.getPage(sitemapName, pageId, this.sitemapSubscriber.subscriptionId);
@@ -97,6 +77,17 @@ export class SitemapState {
         }
     }
 
+    private async setSitemap(name: string): Promise<Sitemap> {
+        if (!this.sitemap || this.sitemap.name !== name) {
+            this.sitemap = await this.client.getSitemap(name);
+            this.emitSubscriptionState(
+                await this.sitemapSubscriber.subscribeTo(this.sitemap.name, this.sitemap.homepage.id));
+        } else {
+            this.emitSubscriptionState(await this.sitemapSubscriber.start());
+        }
+        return this.sitemap;
+    }
+
     private emitSubscriptionState(active: boolean) {
         if (this._subscriptionActive !== active) {
             this.pubsub.$emit(AppEvent.SUBSCRIPTION_ACTIVE_CHANGE, active);
@@ -107,16 +98,6 @@ export class SitemapState {
     private setWidgets(value: Widget[]) {
         this._widgets.splice(0);
         this._widgets.push(...value);
-    }
-
-    private async refreshActivePage(): Promise<void> {
-        if (this.offlineRequest) {
-            const {sitemapName, pageId} = this.offlineRequest;
-            return this.setActivePage(sitemapName, pageId);
-        }
-        if (this.currentPage) {
-            return this.setActivePage(this.sitemap.name, this.currentPage.id);
-        }
     }
 
     private updateWidget(e: UpdateEvent) {
@@ -131,10 +112,7 @@ export class SitemapState {
     }
 
     private onOnlineChange(online: boolean) {
-        this.isOnline = online;
-        if (this.isOnline) {
-            this.restart();
-        } else {
+        if (!online) {
             this.stop();
         }
     }

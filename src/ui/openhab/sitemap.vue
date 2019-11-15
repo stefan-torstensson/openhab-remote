@@ -14,6 +14,7 @@
     import WidgetList from "./widget-list";
     import {SitemapState} from "@app/api";
     import {Widget} from "@app/api/openhab-types";
+    import {AppEvent, PubSub} from "@app/ui/event-bus";
 
     @Component({
         components: {
@@ -23,6 +24,9 @@
     export default class Sitemap extends Vue {
         @Inject(SitemapState)
         private state: SitemapState;
+
+        @Inject(PubSub)
+        private pubsub: PubSub;
 
         @Prop(String)
         private sitemap: string;
@@ -34,15 +38,28 @@
 
         created() {
             this.widgets = this.state.widgets;
+            this.pubsub.$on(AppEvent.ONLINE_CHANGE, this.onOnlineChange);
+            this.pubsub.$on(AppEvent.REFRESH_PAGE, this.setActivePage);
         }
 
         mounted() {
             this.setActivePage();
         }
 
+        destroyed() {
+            this.pubsub.$off(AppEvent.ONLINE_CHANGE, this.onOnlineChange);
+            this.pubsub.$off(AppEvent.REFRESH_PAGE, this.setActivePage);
+        }
+
         @Watch("pageId")
         private setActivePage() {
             this.state.setActivePage(this.sitemap, this.pageId);
+        }
+
+        private onOnlineChange(online: boolean) {
+            if (online) {
+                this.setActivePage();
+            }
         }
     }
 

@@ -10,11 +10,9 @@ declare module "*.vue" {
 }
 
 declare module "*.svg" {
-    const content: any;
+    const content: string;
     export default content;
 }
-
-declare interface tizen {}
 
 declare module "url";
 declare module "debounce-decorator";
