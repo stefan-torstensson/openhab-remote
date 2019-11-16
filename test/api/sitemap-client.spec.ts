@@ -109,19 +109,19 @@ describe("SitemapClient tests", () => {
             });
 
             it("get should throw ResponseError", async () => {
-                await expect(client.get("path")).to.be.rejectedWith(ResponseError, "Bad Request: what?");
+                await expect(client.get("path")).to.be.rejectedWith(ResponseError, "what?");
             });
             it("post should throw ResponseError", async () => {
-                await expect(client.post("path", null)).to.be.rejectedWith(ResponseError, "Bad Request: what?");
+                await expect(client.post("path", null)).to.be.rejectedWith(ResponseError, "what?");
             });
             it("getSitemaps should throw ResponseError", async () => {
-                await expect(client.getSitemaps()).to.be.rejectedWith(ResponseError, "Bad Request: what?");
+                await expect(client.getSitemaps()).to.be.rejectedWith(ResponseError, "what?");
             });
             it("getSitemap should throw ResponseError", async () => {
-                await expect(client.getSitemap("name")).to.be.rejectedWith(ResponseError, "Bad Request: what?");
+                await expect(client.getSitemap("name")).to.be.rejectedWith(ResponseError, "what?");
             });
             it("getPage should throw ResponseError", async () => {
-                await expect(client.getPage("sitemap", "page")).to.be.rejectedWith(ResponseError, "Bad Request: what?");
+                await expect(client.getPage("sitemap", "page")).to.be.rejectedWith(ResponseError, "what?");
             });
         });
 

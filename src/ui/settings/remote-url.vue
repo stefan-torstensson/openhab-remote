@@ -32,9 +32,9 @@
     import {AppEvent, PubSub} from "@app/ui/event-bus";
 
     const messageMap: { [k: number]: string } = {};
-    messageMap[VerificationResult.NETWORK_ERROR] = "Network Error";
-    messageMap[VerificationResult.BAD_RESPONSE] = "Unknown response from server";
-    messageMap[VerificationResult.NOT_OPENHAB] = "Remote does not look like OpenHAB";
+    messageMap[VerificationResult.NETWORK_ERROR] = "Network Error. Make sure you're online and the host is available on the current network.";
+    messageMap[VerificationResult.BAD_RESPONSE] = "The server responded with an error";
+    messageMap[VerificationResult.NOT_OPENHAB] = "Remote does not look like OpenHAB 2";
     messageMap[VerificationResult.INVALID_URL] = "Invalid Url format";
 
 
@@ -103,6 +103,7 @@
         margin-top: 40px;
 
         &_error {
+            font-size: .8em;
             color: $color-alert;
         }
 

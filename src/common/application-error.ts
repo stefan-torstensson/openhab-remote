@@ -23,7 +23,7 @@ export class ApplicationError extends Error {
 
 export class ResponseError extends ApplicationError {
     constructor(message: string, exception?: Error) {
-        super(message, "Unexpected response", exception);
+        super(message, "Request failed", exception);
     }
 }
 

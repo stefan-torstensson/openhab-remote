@@ -102,14 +102,23 @@ export class SitemapClient {
             throw new NetworkError(`Could not connect to ${request.url}`, e);
         }
         if (!response.ok) {
-            const data = await response.json();
-            const message = (data.error && data.error.message) || "";
-            SitemapClient.log.error(`Unexpected response: ${response.status}, ${message}`);
-            throw new ResponseError(`${response.statusText}: ${message}`);
+            const error = await this.tryGetOpenhabError(response);
+            const message = error.message || "";
+            SitemapClient.log.error(`Failed request: ${response.status}, ${message || request.url}`);
+            const httpError = response.statusText || "HTTP error " + response.status;
+            throw new ResponseError(message || `${request.url} returned ${httpError}`);
         }
         return this.responseParser.parse<T>(response);
     }
 
+    private async tryGetOpenhabError(response: Response): Promise<any> {
+        try {
+            const data = await response.json();
+            return data && data.error || {};
+        } catch {
+            return {};
+        }
+    }
 
     private get baseUrl(): string {
         return resolve(this.appSettings.remoteUrl, SitemapClient.REST_PATH);
