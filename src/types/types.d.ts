@@ -10,7 +10,7 @@ declare module "*.vue" {
 }
 
 declare module "*.svg" {
-    const content: string;
+    const content: any;
     export default content;
 }
 

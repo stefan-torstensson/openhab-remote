@@ -30,9 +30,19 @@ export interface Widget {
     sendFrequency?: number;
 }
 
+interface StateDescription {
+    maximum: number;
+    minimum: number;
+    options: any[];
+    pattern: string;
+    readOnly: boolean;
+    step: number;
+}
+
 export interface Item {
     link: string;
     state: string;
+    stateDescription?: StateDescription;
     editable: boolean;
     type: string;
     name: string;

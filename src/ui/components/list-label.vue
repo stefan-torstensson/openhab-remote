@@ -15,7 +15,7 @@
     import Vue from "vue";
     import {Component, Prop} from "vue-property-decorator";
 
-    @Component()
+    @Component({})
     export default class ListLabel extends Vue {
         @Prop(String)
         label: string;

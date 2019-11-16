@@ -17,8 +17,8 @@
 <script lang="ts">
     import Vue from "vue";
     import {Component, Emit, Model, Prop} from "vue-property-decorator";
-    import ScalingList from "./scaling-list";
-    import ScalingListItem from "./scaling-list-item";
+    import ScalingList from "./scaling-list.vue";
+    import ScalingListItem from "./scaling-list-item.vue";
     import {ToggleIcon} from "@app/svg";
 
     export class SelectOption {

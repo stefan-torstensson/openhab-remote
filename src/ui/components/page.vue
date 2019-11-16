@@ -16,7 +16,7 @@
     import {Component} from "vue-property-decorator";
     import Vue from "vue";
 
-    @Component()
+    @Component({})
     export default class Page extends Vue {
         get hasFooter(): boolean {
             return !!this.$slots.footer;

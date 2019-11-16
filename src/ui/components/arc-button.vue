@@ -12,7 +12,7 @@
     import Vue from "vue";
     import {Component, Prop} from "vue-property-decorator";
 
-    @Component()
+    @Component({})
     export default class ArcButton extends Vue {
         @Prop({type: String, default: "bottom"})
         position: string;
