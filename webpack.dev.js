@@ -1,6 +1,12 @@
 const common = require("./webpack.common");
 const merge = require("webpack-merge");
 const HtmlPlugin = require('html-webpack-plugin');
+const pkg = require("./package");
+
+const templateParameters = {
+    appName: pkg.tizen.appName,
+    devChrome: true
+};
 
 module.exports = env => merge(common(env), {
     mode: "development",
@@ -16,13 +22,15 @@ module.exports = env => merge(common(env), {
     plugins: [
         new HtmlPlugin({
             filename: 'index.html',
-            template: 'src/index.html',
-            chunks: ['vendors', 'main', 'debug']
+            template: 'src/index.ejs',
+            chunks: ['vendors', 'main', 'debug'],
+            templateParameters
         }),
         new HtmlPlugin({
             filename: 'playground.html',
-            template: 'src/index.html',
-            chunks: ['vendors', 'playground', 'debug']
+            template: 'src/index.ejs',
+            chunks: ['vendors', 'playground', 'debug'],
+            templateParameters
         })
     ]
 });

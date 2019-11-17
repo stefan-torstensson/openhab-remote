@@ -3,15 +3,24 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>OpenHAB Remote</title>
+    <title><%= appName %></title>
+    <style>
+        body {
+            background-color: #000;
+        }
+    </style>
 </head>
 <body>
+<% if (devChrome) { %>
 <div class="watch-container">
+<% } %>
     <div id="app">
         <div class="startup-logo"></div>
     </div>
+<% if (devChrome) { %>
 </div>
 <div class="watch-circle"></div>
 <div id="debug" style="display: none"></div>
+<% } %>
 </body>
 </html>

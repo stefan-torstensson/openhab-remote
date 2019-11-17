@@ -24,15 +24,21 @@ const xmlConfig = env => {
     }
 };
 
+const templateParameters = {
+    appName: pkg.tizen.appName,
+    devChrome: false
+};
+
 module.exports = env => {
     return merge(common(env), {
         devtool: "source-map",
 
         plugins: [
             new HtmlPlugin({
-                filename: 'tizen.html',
-                template: 'src/tizen.html',
-                chunks: ['vendors', 'main']
+                filename: 'index.html',
+                template: 'src/index.ejs',
+                chunks: ['vendors', 'main'],
+                templateParameters
             }),
             new ScriptExtHtmlWebpackPlugin({
                 defaultAttribute: 'defer'
