@@ -5,7 +5,6 @@ const DefinePlugin = require("webpack").DefinePlugin;
 
 const SRC_PATH = path.resolve(__dirname, 'src');
 const TEST_PATH = path.resolve(__dirname, 'test');
-const LIB_PATH = path.resolve(__dirname, 'lib');
 const TARGET_PATH = path.resolve(__dirname, 'build');
 
 const INCLUDE_PATHS = [SRC_PATH, TEST_PATH];
@@ -50,10 +49,10 @@ module.exports = env => ({
         extensions: ['.ts', '.js', '.json', '.vue'],
         alias: {
             // 'vue$': 'vue/dist/vue.esm.js',
-            'lib': LIB_PATH,
-            'settings$': path.join(SRC_PATH, 'style/_settings.scss'),
             '@app': SRC_PATH,
-            'test-env$': path.join(TEST_PATH, 'test-env.ts')
+            'settings': path.join(SRC_PATH, 'style/_settings.scss'),
+            'package.json': path.join(__dirname, 'package.json'),
+            'test-env': path.join(TEST_PATH, 'test-env.ts')
         }
     },
     module: {

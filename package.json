@@ -4,7 +4,7 @@
     "description": "OpenHAB UI for Tizen based smart watches",
     "main": "src/ui/main.ts",
     "tizen": {
-        "appName": "OpenHAB Remote",
+        "appName": "Remote for openHAB",
         "appId": "2qUDDFeeek.OpenHABRemote",
         "package": "2qUDDFeeek"
     },
@@ -106,7 +106,6 @@
         ],
         "plugins": [
             "@babel/transform-typescript",
-            "babel-plugin-transform-typescript-metadata",
             [
                 "@babel/plugin-proposal-decorators",
                 {

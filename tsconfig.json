@@ -19,6 +19,7 @@
         "emitDecoratorMetadata": true,
         "noImplicitAny": true,
         "sourceMap": true,
+        "resolveJsonModule": true,
         "lib": [
             "esnext",
             "dom",
