@@ -2,14 +2,13 @@
     <page>
         <template v-slot:header>
             <div class="center-text page_heading">
-                OpenHAB Url
+                openHAB Url
             </div>
         </template>
 
         <div class="url-content">
             <input type="url" class="url-content_input" v-model="url"
-                   placeholder="https://example.com" required>
-            <span class="validity"></span>
+                   placeholder="https://example.com">
             <div class="url-content_error">{{errorMessage}}</div>
         </div>
 
@@ -87,16 +86,6 @@
 
 <style lang="scss" scoped>
     @import '~settings';
-
-    input:invalid + span:after {
-        position: absolute;
-        padding-left: 10px;
-        content: '✖';
-        color: $color-alert;
-        background: linear-gradient(90deg, transparent 0%, $color-background 30%);
-        right: 2px;
-        top: 4px;
-    }
 
     .url-content {
         position: relative;
