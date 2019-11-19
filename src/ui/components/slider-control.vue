@@ -1,6 +1,6 @@
 <template>
     <div class="slider-control">
-        <circular-slider :value="renderValue"></circular-slider>
+        <circular-slider :value="normalizedValue"></circular-slider>
         <div class="touch-source" ref="touchSource">
             <div class="content center-text center-vertically">
                 <slot>
@@ -10,27 +10,6 @@
         </div>
     </div>
 </template>
-
-<style lang="scss" scoped>
-    .slider-control {
-        position: relative;
-    }
-
-    .touch-source {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    .content {
-        pointer-events: none;
-        position: absolute;
-        width: 100%;
-    }
-</style>
-
 
 <script lang="ts">
 
@@ -80,8 +59,13 @@
             return this.$refs.touchSource as Element;
         }
 
+        get normalizedValue(): number {
+            const value = this.modifiedValue || this.value;
+            return 100 * (value - this.minValue) / (this.maxValue - this.minValue);
+        }
+
         get renderValue(): number {
-            return (this.modifiedValue || this.value) * 100 / (this.maxValue - this.minValue);
+            return this.modifiedValue || this.value;
         }
 
         mounted() {
@@ -120,7 +104,7 @@
         }
 
         private updateValue(direction: Direction) {
-            let value = this.renderValue;
+            let value = this.modifiedValue || this.value;
             switch (direction) {
                 case Direction.Up:
                     value += this.stepSize;
@@ -140,4 +124,26 @@
             this.$emit("change", value);
         }
     }
+
 </script>
+
+<style lang="scss" scoped>
+    .slider-control {
+        position: relative;
+    }
+
+    .touch-source {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .content {
+        pointer-events: none;
+        position: absolute;
+        width: 100%;
+    }
+</style>
+

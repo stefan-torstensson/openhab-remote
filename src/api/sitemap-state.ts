@@ -51,8 +51,8 @@ export class SitemapState {
         this.sitemapSubscriber.stop();
     }
 
-    @synchronized()
     @loadingIndication()
+    @synchronized()
     async setActivePage(sitemapName: string, pageId: string): Promise<void> {
         this.log.info(`setActivePage(${sitemapName}, ${pageId})`);
         try {

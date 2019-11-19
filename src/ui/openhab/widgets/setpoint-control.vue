@@ -3,9 +3,10 @@
     import {Component} from "vue-property-decorator";
     import SliderControl from "../../components/slider-control.vue";
     import WidgetControl from "./widget-control";
+    import {StateDescription} from "@app/api/openhab-types";
 
     function parseValue(value: string): number {
-        const result = parseInt(value, 10);
+        const result = parseFloat(value);
         return isNaN(result) ? 0 : result;
     }
 
@@ -29,23 +30,26 @@
             return state;
         }
 
-        get stepSize() {
-            const {stateDescription} = this.item;
-            return stateDescription && stateDescription.step;
+        get stepSize(): number {
+            return this.widget.step || this.stateDescription.step;
         }
 
-        get formattedValue() {
-            const {stateDescription} = this.item;
-            if (stateDescription) {
-                return sprintf(stateDescription.pattern, this.value);
-            }
-            return this.value;
+        get maxValue(): number {
+            return this.widget.maxValue || this.stateDescription.maximum;
+        }
+
+        get minValue(): number {
+            return this.widget.minValue || this.stateDescription.minimum;
+        }
+
+        get stateDescription(): StateDescription {
+            return this.item.stateDescription || {} as StateDescription;
         }
     }
 </script>
 
 <template>
-    <slider-control v-model="value" :step-size="stepSize">
+    <slider-control v-model="value" :step-size="stepSize" :max-value="maxValue" :min-value="minValue">
         {{displayValue}}
     </slider-control>
 </template>

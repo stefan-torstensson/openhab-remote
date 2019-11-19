@@ -28,9 +28,12 @@ export interface Widget {
     widgets: Widget[];
     switchSupport?: boolean;
     sendFrequency?: number;
+    maxValue?: number;
+    minValue?: number;
+    step?: number;
 }
 
-interface StateDescription {
+export interface StateDescription {
     maximum: number;
     minimum: number;
     options: any[];
