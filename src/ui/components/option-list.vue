@@ -1,5 +1,5 @@
 <template>
-    <scaling-list>
+    <scaling-list :heading="heading">
         <scaling-list-item v-for="option in options" :key="option.value">
             <div class="list-control list-item">
                 <input type="radio" :id="'c_' + option.value" :value="option.value" :checked="isSelected(option.value)"
@@ -37,6 +37,9 @@
     export default class OptionList extends Vue {
         @Prop(Array)
         options: SelectOption[];
+
+        @Prop({type: String, default: ""})
+        heading: string;
 
         @Model("change", {type: String, default: ""})
         selected: string;

@@ -2,7 +2,7 @@ import Vue from "vue";
 import {Prop} from "vue-property-decorator";
 import {Item, Widget} from "@app/api/openhab-types";
 import {Inject} from "@app/ui/ioc";
-import {SitemapClient, SitemapState} from "@app/api";
+import {SitemapState} from "@app/api";
 import {parseLabel} from "./label-parser";
 
 export default class WidgetControl extends Vue {

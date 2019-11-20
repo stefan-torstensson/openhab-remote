@@ -46,16 +46,16 @@ export interface Item {
     link: string;
     state: string;
     stateDescription?: StateDescription;
-    editable: boolean;
+    editable?: boolean;
     type: string;
-    name: string;
-    label: string;
-    tags: string[];
-    groupNames: string[];
-    members: any[];
-    groupType: string;
-    function: Function;
-    category: string;
+    name?: string;
+    label?: string;
+    tags?: string[];
+    groupNames?: string[];
+    members?: any[];
+    groupType?: string;
+    function?: Function;
+    category?: string;
 }
 
 export interface Function {

@@ -22,6 +22,7 @@
         height: 60px;
         fill: $color-primary;
         stroke: $color-primary;
+        stroke-width: 1;
     }
 
     .settings-link {

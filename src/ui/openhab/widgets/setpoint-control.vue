@@ -23,6 +23,10 @@
         }
 
         get displayValue(): string {
+            const stateLabel = this.stateLabel;
+            if (stateLabel) {
+                return stateLabel;
+            }
             const {state, stateDescription} = this.item;
             if (stateDescription) {
                 return sprintf(stateDescription.pattern, state);
@@ -50,6 +54,23 @@
 
 <template>
     <slider-control v-model="value" :step-size="stepSize" :max-value="maxValue" :min-value="minValue">
-        {{displayValue}}
+        <div class="setpoint_label">{{label}}</div>
+        <div class="setpoint_value">{{displayValue}}</div>
     </slider-control>
 </template>
+
+<style lang="scss" scoped>
+    @import "~settings";
+    .setpoint_label {
+        font-size: .8em;
+        text-decoration: underline;
+        white-space: nowrap;
+        overflow: hidden;
+        margin: 0 40px;
+        text-overflow: ellipsis;
+    }
+    .setpoint_value {
+        padding-bottom: 50px;
+        padding-top: 20px;
+    }
+</style>

@@ -1,6 +1,6 @@
 <template>
     <div class="fill-available-space">
-        <option-list v-model="value" :options="options"></option-list>
+        <option-list v-model="value" :options="options" :heading="label"></option-list>
     </div>
 </template>
 
