@@ -18,8 +18,8 @@
             };
         }
 
-        get stateLabel(): string {
-            return super.stateLabel || this.item.state;
+        get setpointState(): string {
+            return this.stateLabel || this.item.state;
         }
     }
 
@@ -27,7 +27,7 @@
 
 <template>
     <router-link :to="link" class="list-control" v-ripple>
-        <list-label :label="label" :state="stateLabel">
+        <list-label :label="label" :state="setpointState">
             <icon type="volume"></icon>
         </list-label>
     </router-link>

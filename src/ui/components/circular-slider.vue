@@ -7,13 +7,18 @@
     import {Component, Prop} from "vue-property-decorator";
     import ProgressIndicator from "./progress-indicator.vue";
 
+    function withinRange(value: number) {
+        value = Math.max(0, value);
+        return Math.min(1, value);
+    }
+
     @Component({components: {ProgressIndicator}})
     export default class CircularSlider extends Vue {
         @Prop({type: Number, default: 0})
         value: number;
 
         get endValue(): number {
-            return this.value / 100;
+            return withinRange(this.value / 100);
         }
     }
 </script>

@@ -1,10 +1,11 @@
 import Vue from "vue";
-import {Prop} from "vue-property-decorator";
+import {Component, Prop} from "vue-property-decorator";
 import {Item, Widget} from "@app/api/openhab-types";
 import {Inject} from "@app/ui/ioc";
 import {SitemapState} from "@app/api";
 import {parseLabel} from "./label-parser";
 
+@Component({})
 export default class WidgetControl extends Vue {
     @Prop(Object) widget: Widget;
 
