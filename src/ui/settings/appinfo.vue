@@ -7,7 +7,7 @@
             </p>
             <p>&copy; {{copyrightYears}}<br>{{author}}</p>
             <p class="text">
-                This application is not endorsed by or affiliated with OpenHAB or the OpenHAB foundation.
+                This application is not endorsed by or affiliated with openHAB or the openHAB foundation.
             </p>
         </div>
         <hr>
@@ -25,6 +25,8 @@
     import LibraryInfo from "./library-info.vue";
     import pkg from "package.json";
 
+    declare var COPYRIGHT_YEARS: string;
+
     @Component({components: {Page, LibraryInfo}})
     export default class AppInfo extends Vue {
 
@@ -33,7 +35,7 @@
         }
 
         get copyrightYears(): string {
-            return [...new Set([2019, new Date().getFullYear()])].join("-");
+            return COPYRIGHT_YEARS;
         }
 
         get author(): string {

@@ -57,7 +57,7 @@ describe("SitemapClient tests", () => {
             expect(result).to.equal(VerificationResult.INVALID_URL);
         });
 
-        it("should return OK for OpenHAB response", async () => {
+        it("should return OK for openHAB response", async () => {
             const body = JSON.stringify({
                 version: "1",
                 links: [{}]

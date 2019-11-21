@@ -41,7 +41,7 @@
             return [
                 {
                     path: "url",
-                    label: "OpenHAB Url",
+                    label: "openHAB Url",
                     value: this.appSettings.remoteUrl
                 },
                 {

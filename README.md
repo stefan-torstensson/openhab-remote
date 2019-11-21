@@ -1,12 +1,13 @@
-# OpenHAB Remote
+# Remote for openHAB
 
 OpenHAB UI for Samsung Gear and Galaxy Watches
 
-Unofficial UI for [OpenHAB](https://www.openhab.org/) running on Tizen based Samsung smart watches,
-i.e. the Gear and Galaxy line of smart watches.
-The UI is implemented with [Vue.js](https://vuejs.org/) and uses the OpenHAB REST API for communication with the server.
+Unofficial UI for [openHAB](https://www.openhab.org/) running on Tizen based Samsung smart watches,
+i.e. the Gear and Galaxy line of smart watches with a circular display.
+The UI is implemented with [Vue.js](https://vuejs.org/) and uses the openHAB REST API to retrieve a 
+[sitemap](https://www.openhab.org/docs/configuration/sitemaps.html) which is then rendered on the watch.
 
-Currently supported [sitemap element types](https://www.openhab.org/docs/configuration/sitemaps.html) are:
+Currently the following sitemap element types are supported:
 * Frame
 * Group 
 * Selection 
@@ -27,7 +28,6 @@ Any other element type will be ignored when rendering and won't show up.
 ## Developing
 Development is best done in a local browser and your editor/IDE of choice supporting modern web technology.
 
-
 ### Prerequisites
 #### Node and npm 
 A recent version of node.js and npm is required. Then run *npm install* followed by *npm start*.
@@ -41,7 +41,7 @@ If you need to remote debug the web app on an emulator or watch (grunt debug) yo
 When the application is run on a device or emulator it's a standalone application and CORS is not an issue, but when
 running in a browser it's loaded as a web site from the webpack dev server and affected by CORS security. 
 
-To get around this you'll either have to [enable CORS on your OpenHAB instance](https://www.openhab.org/docs/configuration/restdocs.html#additional-considerations), 
+To get around this you'll either have to [enable CORS on your openHAB instance](https://www.openhab.org/docs/configuration/restdocs.html#additional-considerations), 
 or alternatively disable CORS in the browser. To do this in Chrome you have to launch with command line flags:
 
 `[path to]/chrome --user-data-dir=$HOME/tmp/chrome/cors --disable-web-security`

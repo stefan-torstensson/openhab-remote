@@ -13,11 +13,13 @@ const noop = () => {};
 const isProduction = (process.env.NODE_ENV === "production");
 
 function definitions(env) {
-    if (!env)
-        return {};
-    const result = {};
-    for(const key in env) {
-        result[key] = JSON.stringify(env[key]);
+    const result = {
+        "COPYRIGHT_YEARS": JSON.stringify([...new Set([2019, new Date().getFullYear()])].join("-"))
+    };
+    if (env) {
+        for (const key in env) {
+            result[key] = JSON.stringify(env[key]);
+        }
     }
     return result;
 }

@@ -1,7 +1,10 @@
 {
     "name": "openhab-remote",
     "version": "0.1.0",
-    "description": "OpenHAB UI for Tizen based smart watches",
+    "description": "UI for openHAB on Tizen based smart watches",
+    "homepage": "https://github.com/stefan-torstensson/openhab-remote",
+    "author": "Stefan Torstensson",
+    "license": "MIT",
     "main": "src/ui/main.ts",
     "tizen": {
         "appName": "Remote for openHAB",
@@ -88,8 +91,6 @@
         "xml-js": "^1.6.11",
         "xml-webpack-plugin": "^1.0.1"
     },
-    "author": "Stefan Torstensson",
-    "license": "MIT",
     "babel": {
         "presets": [
             [
