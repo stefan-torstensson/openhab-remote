@@ -14,7 +14,8 @@ const isProduction = (process.env.NODE_ENV === "production");
 
 function definitions(env) {
     const result = {
-        "COPYRIGHT_YEARS": JSON.stringify([...new Set([2019, new Date().getFullYear()])].join("-"))
+        "COPYRIGHT_YEARS": JSON.stringify([...new Set([2019, new Date().getFullYear()])].join("-")),
+        "PRODUCTION_BUILD": JSON.stringify(isProduction)
     };
     if (env) {
         for (const key in env) {

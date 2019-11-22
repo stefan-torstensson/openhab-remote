@@ -2,6 +2,7 @@
     <page>
         <div class="text">
             <h1>{{appName}}</h1>
+            <p>{{version}} - ({{buildType}})</p>
             <p>
                 An unofficial client for the openHAB REST API. Built with Vue.js
             </p>
@@ -26,6 +27,7 @@
     import pkg from "package.json";
 
     declare var COPYRIGHT_YEARS: string;
+    declare var PRODUCTION_BUILD: boolean;
 
     @Component({components: {Page, LibraryInfo}})
     export default class AppInfo extends Vue {
@@ -34,12 +36,20 @@
             return pkg.tizen.appName;
         }
 
-        get copyrightYears(): string {
-            return COPYRIGHT_YEARS;
+        get version(): string {
+            return pkg.version;
         }
 
         get author(): string {
             return pkg.author;
+        }
+
+        get buildType(): string {
+            return PRODUCTION_BUILD ? "release" : "debug";
+        }
+
+        get copyrightYears(): string {
+            return COPYRIGHT_YEARS;
         }
     }
 </script>
