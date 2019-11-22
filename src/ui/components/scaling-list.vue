@@ -201,7 +201,7 @@
             height: $screen-height/3;
             padding: 0 .4em;
             margin: 0 4px;
-            background-color: #151515;
+            background-color: $color-tile;
             border: 2px solid #222;
             border-radius: $screen-height/9;
             -webkit-overflow-scrolling: touch;

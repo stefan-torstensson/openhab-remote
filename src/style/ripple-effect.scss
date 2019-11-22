@@ -1,12 +1,16 @@
-.ripple-effect {
-  background: radial-gradient(
-      ellipse farthest-corner,
-      #555 0%,
-      transparent 80%) no-repeat 50%;
-  background-size: 0 0;
-  transition: all 0.2s ease;
+@import "settings";
 
-  &#{&}--active {
-    background-size: 100% 100%;
+.ripple-effect {
+  background-position: center;
+  transition: background 0.4s;
+
+  &:hover {
+    background: $color-tile radial-gradient(circle, transparent 1%, $color-tile 1%) center/12000%;
+  }
+
+  &:active {
+    background-color: #666;
+    background-size: 100%;
+    transition: background 0s;
   }
 }

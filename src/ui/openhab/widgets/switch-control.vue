@@ -39,7 +39,7 @@
 
 <template>
     <toggle v-if="isSimpleSwitch" v-model="checked" :label="label"></toggle>
-    <router-link v-else :to="link" class="fill-available-space ripple-effect" v-ripple>
+    <router-link v-else :to="link" class="fill-available-space ripple-effect">
         <list-label :label="label" :state="stateLabel">
             <icon type="multiselect"></icon>
         </list-label>

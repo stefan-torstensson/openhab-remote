@@ -4,7 +4,7 @@
             <div class="list-control list-item">
                 <input type="radio" :id="'c_' + option.value" :value="option.value" :checked="isSelected(option.value)"
                        @change="changed">
-                <label :for="'c_' + option.value" tabindex="0" class="fill-available-space" v-ripple>
+                <label :for="'c_' + option.value" tabindex="0" class="fill-available-space ripple-effect" >
                     <span class="list-control_text">{{option.label}}</span>
                     <toggle-icon type="selected" :active="isSelected(option.value)"
                                  class="list-control_icon"></toggle-icon>

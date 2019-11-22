@@ -26,7 +26,7 @@
 </script>
 
 <template>
-    <router-link :to="link" class="list-control" v-ripple>
+    <router-link :to="link" class="list-control ripple-effect">
         <list-label :label="label" :state="setpointState">
             <icon type="volume"></icon>
         </list-label>

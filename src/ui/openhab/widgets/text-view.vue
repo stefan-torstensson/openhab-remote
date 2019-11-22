@@ -25,7 +25,7 @@
 </script>
 
 <template>
-    <router-link v-bind:to="routerPath" class="fill-available-space" v-ripple>
+    <router-link v-bind:to="routerPath" class="fill-available-space ripple-effect">
         <list-label :label="label" :state="stateLabel">
             <icon :type="iconName"></icon>
         </list-label>

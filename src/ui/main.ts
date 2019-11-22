@@ -4,7 +4,6 @@ import "regenerator-runtime/runtime";
 import "reflect-metadata";
 import "./register-hooks";
 import "./container-configuration";
-import "./directives";
 import Vue from "vue";
 import VueRouter from "vue-router";
 import {Application} from "./Application";

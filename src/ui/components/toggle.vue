@@ -25,7 +25,7 @@
 <template>
     <div>
         <input class="hidden" type="checkbox" :id="'c_' + _uid" :checked="checked" @change="changed">
-        <label :for="'c_' + _uid" tabindex="0" class="fill-available-space" v-ripple>
+        <label :for="'c_' + _uid" tabindex="0" class="fill-available-space ripple-effect">
             <list-label :label="label">
                 <toggle-icon type="toggle" :active="checked"></toggle-icon>
             </list-label>
