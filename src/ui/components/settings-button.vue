@@ -30,10 +30,9 @@
         width: 40px;
         text-align: right;
         padding-right: 10px;
-        padding-top: 5px;
+        padding-top: 6px;
         padding-bottom: 5px;
-        line-height: 1;
-        font-size: 1em;
+        line-height: 0;
     }
 
 </style>

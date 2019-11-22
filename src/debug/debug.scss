@@ -7,6 +7,18 @@
   height: 100%;
   width: 100%;
   overflow: hidden;
+
+  &:after {
+    display: none;
+    content: "";
+    border-bottom: 1px solid red;
+    position:absolute;
+    top: 50%;
+    height: 0;
+    width: 100%;
+    z-index: 20;
+    pointer-events: none;
+  }
 }
 
 .input-enabled .watch-container {
