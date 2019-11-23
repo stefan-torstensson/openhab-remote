@@ -37,7 +37,7 @@
         "email": "rob@bluespire.com",
         "url": "http://robeisenberg.com/",
         "name": "aurelia-dependency-injection",
-        "version": "1.5.1",
+        "version": "1.5.2",
         "description": "A lightweight, extensible dependency injection container for JavaScript.",
         "copyright": "Copyright (c) 2010 - 2018 Blue Spire Inc."
     },
@@ -64,7 +64,7 @@
     {
         "licenses": "MIT",
         "name": "core-js",
-        "version": "3.4.1",
+        "version": "3.4.2",
         "description": "Standard library",
         "copyright": "Copyright (c) 2014-2019 Denis Pushkarev"
     },
