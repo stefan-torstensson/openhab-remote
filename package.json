@@ -1,6 +1,6 @@
 {
     "name": "openhab-remote",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "description": "UI for openHAB on Tizen based smart watches",
     "homepage": "https://github.com/stefan-torstensson/openhab-remote",
     "author": "Stefan Torstensson",
