@@ -2,31 +2,27 @@ import {inject} from "aurelia-dependency-injection";
 import {Item, Page, Sitemap, Widget} from "./openhab-types";
 import {SitemapClient} from "./sitemap-client";
 import {SitemapSubscriber} from "./subscription/sitemap-subscriber";
-import {assign} from "./util";
+import {assign} from "@app/common/assign";
 import {AppEvent, PubSub} from "../ui/event-bus";
 import {logger} from "../common/logging";
 import {UpdateEvent} from "./subscription/update-event";
 import {synchronized} from "@app/common/synchronized";
 import {loadingIndication} from "@app/ui/loading-state";
 import {ApplicationError} from "@app/common/application-error";
+import {findWidgetById} from "./widget-utils";
+
+export abstract class SitemapState {
+    abstract pageTitle: string;
+    abstract readonly widgets: Widget[];
+    abstract stop(): void;
+    abstract setActivePage(sitemapName: string, pageId: string): Promise<void>;
+    abstract postUpdate(item: Item, state: string): Promise<void> ;
+}
 
 @inject(SitemapClient, SitemapSubscriber, PubSub)
-export class SitemapState {
-    private static findWidgetById(widgets: Widget[], id: string): Widget {
-        for (const widget of widgets) {
-            if (widget.widgetId === id) {
-                return widget;
-            }
-            if (id.startsWith(widget.widgetId)) {
-                return SitemapState.findWidgetById(widget.widgets, id);
-            }
-        }
-        return null;
-    }
-
+export class OpenhabSitemapState implements SitemapState {
     public pageTitle: string;
-
-    private readonly log = logger.get(SitemapState);
+    private readonly log = logger.get(OpenhabSitemapState);
     private pubsub: PubSub;
     private sitemap: Sitemap;
     private currentPage: Page;
@@ -66,10 +62,6 @@ export class SitemapState {
         }
     }
 
-    getWidget(widgetId: string): Widget {
-        return SitemapState.findWidgetById(this.widgets, widgetId);
-    }
-
     async postUpdate(item: Item, state: string): Promise<void> {
         const link = (item && item.link);
         if (link && state) {
@@ -103,7 +95,7 @@ export class SitemapState {
     private updateWidget(e: UpdateEvent) {
         this.log.debug(`Updating ${e.widgetId} on page ${e.pageId}`);
         if (this.currentPage && this.currentPage.id === e.pageId) {
-            const widget = SitemapState.findWidgetById(this.widgets, e.widgetId);
+            const widget = findWidgetById(this.widgets, e.widgetId);
             assign(widget.item, e.item);
             if (widget.label !== e.label) {
                 widget.label = e.label;

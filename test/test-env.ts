@@ -7,4 +7,5 @@ chai.use(sinonChai);
 chai.use(chaiAsPromised);
 
 export const expect = chai.expect;
+export const assert = chai.assert;
 export const sinon = sinon_;

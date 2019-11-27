@@ -1,7 +1,7 @@
 <template>
     <div class="application-root">
         <router-view/>
-        <div class="settings center-vertically">
+        <div class="settings-area center-vertically">
             <settings-button></settings-button>
         </div>
         <notification-area class="notification-area"></notification-area>
@@ -10,13 +10,17 @@
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
     .loading-indicator {
         position: absolute;
         top:0;
         left: 0;
         width: 100%;
         height: 100%;
+
+        .circular-slider__path {
+            stroke: #0090FF;
+        }
     }
 
     .notification-area {
@@ -26,7 +30,7 @@
         transform: translateX(-50%);
     }
 
-    .settings {
+    .settings-area {
         position:absolute;
         right:0;
         top:50%;

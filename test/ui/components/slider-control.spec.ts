@@ -4,19 +4,14 @@ import Vue from "vue";
 import SliderControl from "@app/ui/components/slider-control.vue";
 import CircularSlider from "@app/ui/components/circular-slider.vue";
 import {AppEvent, PubSub} from "@app/ui/event-bus";
-import {sleep} from "../../utils";
+import {sleep, vuePropWarnFilter} from "../../utils";
 
 describe("SliderControl tests", () => {
 
     let component: Wrapper<SliderControl>;
 
     before(() => {
-        Vue.config.warnHandler = (msg: string, vm: Vue, trace: string) => {
-            if (msg.includes('The computed property "pubsub" is already defined in data.')) {
-                return;
-            }
-            console.warn(`Vue warn: ${msg}`);
-        };
+        Vue.config.warnHandler = vuePropWarnFilter(["pubsub"]);
     });
 
     after(() => {

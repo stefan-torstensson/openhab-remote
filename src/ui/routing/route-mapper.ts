@@ -1,5 +1,5 @@
-import {Sitemap, WidgetControl} from "@app/ui/openhab";
-import {Route, RouteConfig, Location} from "vue-router";
+import {Sitemap} from "@app/ui/openhab";
+import {Location, Route, RouteConfig} from "vue-router";
 import {inject} from "aurelia-dependency-injection";
 import {AppSettings} from "@app/configuration/app-settings";
 import SettingsControl from "../settings/settings.vue";
@@ -16,8 +16,7 @@ export class RouteMapper {
 
     get routes(): RouteConfig[] {
         return [
-            {name: "page", path: "/page/:sitemap/:pageId", component: Sitemap, props: true},
-            {name: "widget", path: "/widget/:widgetId", component: WidgetControl, props: true},
+            {name: "page", path: "/page/:sitemap/:pageId/:widgetId?", component: Sitemap, props: true},
             {path: "/settings", component: SettingsControl, children: routes, meta: {navDepth: 1}},
             {name: "setup", path: "/setup", component: SetupWizard},
             {path: "*", redirect: this.defaultRoute.bind(this)}

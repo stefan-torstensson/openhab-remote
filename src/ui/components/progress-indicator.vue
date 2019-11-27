@@ -28,7 +28,8 @@
         @Prop({type: Boolean, default: true})
         showBg: boolean;
 
-        private readonly radius: number = 50;
+        @Prop({type: Number, default: 50})
+        radius: number;
 
         get path(): string {
             const strokeOffset = this.width / 2;
@@ -45,8 +46,8 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
             <circle
                 class="circular-slider__circle" :class="{hidden: !showBg}"
-                :cx="radius"
-                :cy="radius"
+                cx="50"
+                cy="50"
                 :r="radius - width / 2"
                 :stroke-width="width"></circle>
             <path

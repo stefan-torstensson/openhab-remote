@@ -1,5 +1,5 @@
 <template>
-    <progress-indicator :start="0" :end="endValue" :width="4" :show-bg="true"></progress-indicator>
+    <progress-indicator :start="0" :end="endValue" :width="4" :show-bg="true" :radius="49"></progress-indicator>
 </template>
 
 <script lang="ts">

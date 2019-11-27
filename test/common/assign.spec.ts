@@ -1,4 +1,4 @@
-import {assign} from "@app/api/util";
+import {assign} from "@app/common/assign";
 import {expect} from "chai";
 
 describe("util tests", () => {

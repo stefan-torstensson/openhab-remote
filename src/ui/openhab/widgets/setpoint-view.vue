@@ -3,15 +3,15 @@
     import WidgetControl from "./widget-control";
     import {ListLabel} from "@app/ui/components";
     import {Icon} from "@app/svg";
+    import {Location} from "vue-router";
 
     @Component({
         components: {ListLabel, Icon}
     })
     export default class SetpointView extends WidgetControl {
 
-        get link(): any {
+        get link(): Location {
             return {
-                name: "widget",
                 params: {
                     widgetId: this.widget.widgetId
                 }

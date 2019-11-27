@@ -33,10 +33,15 @@ export interface Widget {
     step?: number;
 }
 
+export interface Option {
+    value: string;
+    label: string;
+}
+
 export interface StateDescription {
     maximum: number;
     minimum: number;
-    options: any[];
+    options: Option[];
     pattern: string;
     readOnly: boolean;
     step: number;
@@ -45,6 +50,7 @@ export interface StateDescription {
 export interface Item {
     link: string;
     state: string;
+    transformedState?: string,
     stateDescription?: StateDescription;
     editable?: boolean;
     type: string;
@@ -56,6 +62,7 @@ export interface Item {
     groupType?: string;
     function?: Function;
     category?: string;
+    metadata?: any
 }
 
 export interface Function {

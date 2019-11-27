@@ -4,6 +4,7 @@
     import {Icon} from "@app/svg";
     import {equalsIgnoreCase} from "@app/common/string-utils";
     import {ListLabel, Toggle} from "@app/ui/components";
+    import {Location} from "vue-router";
 
 
     @Component({
@@ -18,9 +19,8 @@
             return !equalsIgnoreCase("rollershutter", this.item.type);
         }
 
-        get link(): any {
+        get link(): Location {
             return {
-                name: "widget",
                 params: {
                     widgetId: this.widget.widgetId
                 }

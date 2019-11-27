@@ -51,6 +51,7 @@
         @Prop({type: [Number], default: 100})
         maxValue: number;
 
+        private clearModifiedTimeoutId: number;
         private modifiedValue: number = null;
         private swipeListener: any = null;
         private previousSwipePosition: number = 0;
@@ -116,12 +117,22 @@
                     break;
             }
             this.modifiedValue = value;
+            this.clearModified();
             this.emitChange(value);
         }
 
         @Debounce(200)
         private emitChange(value: number) {
             this.$emit("change", value);
+        }
+
+        private clearModified() {
+            // Don't want the slider to jump around while adjusting the value
+            // but it should settle on the new value eventually
+            global.clearTimeout(this.clearModifiedTimeoutId);
+            this.clearModifiedTimeoutId = global.setTimeout(() => {
+                this.modifiedValue = null;
+            }, 2000);
         }
     }
 
