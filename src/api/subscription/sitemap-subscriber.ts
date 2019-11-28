@@ -6,53 +6,59 @@ import {EventSourceListener} from "./event-source-listener";
 import {Subscription} from "./subscription";
 import {SitemapClient} from "../sitemap-client";
 import {Configuration} from "@app/configuration";
+import {AppEvent, PubSub} from "@app/ui/event-bus";
+
+export interface SubscriptionResponse {
+    status: string;
+    context: {
+        headers: {
+            Location: string[]
+        }
+    };
+}
 
 export abstract class SitemapSubscriber {
-    public abstract start(): Promise<boolean>;
-
     public abstract stop(): void;
-
-    public abstract subscribeTo(sitemapName: string, pageId: string): Promise<boolean>;
-
+    public abstract refreshSubscription(): Promise<void>;
+    public abstract subscribeTo(sitemapName: string, pageId: string): Promise<void>;
     public abstract onUpdate(f: (e: UpdateEvent) => void): void;
-
     public abstract get subscriptionId(): string;
 }
 
-@inject(EventSourceListener, SitemapClient, Configuration)
+@inject(EventSourceListener, SitemapClient, Configuration, PubSub)
 export class OpenhabSitemapSubscriber extends SitemapSubscriber {
+    private readonly log = logger.get(OpenhabSitemapSubscriber);
     private _sitemapName: string;
     private _pageId: string;
     private _subscription: Subscription;
     private _eventSource: EventSourceListener;
-    private _listener: (e: UpdateEvent) => void;
+    private _updateEventListener: (e: UpdateEvent) => void;
     private _sitemapClient: SitemapClient;
     private _config: Configuration;
+    private _pubsub: PubSub;
+    private _emitTimeout: number;
 
-    constructor(eventSource: EventSourceListener, sitemapClient: SitemapClient, config: Configuration) {
+    constructor(eventSource: EventSourceListener, sitemapClient: SitemapClient, config: Configuration, pubsub: PubSub) {
         super();
         this._eventSource = eventSource;
         this._sitemapClient = sitemapClient;
         this._config = config;
+        this._pubsub = pubsub;
         this._eventSource.onEvent(this.onEventMessage.bind(this));
+        this._eventSource.onError(this.onEventSourceError.bind(this));
     }
 
-    subscribeTo(sitemapName: string, pageId: string): Promise<boolean> {
-        this.stop();
-        this._pageId = pageId;
-        this._sitemapName = sitemapName;
-        return this.start();
+    get subscriptionId(): string {
+        return this._subscription && this._subscription.subscriptionId;
     }
 
-    async start(): Promise<boolean> {
-        if (!(this._pageId && this._sitemapName) || this._eventSource.started) {
-            return true;
+    async subscribeTo(sitemapName: string, pageId: string): Promise<void> {
+        if (sitemapName !== this._sitemapName && pageId !== this._pageId) {
+            this.stop();
+            this._pageId = pageId;
+            this._sitemapName = sitemapName;
         }
-        const params = {
-            pageid: this._pageId,
-            sitemap: this._sitemapName
-        };
-        return await this.startEventSource(params) || await this.startEventSource(params, true);
+        this.emitActive(await this.startEventSource());
     }
 
     stop() {
@@ -60,34 +66,39 @@ export class OpenhabSitemapSubscriber extends SitemapSubscriber {
         this._subscription = null;
     }
 
+    async refreshSubscription(): Promise<void> {
+        this.log.info("Refreshing subscription");
+        this.stop();
+        this.emitActive(await this.startEventSource(true));
+    }
+
     onUpdate(f: (e: UpdateEvent) => void) {
-        this._listener = f;
+        this._updateEventListener = f;
     }
 
-    get subscriptionId(): string {
-        return this._subscription && this._subscription.subscriptionId;
-    }
-
-    private async startEventSource(params: { [k: string]: string }, refresh: boolean = false) {
-        const subscription = await this.getSubscription(refresh);
-        if (!subscription) {
-            return false;
-        }
-        const url = parse(subscription.url);
-        url.query = params;
-        try {
-            log.info("Starting event listener");
-            await this._eventSource.start(url.format());
-            this._subscription = subscription;
+    private async startEventSource(refresh: boolean = false): Promise<boolean> {
+        if (this._eventSource.started) {
             return true;
-        } catch (e) {
-            log.warn("Failed opening event source", e);
-            this._subscription = null;
+        }
+        if (!(this._pageId && this._sitemapName)) {
             return false;
         }
+
+        this._subscription = await this.getSubscription(refresh);
+        if (this._subscription) {
+            const url = parse(this._subscription.url);
+            url.query = {
+                sitemap: this._sitemapName,
+                pageid: this._pageId
+            };
+            this._eventSource.start(url.format());
+            return true;
+        }
+
+        return false;
     }
 
-    private async getSubscription(refresh: boolean = false) {
+    private async getSubscription(refresh: boolean = false): Promise<Subscription> {
         let subscription = this._config.get("subscription", Subscription);
         const isValid = subscription && this._sitemapClient.onSameHost(subscription.url);
         if (refresh || !isValid) {
@@ -98,38 +109,44 @@ export class OpenhabSitemapSubscriber extends SitemapSubscriber {
     }
 
     private async createSubscription(): Promise<Subscription> {
-        log.info(`Creating subscription`);
+        this.log.info(`Creating subscription`);
         let response: SubscriptionResponse;
         try {
             response = await this._sitemapClient.post("sitemaps/events/subscribe");
         } catch (e) {
-            log.warn("Failed creating subscription", e);
+            this.log.warn("Failed creating subscription", e);
             return null;
         }
         if (response.status === "CREATED") {
             const location = response.context.headers.Location[0];
             return new Subscription(location);
         }
-        log.warn("Failed creating subscription - unknown response");
+        this.log.warn("Failed creating subscription - unknown response");
         return null;
     }
 
     private onEventMessage(e: any) {
-        log.debug("Received event:", e);
+        this.log.debug("Received event:", e);
         const receivedData = JSON.parse(e.data) as UpdateEvent;
-        if (receivedData.item && this._listener) {
-            this._listener(receivedData);
+        if (receivedData.item && this._updateEventListener) {
+            this._updateEventListener(receivedData);
         }
     }
-}
 
-interface SubscriptionResponse {
-    status: string;
-    context: {
-        headers: {
-            Location: string[]
+    private onEventSourceError(_e: any) {
+        this.stop();
+        this.emitActive(false);
+    }
+
+    private emitActive(active: boolean) {
+        if (this._emitTimeout) {
+            global.clearTimeout(this._emitTimeout);
+            this._emitTimeout = null;
         }
-    };
+        this._emitTimeout = global.setTimeout(() => {
+            this._pubsub.$emit(AppEvent.SUBSCRIPTION_ACTIVE_CHANGE, active);
+        }, active ? 0 : 1000);
+    }
+
 }
 
-const log = logger.get(OpenhabSitemapSubscriber);

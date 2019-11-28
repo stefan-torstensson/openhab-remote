@@ -79,6 +79,7 @@
         "time-grunt": "^2.0.0",
         "tslint": "^5.20.1",
         "tslint-loader": "^3.5.4",
+        "ts-sinon": "^1.0.24",
         "typescript": "^3.7.2",
         "url-loader": "^2.3.0",
         "vue-loader": "^15.7.2",

@@ -87,7 +87,7 @@ module.exports = env => ({
                     {
                         loader: 'css-loader',
                         options: {
-                            url: (url, resourcePath) => !url.includes('openhab-logo')
+                            url: (url, _resourcePath) => !url.includes('openhab-logo')
                         }
                     }, 'sass-loader']
             },
@@ -101,7 +101,7 @@ module.exports = env => ({
                 include: INCLUDE_PATHS,
                 oneOf: [
                     {
-                        issuer: /\.vue$/,
+                        issuer: /\.(vue|ts)$/,
                         use: ['babel-loader', 'vue-svg-loader']
                     },
                     {

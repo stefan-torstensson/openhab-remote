@@ -17,10 +17,10 @@ export enum VerificationResult {
 
 @inject("fetch", JsonResponseParser, PubSub, AppSettings)
 export class SitemapClient {
-    private static readonly log: Logger = logger.get(SitemapClient);
     private static readonly URL_VALIDATOR = new RegExp("^https?:\/\/.*", "i");
     private static readonly REST_PATH: string = "rest/";
 
+    private readonly log = logger.get(SitemapClient);
     private readonly responseParser: ResponseParser;
     private readonly pubsub: PubSub;
     private readonly fetch: Fetch;
@@ -44,8 +44,7 @@ export class SitemapClient {
         try {
             response = await this.fetch(resolvedUrl);
         } catch (e) {
-            SitemapClient.log.error("Network error", e);
-            console.log("Error", e);
+            this.log.error("Network error", e.message);
             return VerificationResult.NETWORK_ERROR;
         }
         if (!response.ok) {
@@ -60,7 +59,7 @@ export class SitemapClient {
         try {
             return url && parse(url).host === parse(this.appSettings.remoteUrl).host;
         } catch (e) {
-            SitemapClient.log.error("Failed parsing urls", e);
+            this.log.error("Failed parsing urls", e.message);
         }
         return false;
     }
@@ -98,15 +97,15 @@ export class SitemapClient {
         try {
             response = await this.fetch(request);
         } catch (e) {
-            SitemapClient.log.error("Fetch error", e);
+            this.log.error("Fetch error", e.message);
             throw new NetworkError(`Could not connect to ${request.url}`, e);
         }
         if (!response.ok) {
             const error = await this.tryGetOpenhabError(response);
             const message = error.message || "";
-            SitemapClient.log.error(`Failed request: ${response.status}, ${message || request.url}`);
+            this.log.error(`Failed request: ${response.status}, ${message || request.url}`);
             const httpError = response.statusText || "HTTP error " + response.status;
-            throw new ResponseError(message || `${request.url} returned ${httpError}`);
+            throw new ResponseError(message || `${request.url} returned ${httpError}`, response.status);
         }
         return this.responseParser.parse<T>(response);
     }

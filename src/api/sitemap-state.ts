@@ -8,7 +8,7 @@ import {logger} from "../common/logging";
 import {UpdateEvent} from "./subscription/update-event";
 import {synchronized} from "@app/common/synchronized";
 import {loadingIndication} from "@app/ui/loading-state";
-import {ApplicationError} from "@app/common/application-error";
+import {ApplicationError, ResponseError} from "@app/common/application-error";
 import {findWidgetById} from "./widget-utils";
 
 export abstract class SitemapState {
@@ -29,7 +29,6 @@ export class OpenhabSitemapState implements SitemapState {
     private client: SitemapClient;
     private sitemapSubscriber: SitemapSubscriber;
     private _widgets: Widget[] = [];
-    private _subscriptionActive: boolean = true;
 
     constructor(client: SitemapClient, sitemapSubscriber: SitemapSubscriber, pubsub: PubSub) {
         this.client = client;
@@ -53,7 +52,7 @@ export class OpenhabSitemapState implements SitemapState {
         this.log.info(`setActivePage(${sitemapName}, ${pageId})`);
         try {
             await this.setSitemap(sitemapName);
-            this.currentPage = await this.client.getPage(sitemapName, pageId, this.sitemapSubscriber.subscriptionId);
+            this.currentPage = await this.getPage(sitemapName, pageId);
             this.pageTitle = this.currentPage.title;
             this.setWidgets(this.currentPage.widgets);
         } catch (e) {
@@ -69,22 +68,24 @@ export class OpenhabSitemapState implements SitemapState {
         }
     }
 
+    private async getPage(sitemapName: string, pageId: string): Promise<Page> {
+        try {
+            return await this.client.getPage(sitemapName, pageId, this.sitemapSubscriber.subscriptionId);
+        } catch (e) {
+            if (e instanceof ResponseError && e.statusCode === 400) {
+                await this.sitemapSubscriber.refreshSubscription();
+                return await this.client.getPage(sitemapName, pageId, this.sitemapSubscriber.subscriptionId);
+            }
+            throw e;
+        }
+    }
+
     private async setSitemap(name: string): Promise<Sitemap> {
         if (!this.sitemap || this.sitemap.name !== name) {
             this.sitemap = await this.client.getSitemap(name);
-            this.emitSubscriptionState(
-                await this.sitemapSubscriber.subscribeTo(this.sitemap.name, this.sitemap.homepage.id));
-        } else {
-            this.emitSubscriptionState(await this.sitemapSubscriber.start());
         }
+        await this.sitemapSubscriber.subscribeTo(this.sitemap.name, this.sitemap.homepage.id);
         return this.sitemap;
-    }
-
-    private emitSubscriptionState(active: boolean) {
-        if (this._subscriptionActive !== active) {
-            this.pubsub.$emit(AppEvent.SUBSCRIPTION_ACTIVE_CHANGE, active);
-        }
-        this._subscriptionActive = active;
     }
 
     private setWidgets(value: Widget[]) {

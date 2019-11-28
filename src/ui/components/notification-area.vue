@@ -1,22 +1,20 @@
 <template>
-    <div :class="{hidden: !notificationActive}">
-        <offline-icon class="notification-icon" :class="{hidden: isOnline}"></offline-icon>
-        <subscription-offline-icon class="notification-icon"
-                                   :class="{hidden: isSubscriptionActive}"
-                                   @click="refreshPage()"></subscription-offline-icon>
+    <div v-if="notificationActive">
+        <offline-icon v-if="!isOnline" class="notification-icon"></offline-icon>
+        <reload-icon v-if="isOnline && !isSubscriptionActive" class="notification-icon"
+                                   @click="refreshPage()"></reload-icon>
     </div>
 </template>
 
 <script lang="ts">
     import Vue from "vue";
     import {Component} from "vue-property-decorator";
-    import OfflineIcon from "@app/svg/offline.svg";
-    import SubscriptionOfflineIcon from "@app/svg/reload.svg";
+    import {OfflineIcon, ReloadIcon} from "@app/svg";
     import {Inject} from "@app/ui/ioc";
     import {AppEvent, PubSub} from "@app/ui/event-bus";
 
 
-    @Component({components: {OfflineIcon, SubscriptionOfflineIcon}})
+    @Component({components: {OfflineIcon, ReloadIcon}})
     export default class NotificationArea extends Vue {
         @Inject(PubSub)
         private pubSub: PubSub;

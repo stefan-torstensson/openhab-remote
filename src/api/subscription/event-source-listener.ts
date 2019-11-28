@@ -1,52 +1,66 @@
 import {logger} from "@app/common/logging";
-import {transient} from "aurelia-dependency-injection";
+import {inject} from "aurelia-dependency-injection";
 
-@transient()
+export interface EventSourceFactory {
+    create(url: string, initDict?: EventSourceInit): EventSource;
+}
+
+class DefaultEventSourceFactory implements EventSourceFactory {
+    create(url: string, initDict?: EventSourceInit): EventSource {
+        return new EventSource(url, initDict);
+    }
+}
+
+@inject(DefaultEventSourceFactory)
 export class EventSourceListener {
+    private readonly log = logger.get(EventSourceListener);
     private listener: (e: any) => void;
     private eventSource: EventSource;
+    private errorListener: (e: any) => void;
+    private eventSourceFactory: EventSourceFactory;
+
+    constructor(eventSourceFactory: EventSourceFactory) {
+        this.eventSourceFactory = eventSourceFactory;
+    }
 
     onEvent(listener: (e: any) => void) {
         this.listener = listener;
+    }
+
+    onError(listener: (e: any) => void) {
+        this.errorListener = listener;
     }
 
     get started(): boolean {
         return !!this.eventSource;
     }
 
-    start(url: string): Promise<void> {
+    start(url: string): void {
         if (this.started) {
             throw new Error("Event source listener already started");
         }
-        return new Promise((resolve, reject) => {
-            let onerror: EventListener;
-            this.eventSource = new EventSource(url);
-            this.eventSource.addEventListener("event", this.eventReceived);
-            this.eventSource.addEventListener("error", this.onError);
-            this.eventSource.addEventListener("error", onerror = (_e: Event) => {
-                this.stop();
-                reject(new Error("Failed opening event source"));
-            }, {once: true});
-            this.eventSource.addEventListener("open", (_e: Event) => {
-                log.info("Event source open", url);
-                this.eventSource.removeEventListener("error", onerror);
-                resolve();
-            }, {once: true});
-        });
+        this.log.info("Opening event source");
+        this.eventSource = this.eventSourceFactory.create(url);
+        this.eventSource.addEventListener("event", this.eventReceived);
+        this.eventSource.addEventListener("error", this.onEventSourceError);
     }
 
     stop(): void {
         if (this.eventSource) {
-            log.info("Stopping event listener");
-            this.eventSource.removeEventListener("event", this.eventReceived);
-            this.eventSource.removeEventListener("error", this.onError);
+            this.log.info("Stopping event listener");
             this.eventSource.close();
+            this.eventSource.removeEventListener("event", this.eventReceived);
+            this.eventSource.removeEventListener("error", this.onEventSourceError);
             this.eventSource = null;
         }
     }
 
-    private onError = (e: Event) => {
-        log.error("Event source error", e);
+    private onEventSourceError = (e: Event) => {
+        this.log.error("Event source error", e);
+        this.stop();
+        if (this.errorListener) {
+            this.errorListener(e);
+        }
     }
 
     private eventReceived = (e: any) => {
@@ -55,5 +69,3 @@ export class EventSourceListener {
         }
     }
 }
-
-const log = logger.get(EventSourceListener);

@@ -22,8 +22,15 @@ export class ApplicationError extends Error {
 }
 
 export class ResponseError extends ApplicationError {
-    constructor(message: string, exception?: Error) {
+    private readonly _statusCode: number;
+
+    constructor(message: string, statusCode: number, exception?: Error) {
         super(message, "Request failed", exception);
+        this._statusCode = statusCode;
+    }
+
+    get statusCode(): number {
+        return this._statusCode;
     }
 }
 

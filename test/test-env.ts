@@ -1,6 +1,6 @@
 import chai from "chai";
 import sinonChai from "sinon-chai";
-import sinon_ from "sinon";
+import sinon_ from "ts-sinon";
 import chaiAsPromised from "chai-as-promised";
 
 chai.use(sinonChai);
