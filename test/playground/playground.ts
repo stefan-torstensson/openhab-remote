@@ -5,6 +5,7 @@ import VueRouter from "vue-router";
 import {container} from "@app/ui/ioc";
 import {logger} from "@app/common/logging";
 import Playground from "./playground.vue";
+import {routes} from "./routes";
 
 declare var global: any;
 global.logger = logger;
@@ -13,6 +14,8 @@ container.makeGlobal();
 Vue.use(VueRouter);
 
 global.document.addEventListener("DOMContentLoaded", () => {
-    new Playground({el: "#app"});
+    new Playground({
+        el: "#app",
+        router: new VueRouter({routes})
+    });
 });
-
