@@ -1,0 +1,12 @@
+<svg class="svg-icon" viewBox="0 0 40 40"  preserveAspectRatio="xMidYMid meet"
+     xmlns="http://www.w3.org/2000/svg">
+    <style>
+        * {
+            stroke-width:4;
+            stroke: blue;
+            background: transparent;
+            fill :none;
+        }
+    </style>
+    <rect x="5" y="5" width="30" height="30" class="fill"/>
+</svg>

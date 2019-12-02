@@ -1,11 +1,11 @@
 @import "settings";
 
-.ripple-effect {
+@mixin ripple-effect($background-color) {
   background-position: center;
   transition: background 0.4s;
 
   &:hover {
-    background: $color-tile radial-gradient(circle, transparent 1%, $color-tile 1%) center/12000%;
+    background: $background-color radial-gradient(circle, transparent 1%, $background-color 1%) center/12000%;
   }
 
   &:active {
@@ -13,4 +13,8 @@
     background-size: 100%;
     transition: background 0s;
   }
+}
+
+.ripple-effect {
+  @include ripple-effect($color-background);
 }

@@ -3,14 +3,14 @@ import "reflect-metadata";
 import Vue from "vue";
 import VueRouter from "vue-router";
 import {container} from "@app/ui/ioc";
-import {logger} from "@app/common/logging";
 import Playground from "./playground.vue";
 import {routes} from "./routes";
-
-declare var global: any;
-global.logger = logger;
+import {SitemapState} from "@app/api";
+import {FakeSitemapState} from "./fakes/fake-sitemap-state";
 
 container.makeGlobal();
+container.registerSingleton(SitemapState, FakeSitemapState);
+
 Vue.use(VueRouter);
 
 global.document.addEventListener("DOMContentLoaded", () => {

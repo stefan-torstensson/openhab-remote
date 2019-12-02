@@ -176,12 +176,9 @@
     const log = logger.get(ScalingList);
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     @import "~settings";
-
-    .list-heading {
-        text-decoration: underline;
-    }
+    @import "@app/style/ripple-effect";
 
     ul.widget-list {
         padding: 0;
@@ -209,6 +206,10 @@
             position: relative;
         }
 
+        .list-heading {
+            text-decoration: underline;
+        }
+
         &.no-heading li:first-child {
             margin-top: 33%;
         }
@@ -216,6 +217,11 @@
         li:last-child {
             margin-bottom: 33%;
         }
+
+        .ripple-effect {
+            @include ripple-effect($color-tile);
+        }
+
     }
 
     .widget-list_item {

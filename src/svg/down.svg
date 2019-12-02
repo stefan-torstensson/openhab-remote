@@ -1,0 +1,12 @@
+<svg class="svg-icon" viewBox="0 0 40 20"  preserveAspectRatio="xMidYMid meet"
+     xmlns="http://www.w3.org/2000/svg">
+    <style>
+        * {
+            stroke-width:4;
+            stroke: blue;
+            background: transparent;
+            fill :none;
+        }
+    </style>
+    <polyline points="5 5 20 15 35 5"/>
+</svg>
