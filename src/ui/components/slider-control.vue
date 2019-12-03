@@ -20,6 +20,7 @@
     import Vue from "vue";
     import CircularSlider from "./circular-slider.vue";
     import SwipeListener from "swipe-listener";
+    import {Capability, SystemInfo} from "@app/tizen/system-info";
 
     enum Direction {
         Up = 1,
@@ -71,18 +72,20 @@
 
         mounted() {
             this.pubsub.$on("bezelRotation", this.bezelRotation);
-            this.swipeListener = new SwipeListener(this.touchSource, {lockAxis: true});
-            this.touchSource.addEventListener("swiping", this.onSwiping as EventListener);
-            this.touchSource.addEventListener("swiperelease", this.onSwipeRelease);
+            if (!SystemInfo.instance.has(Capability.BEZEL_SUPPORT)) {
+                this.swipeListener = new SwipeListener(this.touchSource, {lockAxis: true});
+                this.touchSource.addEventListener("swiping", this.onSwiping as EventListener);
+                this.touchSource.addEventListener("swiperelease", this.onSwipeRelease);
+            }
         }
 
         destroyed() {
             this.pubsub.$off("bezelRotation", this.bezelRotation);
-            this.touchSource.removeEventListener("swiping", this.onSwiping as EventListener);
-            this.touchSource.removeEventListener("swiperelease", this.onSwipeRelease);
-
             if (this.swipeListener) {
+                this.touchSource.removeEventListener("swiping", this.onSwiping as EventListener);
+                this.touchSource.removeEventListener("swiperelease", this.onSwipeRelease);
                 this.swipeListener.off();
+                this.swipeListener = null;
             }
         }
 

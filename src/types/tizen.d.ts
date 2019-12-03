@@ -6,6 +6,11 @@ declare namespace org.tizen {
     interface Tizen {
         application: ApplicationManager;
         filesystem: FileSystemManager;
+        systeminfo: SystemInfo;
+    }
+
+    interface SystemInfo {
+        getCapability(key: string): any;
     }
 
     interface ApplicationManager {

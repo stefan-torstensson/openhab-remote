@@ -1,7 +1,10 @@
+import Tizen = org.tizen.Tizen;
+
 declare var global: AppGlobal;
 
 interface AppGlobal extends Window {
     __logLevel: number;
+    tizen: Tizen;
 }
 
 declare module "*.vue" {

@@ -2,6 +2,8 @@ require("reflect-metadata");
 require('jsdom-global')();
 const Vue = require("vue");
 const {Request, Response, Headers} = require("node-fetch");
+require("../src/debug/tizen-stub");
+
 // Disable Vue development console warnings
 Vue.config.devtools = false;
 Vue.config.productionTip  = false;
