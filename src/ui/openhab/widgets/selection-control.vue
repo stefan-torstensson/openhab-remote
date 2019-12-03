@@ -1,41 +1,29 @@
 <template>
     <div class="fill-available-space">
-        <option-list v-model="value" :options="options" :heading="label"></option-list>
+        <div :is="component" :widget="widget"></div>
     </div>
 </template>
 
 <script lang="ts">
     import Component from "vue-class-component";
     import WidgetControl from "./widget-control";
-    import {default as OptionList, SelectOption} from "@app/ui/components/option-list.vue";
+    import RollerShutter from "./selection/roller-shutter.vue";
+    import OptionList from "./selection/option-list.vue";
+    import PlayerControl from "./selection/player-control.vue";
 
-    const ROLLERSHUTTER = "Rollershutter";
-    const ROLLERSHUTTER_OPTIONS = [
-        new SelectOption("UP", "Up"),
-        new SelectOption("STOP", "Stop"),
-        new SelectOption("DOWN", "Down")
-    ];
-
-    @Component({
-        components: {OptionList}
-    })
+    @Component({})
     export default class SelectionControl extends WidgetControl {
 
-        get options() {
-            if (ROLLERSHUTTER.localeCompare(this.item.type) === 0) {
-                return ROLLERSHUTTER_OPTIONS;
+        get component(): new (...args: any[]) => WidgetControl {
+            switch (this.item && this.item.type) {
+                case "Rollershutter":
+                    return RollerShutter;
+                case "Player":
+                    return PlayerControl;
+                default:
+                    return OptionList;
             }
-            return this.widget.mappings.map(m => new SelectOption(m.command, m.label));
         }
-
-        get value(): string {
-            return this.state;
-        }
-
-        set value(value: string) {
-            this.setState("" + value);
-        }
-
     }
 
 </script>

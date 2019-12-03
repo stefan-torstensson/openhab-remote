@@ -1,13 +1,13 @@
 <template>
-    <multi-select :options="options" v-model="selected" single-select></multi-select>
+    <option-list :options="options" v-model="selected" single-select></option-list>
 </template>
 
 <script lang="ts">
     import Vue from "vue";
     import {Component} from "vue-property-decorator";
-    import {default as MultiSelect, SelectOption} from "@app/ui/components/option-list.vue";
+    import {OptionList, SelectOption} from "@app/ui/components";
 
-    @Component({components: {MultiSelect}})
+    @Component({components: {OptionList}})
     export default class MultiSelectSample extends Vue {
 
         selected: string = "2";

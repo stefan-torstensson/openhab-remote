@@ -54,13 +54,16 @@
 
 <template>
     <slider-control v-model="value" :step-size="stepSize" :max-value="maxValue" :min-value="minValue">
-        <div class="setpoint_label">{{label}}</div>
-        <div class="setpoint_value">{{displayValue}}</div>
+        <div class="center-text center-vertically">
+            <div class="setpoint_label">{{label}}</div>
+            <div class="setpoint_value">{{displayValue}}</div>
+        </div>
     </slider-control>
 </template>
 
 <style lang="scss" scoped>
     @import "~settings";
+
     .setpoint_label {
         font-size: .8em;
         text-decoration: underline;
@@ -69,6 +72,7 @@
         margin: 0 40px;
         text-overflow: ellipsis;
     }
+
     .setpoint_value {
         padding-bottom: 50px;
         padding-top: 20px;

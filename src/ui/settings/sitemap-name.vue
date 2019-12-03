@@ -7,8 +7,7 @@
     import {Component, Watch} from "vue-property-decorator";
     import {SitemapClient} from "@app/api";
     import {Inject} from "@app/ui/ioc";
-    import {OptionList, ScalingList, ScalingListItem} from "@app/ui/components";
-    import {SelectOption} from "@app/ui/components/option-list.vue";
+    import {OptionList, ScalingList, ScalingListItem, SelectOption} from "@app/ui/components";
     import {AppSettings} from "@app/configuration/app-settings";
     import {AppEvent, PubSub} from "@app/ui/event-bus";
 

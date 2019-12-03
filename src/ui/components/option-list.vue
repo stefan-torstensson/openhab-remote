@@ -20,16 +20,7 @@
     import ScalingList from "./scaling-list.vue";
     import ScalingListItem from "./scaling-list-item.vue";
     import {ToggleIcon} from "@app/svg";
-
-    export class SelectOption {
-        private value: string;
-        private label: string;
-
-        constructor(value: string, label: string) {
-            this.value = value;
-            this.label = label;
-        }
-    }
+    import {SelectOption} from "./select-option";
 
     @Component({
         components: {ScalingList, ScalingListItem, ToggleIcon}

@@ -25,7 +25,7 @@ describe("WidgetMapper tests", () => {
 
         describe("when config ", () => {
             beforeEach(() => {
-                mapper = new WidgetMapper({"Foo": {single: () => SingleControl, list: ListControl}});
+                mapper = new WidgetMapper({"Foo": {single: SingleControl, list: ListControl}});
             });
 
             it("should return null when no mapping matches", () => {

@@ -1,13 +1,13 @@
 <template>
-    <div class="slider-control">
-        <circular-slider :value="normalizedValue"></circular-slider>
+    <div class="slider-control fill-available-space">
         <div class="touch-source" ref="touchSource">
-            <div class="content center-text center-vertically">
-                <slot>
+            <slot>
+                <div class="center-text center-vertically">
                     {{renderValue}}
-                </slot>
-            </div>
+                </div>
+            </slot>
         </div>
+        <circular-slider :value="normalizedValue" class="slider-control_slider"></circular-slider>
     </div>
 </template>
 
@@ -141,20 +141,20 @@
 <style lang="scss" scoped>
     .slider-control {
         position: relative;
+
+        &_slider {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
     }
 
     .touch-source {
+        user-select: none;
         position: absolute;
-        top: 0;
-        left: 0;
         width: 100%;
         height: 100%;
     }
 
-    .content {
-        pointer-events: none;
-        position: absolute;
-        width: 100%;
-    }
 </style>
 
