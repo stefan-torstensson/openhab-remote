@@ -36,7 +36,7 @@ describe("EventSourceListener tests", () => {
         });
 
         it("should throw if start is called while already started", () => {
-            expect(() => listener.start("")).to.throw(Error, "already started");
+            return expect(() => listener.start("")).to.throw(Error, "already started");
         });
 
         describe("when stopped", () => {

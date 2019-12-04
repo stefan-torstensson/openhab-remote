@@ -14,8 +14,11 @@ import {findWidgetById} from "./widget-utils";
 export abstract class SitemapState {
     abstract pageTitle: string;
     abstract readonly widgets: Widget[];
+
     abstract stop(): void;
+
     abstract setActivePage(sitemapName: string, pageId: string): Promise<void>;
+
     abstract postUpdate(item: Item, state: string): Promise<void> ;
 }
 
@@ -70,11 +73,22 @@ export class OpenhabSitemapState implements SitemapState {
 
     private async getPage(sitemapName: string, pageId: string): Promise<Page> {
         try {
-            return await this.client.getPage(sitemapName, pageId, this.sitemapSubscriber.subscriptionId);
+            // Sitemap subscriptions seems very much implemented with BasicUI in mind.
+
+            // 1. A subscription is required to get sitemap updates
+            const subscriptionId = await this.sitemapSubscriber.getSubscriptionId();
+
+            // 2. The page request needs the subscriptionId to attach the page to the subscription
+            const page = await this.client.getPage(sitemapName, pageId, subscriptionId);
+
+            // 3. The subscription isn't valid until a page has been attached.
+            this.sitemapSubscriber.start();
+
+            return page;
         } catch (e) {
             if (e instanceof ResponseError && e.statusCode === 400) {
-                await this.sitemapSubscriber.refreshSubscription();
-                return await this.client.getPage(sitemapName, pageId, this.sitemapSubscriber.subscriptionId);
+                await this.sitemapSubscriber.stop();
+                return await this.client.getPage(sitemapName, pageId);
             }
             throw e;
         }
@@ -84,7 +98,6 @@ export class OpenhabSitemapState implements SitemapState {
         if (!this.sitemap || this.sitemap.name !== name) {
             this.sitemap = await this.client.getSitemap(name);
         }
-        await this.sitemapSubscriber.subscribeTo(this.sitemap.name, this.sitemap.homepage.id);
         return this.sitemap;
     }
 
@@ -97,9 +110,11 @@ export class OpenhabSitemapState implements SitemapState {
         this.log.debug(`Updating ${e.widgetId} on page ${e.pageId}`);
         if (this.currentPage && this.currentPage.id === e.pageId) {
             const widget = findWidgetById(this.widgets, e.widgetId);
-            assign(widget.item, e.item);
-            if (widget.label !== e.label) {
-                widget.label = e.label;
+            if (widget && widget.item) {
+                assign(widget.item, e.item);
+                if (widget.label !== e.label) {
+                    widget.label = e.label;
+                }
             }
         }
     }
