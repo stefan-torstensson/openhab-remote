@@ -17,10 +17,6 @@
         left: 0;
         width: 100%;
         height: 100%;
-
-        .circular-slider__path {
-            stroke: #0090FF;
-        }
     }
 
     .notification-area {

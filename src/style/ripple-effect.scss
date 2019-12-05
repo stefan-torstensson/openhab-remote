@@ -9,7 +9,7 @@
   }
 
   &:active {
-    background-color: #0090FF;
+    background-color: $color-action;
     background-size: 100%;
     transition: background 0s;
   }

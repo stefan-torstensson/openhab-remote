@@ -1,7 +1,17 @@
 <template>
-    <progress-indicator :class="{hidden: !running}" :width="1" :start="progressStart" :end="progressEnd"
+    <progress-indicator class="progress-indicator" :class="{hidden: !running}" :width="1" :start="progressStart" :end="progressEnd"
                         :show-bg="false"></progress-indicator>
 </template>
+
+<style lang="scss">
+    @import "~settings";
+
+    .progress-indicator {
+        .circular-slider__path {
+            stroke: $color-action;
+        }
+    }
+</style>
 
 <script lang="ts">
     import ProgressIndicator from "./progress-indicator.vue";
