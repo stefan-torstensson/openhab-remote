@@ -39,7 +39,8 @@ export class JsonResponseParser implements ResponseParser {
         } catch (e) {
             return false;
         }
-        return (data.version === "1" && data.links);
+        const version = parseInt(data.version, 10);
+        return !!(version >= 1 && version <= 3 && data.links);
     }
 }
 
