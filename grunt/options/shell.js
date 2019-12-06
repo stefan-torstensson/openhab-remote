@@ -7,7 +7,7 @@ class TizenTools {
     }
     
     get tizenHome() {
-        return process.env["TIZEN_HOME"] || grunt.fail.fatal(
+        return process.env["TIZEN_HOME"] || this.grunt.fail.fatal(
             "TIZEN_HOME must be set to the installation path of Tizen Studio");
     }
     
