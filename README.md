@@ -24,6 +24,8 @@ Any other element type will be ignored when rendering and won't show up.
 ![Main screen](screenshots/main-screen.png)
 ![Switch control](screenshots/switch.png)
 ![Dimmer control](screenshots/dimmer.png)
+![Media player control](screenshots/media-player.png)
+![Roller shutter control](screenshots/roller-shutter.png)
 
 ## Developing
 Development is best done in a local browser and your editor/IDE of choice supporting modern web technology.
