@@ -17,7 +17,6 @@
   label {
     display: block;
     width: 100%;
-    //white-space: nowrap;
   }
 
   &_text {
@@ -48,7 +47,7 @@
     width: 40px;
     height: 40px;
     left: 0;
-    color: $color-accent;
+    color: $color-active;
     margin-left: 15px;
     text-align: center;
   }

@@ -5,7 +5,7 @@
   transition: background 0.4s;
 
   &:hover {
-    background: $background-color radial-gradient(circle, transparent 1%, $background-color 1%) center/12000%;
+    background: $background-color radial-gradient(circle, transparent 0.7%, $background-color 1%) center/12000%;
   }
 
   &:active {

@@ -66,7 +66,6 @@
 
     .setpoint_label {
         font-size: .8em;
-        text-decoration: underline;
         white-space: nowrap;
         overflow: hidden;
         margin: 0 40px;
@@ -76,5 +75,6 @@
     .setpoint_value {
         padding-bottom: 50px;
         padding-top: 20px;
+        color: $color-active;
     }
 </style>
