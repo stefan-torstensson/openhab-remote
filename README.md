@@ -1,20 +1,18 @@
 # Remote for openHAB
 
-OpenHAB UI for Samsung Gear and Galaxy Watches
-
 Unofficial UI for [openHAB](https://www.openhab.org/) running on Tizen based Samsung smart watches,
 i.e. the Gear and Galaxy line of smart watches with a circular display.
 The UI is implemented with [Vue.js](https://vuejs.org/) and uses the openHAB REST API to retrieve a 
 [sitemap](https://www.openhab.org/docs/configuration/sitemaps.html) which is then rendered on the watch.
 
 Currently the following sitemap element types are supported:
-* Frame
-* Group 
-* Selection 
-* Setpoint 
-* Slider 
-* Switch 
-* Text
+* _Frame_ - Displays a heading before its contents
+* _Group_ - Displays the label and links to a sub-view
+* _Text_ - Behaves like the Group element
+* _Switch_ - Renders an on/off toggle or shows a list of options. Rollershutter and Player have custom rendering. 
+* _Selection_ - Renders a list of options.  
+* _Setpoint_ - Shows a slider and the value. Changes are done by rotating the bezel.
+* _Slider_ - Behaves like Setpoint
 
 Any other element type will be ignored when rendering and won't show up. 
 
