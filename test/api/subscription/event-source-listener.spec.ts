@@ -1,19 +1,24 @@
 import {expect, sinon} from "test-env";
-import {StubbedInstance, stubInterface} from "ts-sinon";
+import {StubbedInstance, stubConstructor, stubInterface} from "ts-sinon";
 
 import {EventSourceFactory, EventSourceListener} from "@app/api/subscription/event-source-listener";
 import {SinonSpy} from "sinon";
+import {AuthenticationProvider} from "@app/api/authentication/basic-authentication";
+import {ExtendedEventSourceInit} from "event-source-polyfill";
 
 describe("EventSourceListener tests", () => {
     let eventSourceStub: StubbedInstance<EventSource>;
     let factoryStub: StubbedInstance<EventSourceFactory>;
+    let authProviderStub: StubbedInstance<AuthenticationProvider>;
     let listener: EventSourceListener;
 
     beforeEach(() => {
         eventSourceStub = stubInterface<EventSource>();
         factoryStub = stubInterface<EventSourceFactory>();
+        authProviderStub = stubConstructor<AuthenticationProvider>(AuthenticationProvider);
+        authProviderStub.setHeader.returns(new Headers());
         factoryStub.create.returns(eventSourceStub);
-        listener = new EventSourceListener(factoryStub);
+        listener = new EventSourceListener(factoryStub, authProviderStub);
     });
 
     describe("when listener is started", () => {
@@ -22,7 +27,10 @@ describe("EventSourceListener tests", () => {
         });
 
         it("should use factory to create event source", () => {
-            expect(factoryStub.create).to.have.been.calledWith("some url");
+            expect(factoryStub.create).to.have.been.calledWith("some url", {
+                heartbeatTimeout: 360000,
+                headers: {}
+            } as ExtendedEventSourceInit);
         });
 
         it("should add event listeners to event source", () => {
@@ -82,6 +90,20 @@ describe("EventSourceListener tests", () => {
                 eventCb("something happened");
                 expect(onEvent).to.have.been.calledWith("something happened");
             });
+        });
+    });
+
+    describe("when auth credentials is configured", () => {
+        beforeEach(() => {
+            authProviderStub.setHeader.returns(new Headers({auth: "credentials"}));
+            listener.start("url");
+        });
+
+        it("should initialize event source with auth headers ", () => {
+            expect(factoryStub.create).to.have.been.calledWith("url", {
+                heartbeatTimeout: 360000,
+                headers: {auth: "credentials"}
+            } as ExtendedEventSourceInit);
         });
     });
 });

@@ -8,9 +8,12 @@ import {SinonStub} from "sinon";
 import {Sitemap} from "@app/api/openhab-types";
 import {NetworkError, ResponseError} from "@app/common/application-error";
 import {LogLevel} from "@app/common/logging";
+import {StubbedInstance, stubConstructor} from "ts-sinon";
+import {AuthenticationProvider} from "@app/api/authentication/basic-authentication";
 
 describe("SitemapClient tests", () => {
     let fetchMock: SinonStub;
+    let authProviderStub: StubbedInstance<AuthenticationProvider>;
     let logLevel: LogLevel;
     let client: SitemapClient;
 
@@ -25,6 +28,8 @@ describe("SitemapClient tests", () => {
 
     beforeEach(() => {
         fetchMock = sinon.stub();
+        authProviderStub = stubConstructor<AuthenticationProvider>(AuthenticationProvider);
+        // authProviderStub.setHeader.returns(new Headers());
         const appSettings: AppSettings = {
             remoteUrl: "http://foo.bar",
             sitemapName: "dev",
@@ -32,14 +37,14 @@ describe("SitemapClient tests", () => {
             password: ""
         };
 
-        client = new SitemapClient(fetchMock, new JsonResponseParser(JSON), new PubSub(), appSettings);
+        client = new SitemapClient(fetchMock, new JsonResponseParser(JSON), new PubSub(), appSettings, authProviderStub);
 
     });
 
     describe("verifyUrl", () => {
 
         beforeEach(() => {
-            client = new SitemapClient(fetchMock, new JsonResponseParser(JSON), null, null);
+            client = new SitemapClient(fetchMock, new JsonResponseParser(JSON), null, null, authProviderStub);
         });
 
         it("null is not a valid url", async () => {
@@ -63,7 +68,7 @@ describe("SitemapClient tests", () => {
                 links: [{}]
             });
             fetchMock
-                .withArgs("http://foobar/rest/")
+                .withArgs(sinon.match.has("url", "http://foobar/rest/"))
                 .returns(Promise.resolve(new Response(body)));
             const result = await client.verifyUrl("http://foobar");
             expect(result).to.equal(VerificationResult.OK);
@@ -71,9 +76,10 @@ describe("SitemapClient tests", () => {
 
         it("should return NOT_OPENHAB for unknown response", async () => {
             fetchMock
-                .withArgs("http://foobar/rest/")
+                .withArgs(sinon.match.has("url", "http://foobar/rest/"))
                 .returns(Promise.resolve(new Response("<html></html>")));
             const result = await client.verifyUrl("http://foobar");
+            console.log(fetchMock.firstCall.args);
             expect(result).to.equal(VerificationResult.NOT_OPENHAB);
         });
     });
@@ -203,7 +209,6 @@ describe("SitemapClient tests", () => {
                 expect(request.url).to.equal("http://foo.bar/rest/sitemaps/home/default?subscriptionid=123");
                 expect(request.method).to.equal("GET");
             });
-
         });
     });
 });

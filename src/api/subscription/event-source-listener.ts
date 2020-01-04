@@ -1,25 +1,30 @@
 import {logger} from "@app/common/logging";
 import {inject} from "aurelia-dependency-injection";
+import {EventSourcePolyfill as EventSource, ExtendedEventSourceInit} from "event-source-polyfill";
+import {AuthenticationProvider, BasicAuthentication} from "@app/api/authentication/basic-authentication";
 
 export interface EventSourceFactory {
-    create(url: string, initDict?: EventSourceInit): EventSource;
+    create(url: string, initDict?: ExtendedEventSourceInit): EventSource;
 }
 
 class DefaultEventSourceFactory implements EventSourceFactory {
-    create(url: string, initDict?: EventSourceInit): EventSource {
+    create(url: string, initDict?: ExtendedEventSourceInit): EventSource {
         return new EventSource(url, initDict);
     }
 }
 
-@inject(DefaultEventSourceFactory)
+@inject(DefaultEventSourceFactory, BasicAuthentication)
 export class EventSourceListener {
+    private static HEARTBEAT_TIMEOUT = 6 * 60 * 1000; // 6 minutes, OH sends a beat every 5 minutes.
     private readonly log = logger.get(EventSourceListener);
-    private listener: (e: any) => void;
+    private readonly eventSourceFactory: EventSourceFactory;
+    private readonly authProvider: AuthenticationProvider;
     private eventSource: EventSource;
+    private listener: (e: any) => void;
     private errorListener: (e: any) => void;
-    private eventSourceFactory: EventSourceFactory;
 
-    constructor(eventSourceFactory: EventSourceFactory) {
+    constructor(eventSourceFactory: EventSourceFactory, authProvider: AuthenticationProvider) {
+        this.authProvider = authProvider;
         this.eventSourceFactory = eventSourceFactory;
     }
 
@@ -40,7 +45,10 @@ export class EventSourceListener {
             throw new Error("Event source listener already started");
         }
         this.log.info("Opening event source");
-        this.eventSource = this.eventSourceFactory.create(url);
+        this.eventSource = this.eventSourceFactory.create(url, {
+            heartbeatTimeout: EventSourceListener.HEARTBEAT_TIMEOUT,
+            headers: Object.fromEntries(this.authProvider.setHeader())
+        });
         this.eventSource.addEventListener("event", this.eventReceived);
         this.eventSource.addEventListener("error", this.onEventSourceError);
     }
@@ -64,6 +72,7 @@ export class EventSourceListener {
     }
 
     private eventReceived = (e: any) => {
+        this.log.info("Event received", e);
         if (this.listener) {
             this.listener(e);
         }

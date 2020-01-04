@@ -23,13 +23,15 @@ module.exports = env => merge(common(env), {
         new HtmlPlugin({
             filename: 'index.html',
             template: 'src/index.ejs',
-            chunks: ['vendors', 'main', 'debug'],
+            chunks: ['vendors', 'debug',  'main'],
+            chunksSortMode: 'manual',
             templateParameters
         }),
         new HtmlPlugin({
             filename: 'playground.html',
             template: 'src/index.ejs',
-            chunks: ['vendors', 'playground', 'debug'],
+            chunks: ['vendors', 'debug', 'playground'],
+            chunksSortMode: 'manual',
             templateParameters
         })
     ]

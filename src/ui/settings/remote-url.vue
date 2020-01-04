@@ -1,16 +1,11 @@
 <template>
     <page>
-        <template v-slot:header>
-            <div class="center-text page_heading">
-                openHAB Url
-            </div>
-        </template>
-
-        <div class="url-content">
-            <input type="url" class="url-content_input" v-model="url"
-                   placeholder="https://example.com">
-            <div class="url-content_error">{{errorMessage}}</div>
-        </div>
+        <form-input class="remote-url_input" v-model="url" label="openHAB URL"
+                    placeholder="https://example.com"></form-input>
+        <form-input class="remote-url_input" v-model="username" label="Username"></form-input>
+        <form-input class="remote-url_input" v-model="password" label="Password"
+                    :type="maskedPassword?'password':'text'"></form-input>
+        <div class="remote-url_error" ref="errorMessage">{{errorMessage}}</div>
 
         <template v-slot:footer>
             <arc-button position="bottom" @click="save()">
@@ -23,22 +18,24 @@
 <script lang="ts">
     import Vue from "vue";
     import {Component, Watch} from "vue-property-decorator";
-    import {ArcButton, Page} from "@app/ui/components";
+    import {ArcButton, Page, FormInput} from "@app/ui/components";
     import {Inject} from "@app/ui/ioc";
     import {SitemapClient} from "@app/api";
     import {AppSettings} from "@app/configuration/app-settings";
     import {VerificationResult} from "@app/api/sitemap-client";
     import {AppEvent, PubSub} from "@app/ui/event-bus";
+    import {isNullOrEmpty} from "@app/common/string-utils";
 
     const messageMap: { [k: number]: string } = {};
-    messageMap[VerificationResult.NETWORK_ERROR] = "Network Error. Make sure you're online and the host is available on the current network.";
+    messageMap[VerificationResult.NETWORK_ERROR] = "Network Error. Make sure you're online and the host is available on the current network";
     messageMap[VerificationResult.BAD_RESPONSE] = "The server responded with an error";
     messageMap[VerificationResult.NOT_OPENHAB] = "Remote does not look like openHAB 2.3+";
     messageMap[VerificationResult.INVALID_URL] = "Invalid Url format";
+    messageMap[VerificationResult.PERMISSION_DENIED] = "Permission denied. Invalid username or password";
 
 
     @Component({
-        components: {Page, ArcButton}
+        components: {Page, ArcButton, FormInput}
     })
     export default class RemoteUrl extends Vue {
         @Inject(SitemapClient)
@@ -50,12 +47,18 @@
         @Inject(PubSub)
         private pubSub: PubSub;
 
+        private maskedPassword: boolean = true;
         private url: string = "";
+        private username: string = "";
+        private password: string = "";
 
         private errorMessage: string = "";
 
         mounted() {
             this.url = this.appSettings.remoteUrl;
+            this.password = this.appSettings.password;
+            this.username = this.appSettings.username;
+            this.maskedPassword = !isNullOrEmpty(this.password);
         }
 
         @Watch("url")
@@ -63,46 +66,60 @@
             this.errorMessage = "";
         }
 
+        @Watch("password")
+        private unmaskPassword(password: string) {
+            if (isNullOrEmpty(password)) {
+                this.maskedPassword = false;
+            }
+        }
+
         private async save() {
             if (!this.url) {
                 return;
             }
+            const hasCredentials = !isNullOrEmpty(this.username) || !isNullOrEmpty(this.password);
             if (!this.url.includes("://")) {
-                this.url = "http://" + this.url;
+                this.url = (hasCredentials ? "https://" : "http://") + this.url;
             }
-            const result = await this.sitemapClient.verifyUrl(this.url);
+            if (hasCredentials && !this.url.includes("https:")) {
+                this.showErrorMessage("HTTPS is required when using credentials");
+                return;
+            }
+            const result = await this.sitemapClient.verifyUrl(this.url, this.username, this.password);
             if (result === VerificationResult.OK) {
                 if (this.appSettings.remoteUrl !== this.url) {
                     this.appSettings.sitemapName = null;
                 }
                 this.appSettings.remoteUrl = this.url;
+                this.appSettings.username = this.username;
+                this.appSettings.password = this.password;
                 this.pubSub.$emit(AppEvent.NAVIGATE_BACK);
             } else {
-                this.errorMessage = messageMap[result];
+                this.showErrorMessage(messageMap[result]);
             }
+        }
+
+        private showErrorMessage(message: string) {
+            this.errorMessage = message;
+            this.$nextTick(() => {
+                const errorDiv = this.$refs.errorMessage as HTMLElement;
+                errorDiv.parentElement.scrollTop = errorDiv.parentElement.scrollHeight;
+            });
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    @import '~settings';
+    @import "~settings";
 
-    .url-content {
-        position: relative;
-        margin-top: 40px;
-
+    .remote-url {
         &_error {
             font-size: .8em;
             color: $color-alert;
         }
 
         &_input {
-            width: 100%;
-            background: $color-background;
-            color: $color-primary;
-            font-size: inherit;
-            border: none;
-            border-bottom: 2px solid $color-primary;
+            margin: 20px 0;
         }
     }
 

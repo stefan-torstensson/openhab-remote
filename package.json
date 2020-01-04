@@ -21,6 +21,7 @@
         "aurelia-dependency-injection": "^1.5.2",
         "core-js": "^3.4.2",
         "debounce-decorator": "^1.0.6",
+        "event-source-polyfill": "^1.0.11",
         "reflect-metadata": "^0.1.13",
         "sprintf-js": "^1.1.2",
         "swipe-listener": "^1.1.0",

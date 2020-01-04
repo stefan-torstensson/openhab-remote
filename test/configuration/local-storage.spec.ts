@@ -1,24 +1,22 @@
-import {expect, sinon} from "test-env";
+import {expect} from "test-env";
 import {LocalStorage} from "@app/configuration";
+import {JsonSerializer} from "@app/configuration/json-serializer";
+import {StubbedInstance, stubInterface} from "ts-sinon";
 
 describe("LocalStorage tests", () => {
-    let localStorage: any;
+    let localStorageStub: StubbedInstance<Storage>;
     let storage: LocalStorage;
 
     beforeEach(() => {
-        localStorage = {
-            getItem: sinon.stub(),
-            setItem: sinon.stub(),
-            removeItem: sinon.stub()
-        };
-        storage = new LocalStorage(localStorage as Storage);
+        localStorageStub = stubInterface<Storage>();
+        storage = new LocalStorage(localStorageStub as Storage, new JsonSerializer());
     });
 
     describe("get", () => {
 
         it("should return deserialized data from backing storage", () => {
             const data = {key: "value", key2: 3};
-            localStorage.getItem.withArgs("key").returns(JSON.stringify(data));
+            localStorageStub.getItem.withArgs("key").returns(JSON.stringify(data));
 
             const result = storage.get("key");
             expect(result).to.deep.equal(data);
@@ -26,7 +24,7 @@ describe("LocalStorage tests", () => {
 
         it("should deserialize to type", () => {
             const d = new DataObject(3, "text");
-            localStorage.getItem.withArgs("key").returns(JSON.stringify(d));
+            localStorageStub.getItem.withArgs("key").returns(JSON.stringify(d));
 
             const result = storage.get("key", DataObject);
             expect(result).to.be.instanceOf(DataObject);
@@ -41,12 +39,12 @@ describe("LocalStorage tests", () => {
         it("should serialize data to backing storage", () => {
             const data = {key: "value", key2: 3};
             storage.set("key", data);
-            expect(localStorage.setItem).to.have.been.calledOnceWith("key", JSON.stringify(data));
+            expect(localStorageStub.setItem).to.have.been.calledOnceWith("key", JSON.stringify(data));
         });
 
         it("should serialize type to backing storage", () => {
             storage.set("key", new DataObject(3, "value"));
-            expect(localStorage.setItem).to.have.been.calledOnceWith(
+            expect(localStorageStub.setItem).to.have.been.calledOnceWith(
                 "key", `{"_numberField":3,"_stringField":"value"}`);
         });
 
@@ -55,7 +53,7 @@ describe("LocalStorage tests", () => {
     describe("remove", () => {
         it("should remove entry from backing storage", () => {
             storage.remove("key");
-            expect(localStorage.removeItem).to.have.been.calledOnceWith("key");
+            expect(localStorageStub.removeItem).to.have.been.calledOnceWith("key");
         });
     });
 

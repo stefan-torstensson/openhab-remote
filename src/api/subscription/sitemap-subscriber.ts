@@ -79,7 +79,7 @@ export class OpenhabSitemapSubscriber extends SitemapSubscriber {
         this.log.info(`Creating subscription`);
         let response: SubscriptionResponse;
         try {
-            response = await this._sitemapClient.post("sitemaps/events/subscribe");
+            response = await this._sitemapClient.post("sitemaps/events/subscribe", {});
         } catch (e) {
             this.log.warn("Failed creating subscription", e);
             return null;

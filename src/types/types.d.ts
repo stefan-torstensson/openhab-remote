@@ -21,4 +21,17 @@ declare module "url";
 declare module "debounce-decorator";
 declare module "swipe-listener";
 
+declare module "event-source-polyfill" {
+    interface KeyValueHeaders {
+        [key: string]: string;
+    }
+    export interface ExtendedEventSourceInit extends EventSourceInit {
+        headers: KeyValueHeaders;
+        heartbeatTimeout: number;
+    }
+    export class EventSourcePolyfill extends EventSource{
+        constructor(url: string, initDict?: ExtendedEventSourceInit);
+    }
+}
+
 type Fetch = (input: string|RequestInfo|Request, init?: RequestInit) => Promise<Response>;

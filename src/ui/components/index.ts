@@ -12,3 +12,4 @@ export {default as Page} from "./page.vue";
 export {default as SettingsButton} from "./settings-button.vue";
 export {default as NotificationArea} from "./notification-area.vue";
 export {SelectOption} from "./select-option";
+export {default as FormInput} from "./form-input.vue";
