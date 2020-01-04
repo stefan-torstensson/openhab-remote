@@ -1,4 +1,5 @@
 @import "settings";
+@import "theming";
 
 @mixin ripple-effect($background-color) {
   background-position: center;
@@ -9,7 +10,7 @@
   }
 
   &:active {
-    background-color: $color-action;
+    @include theme-color-ripple("background-color");
     background-size: 100%;
     transition: background 0s;
   }

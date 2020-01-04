@@ -1,4 +1,4 @@
-@import "settings";
+@import "theming";
 
 @mixin center-vertically {
   position: absolute;
@@ -39,7 +39,7 @@
     font-size: 80%;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: $color-accent;
+    @include theme-color-accent();
   }
 
   &_icon {
@@ -47,9 +47,9 @@
     width: 40px;
     height: 40px;
     left: 0;
-    color: $color-active;
     margin-left: 15px;
     text-align: center;
+    @include theme-color-active();
   }
 }
 

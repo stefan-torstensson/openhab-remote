@@ -4,11 +4,11 @@
 </template>
 
 <style lang="scss">
-    @import "~settings";
+    @import "~theming";
 
     .progress-indicator {
         .circular-slider__path {
-            stroke: $color-action;
+            @include theme-color-ripple("stroke");
         }
     }
 </style>

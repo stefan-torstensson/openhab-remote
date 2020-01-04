@@ -22,8 +22,6 @@
 
         @Prop(String)
         state: string;
-
-
     }
 
 </script>

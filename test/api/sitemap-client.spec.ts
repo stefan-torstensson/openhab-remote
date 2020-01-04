@@ -29,22 +29,25 @@ describe("SitemapClient tests", () => {
     beforeEach(() => {
         fetchMock = sinon.stub();
         authProviderStub = stubConstructor<AuthenticationProvider>(AuthenticationProvider);
-        // authProviderStub.setHeader.returns(new Headers());
+
         const appSettings: AppSettings = {
             remoteUrl: "http://foo.bar",
             sitemapName: "dev",
             username: "",
-            password: ""
+            password: "",
+            theme: ""
         };
 
-        client = new SitemapClient(fetchMock, new JsonResponseParser(JSON), new PubSub(), appSettings, authProviderStub);
+        client = new SitemapClient(fetchMock, new JsonResponseParser(JSON),
+            new PubSub(), appSettings, authProviderStub);
 
     });
 
     describe("verifyUrl", () => {
 
         beforeEach(() => {
-            client = new SitemapClient(fetchMock, new JsonResponseParser(JSON), null, null, authProviderStub);
+            client = new SitemapClient(fetchMock, new JsonResponseParser(JSON),
+                null, null, authProviderStub);
         });
 
         it("null is not a valid url", async () => {
@@ -79,7 +82,6 @@ describe("SitemapClient tests", () => {
                 .withArgs(sinon.match.has("url", "http://foobar/rest/"))
                 .returns(Promise.resolve(new Response("<html></html>")));
             const result = await client.verifyUrl("http://foobar");
-            console.log(fetchMock.firstCall.args);
             expect(result).to.equal(VerificationResult.NOT_OPENHAB);
         });
     });

@@ -26,6 +26,7 @@
     import {Icon} from "@app/svg";
     import {AppEvent, PubSub} from "@app/ui/event-bus";
     import {RawLocation, Route} from "vue-router";
+    import {AVAILABLE_THEMES, getNameFromClass} from "@app/ui/settings/themes";
 
     @Component({
         components: {ListLabel, ScalingList, ScalingListItem, Icon}
@@ -48,6 +49,11 @@
                     path: "sitemap",
                     label: "Sitemap",
                     value: this.appSettings.sitemapName
+                },
+                {
+                    path: "theme",
+                    label: "Theme",
+                    value: getNameFromClass(AVAILABLE_THEMES, this.appSettings.theme)
                 },
                 {
                     path: "appinfo",

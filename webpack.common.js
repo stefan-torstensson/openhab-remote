@@ -54,6 +54,7 @@ module.exports = env => ({
             // 'vue$': 'vue/dist/vue.esm.js',
             '@app': SRC_PATH,
             'settings': path.join(SRC_PATH, 'style/_settings.scss'),
+            'theming': path.join(SRC_PATH, 'style/theming.scss'),
             'package.json': path.join(__dirname, 'package.json'),
             'test-env': path.join(TEST_PATH, 'test-env.ts')
         }

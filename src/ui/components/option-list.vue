@@ -1,11 +1,14 @@
 <template>
     <scaling-list :heading="heading">
         <scaling-list-item v-for="option in options" :key="option.value">
-            <div class="list-control list-item">
+            <div class="list-control list-item" :class="option.className">
                 <input type="radio" :id="'c_' + option.value" :value="option.value" :checked="isSelected(option.value)"
                        @change="changed">
                 <label :for="'c_' + option.value" tabindex="0" class="fill-available-space ripple-effect" >
-                    <span class="list-control_text">{{option.label}}</span>
+                    <span class="list-control_text">
+                        <span class="list-control_label">{{option.label}}</span>
+                        <span v-if="option.description" class="list-control_sublabel">{{option.description}}</span>
+                    </span>
                     <toggle-icon type="selected" :active="isSelected(option.value)"
                                  class="list-control_icon"></toggle-icon>
                 </label>

@@ -26,7 +26,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import "~settings";
+    @import "~theming";
 
     .svg-icon {
 
@@ -37,10 +37,10 @@
         }
 
         &.active {
-            stroke: $color-active;
+            @include theme-color-active("stroke");
 
             .fill {
-                fill: $color-active;
+                @include theme-color-active("fill");
             }
 
             .svg-icon_elem--active {

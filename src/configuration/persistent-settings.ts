@@ -32,7 +32,7 @@ export class PersistentSettings extends AppSettings {
         this.storage.set("sitemapName", value);
     }
 
-    get username() {
+    get username(): string {
         return this.secureStorage.get("username");
     }
 
@@ -40,7 +40,7 @@ export class PersistentSettings extends AppSettings {
         this.secureStorage.set("username", value);
     }
 
-    get password() {
+    get password(): string {
         return this.secureStorage.get("password");
     }
 
@@ -48,4 +48,11 @@ export class PersistentSettings extends AppSettings {
         this.secureStorage.set("password", value);
     }
 
+    get theme(): string {
+        return this.storage.get("theme");
+    }
+
+    set theme(value: string) {
+        this.storage.set("theme", value);
+    }
 }

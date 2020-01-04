@@ -1,5 +1,5 @@
 <template>
-    <div class="application-root">
+    <div class="application-root theme-red">
         <div class="fill-available-space">
             <router-view></router-view>
         </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="application-root">
+    <div class="application-root" :class="theme">
         <router-view/>
         <div class="settings-area center-vertically">
             <settings-button></settings-button>
@@ -43,6 +43,7 @@
     import {ApplicationError} from "@app/common/application-error";
     import {Route} from "vue-router";
     import LoadingIndicator from "@app/ui/components/loading-indicator.vue";
+    import {AppSettings} from "@app/configuration/app-settings";
 
     @Component({
         components: {LoadingIndicator, SettingsButton, Modal, NotificationArea}
@@ -51,7 +52,12 @@
         @Inject(PubSub)
         private pubsub: PubSub;
 
+        @Inject(AppSettings)
+        private appSettings: AppSettings;
+
         private loading: boolean = false;
+
+        private theme: string = "";
 
         get modal(): Modal {
             return this.$refs.modal as Modal;
@@ -62,10 +68,16 @@
             document.title = `OpenHab - ${route.path}`;
         }
 
+        setTheme() {
+            this.theme = this.appSettings.theme || "theme-blue";
+        }
+
         mounted() {
             this.setTitle(this.$route);
+            this.setTheme();
             this.pubsub.$on(ApplicationError.eventName, this.onAppError);
             this.pubsub.$on(AppEvent.LOADING_CHANGE, this.onLoadingChange);
+            this.pubsub.$on(AppEvent.THEME_CHANGE, this.setTheme);
         }
 
         onAppError(error: ApplicationError) {

@@ -34,13 +34,14 @@
 
 <style lang="scss" scoped>
     @import '~settings';
+    @import "~theming";
 
     .form-input {
         &_label {
             font-size: .75em;
             font-weight: normal;
             text-align: left;
-            color: $color-accent;
+            @include theme-color-accent();
         }
 
         &_input {

@@ -3,4 +3,5 @@ export abstract class AppSettings {
     public abstract sitemapName: string;
     public abstract username: string;
     public abstract password: string;
+    public abstract theme: string;
 }

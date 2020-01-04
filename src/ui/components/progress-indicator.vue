@@ -61,7 +61,7 @@
 </template>
 
 <style lang="scss" scoped>
-    @import '~settings';
+    @import "~theming";
 
     .circular-slider {
         line-height: 0;
@@ -75,8 +75,8 @@
 
         &__path {
             fill: none;
-            stroke: $color-accent;
             stroke-linecap: round;
+            @include theme-color-active("stroke");
         }
     }
 </style>

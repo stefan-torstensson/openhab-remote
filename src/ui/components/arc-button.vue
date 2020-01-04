@@ -21,6 +21,7 @@
 
 <style lang="scss">
     @import "~settings";
+    @import "~theming";
 
     .arc-button {
         position: relative;
@@ -33,7 +34,9 @@
             width: $screen-width;
             height: $screen-height;
             border-radius: 50%;
-            border: 100px solid $color-accent;
+            border-style: solid;
+            border-width: 100px;
+            @include theme-color-active("border-color");
         }
 
         &_content {

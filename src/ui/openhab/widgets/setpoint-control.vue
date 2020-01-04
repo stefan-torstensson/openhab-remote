@@ -62,7 +62,7 @@
 </template>
 
 <style lang="scss" scoped>
-    @import "~settings";
+    @import "~theming";
 
     .setpoint_label {
         font-size: .8em;
@@ -75,6 +75,6 @@
     .setpoint_value {
         padding-bottom: 50px;
         padding-top: 20px;
-        color: $color-active;
+        @include theme-color-accent();
     }
 </style>

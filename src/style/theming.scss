@@ -1,0 +1,57 @@
+$theme-colors: (
+  "blue":(
+    "accent": #64B5F6,
+    "active": #2196F3,
+    "ripple": #90CAF9
+  ),
+  "dark-blue":(
+    "accent": #24F,
+    "active": #02F,
+    "ripple": #4AF
+  ),
+  "cyan":(
+    "accent": #80DEEA,
+    "active": #26C6DA,
+    "ripple": #B2EBF2
+  ),
+  "red": (
+    "accent": #FF5252,
+    "active": #E53935,
+    "ripple": #EF9A9A
+  ),
+  "green": (
+    "accent": #81C784,
+    "active": #4CAF50,
+    "ripple": #A5D6A7
+  ),
+  "purple": (
+    "accent": #CE93D8,
+    "active": #AB47BC,
+    "ripple": #E1BEE7
+  ),
+  "orange": (
+    "accent": #FFB74D,
+    "active": #FF9800,
+    "ripple": #FFCC80
+  )
+);
+
+@mixin theme-color($variant, $propertyName: "color") {
+  @each $name, $theme in $theme-colors {
+    @at-root .theme-#{$name} &, .theme-#{$name}.list-item & {
+      #{$propertyName}: map_get($theme, $variant)
+    }
+  }
+}
+
+@mixin theme-color-active($propertyName: "color") {
+  @include theme-color("active", $propertyName);
+}
+
+@mixin theme-color-accent($propertyName: "color") {
+  @include theme-color("accent", $propertyName);
+}
+
+@mixin theme-color-ripple($propertyName: "color") {
+  @include theme-color("ripple", $propertyName);
+}
