@@ -72,12 +72,21 @@
             this.theme = this.appSettings.theme || "theme-blue";
         }
 
-        mounted() {
-            this.setTitle(this.$route);
-            this.setTheme();
+        created() {
             this.pubsub.$on(ApplicationError.eventName, this.onAppError);
             this.pubsub.$on(AppEvent.LOADING_CHANGE, this.onLoadingChange);
             this.pubsub.$on(AppEvent.THEME_CHANGE, this.setTheme);
+        }
+
+        beforeDestroy() {
+            this.pubsub.$off(ApplicationError.eventName, this.onAppError);
+            this.pubsub.$off(AppEvent.LOADING_CHANGE, this.onLoadingChange);
+            this.pubsub.$off(AppEvent.THEME_CHANGE, this.setTheme);
+        }
+
+        mounted() {
+            this.setTitle(this.$route);
+            this.setTheme();
         }
 
         onAppError(error: ApplicationError) {
