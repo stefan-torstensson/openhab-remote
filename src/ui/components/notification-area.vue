@@ -31,7 +31,7 @@
             this.pubSub.$on(AppEvent.SUBSCRIPTION_ACTIVE_CHANGE, this.subscriptionActiveChanged);
         }
 
-        destroyed() {
+        beforeDestroy() {
             this.pubSub.$off(AppEvent.ONLINE_CHANGE, this.onlineChanged);
             this.pubSub.$off(AppEvent.SUBSCRIPTION_ACTIVE_CHANGE, this.subscriptionActiveChanged);
         }

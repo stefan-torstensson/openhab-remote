@@ -15,7 +15,7 @@
 
     import {Component, Model, Prop} from "vue-property-decorator";
     import {Inject} from "../ioc";
-    import {PubSub} from "../event-bus";
+    import {AppEvent, PubSub} from "../event-bus";
     import Debounce from "debounce-decorator";
     import Vue from "vue";
     import CircularSlider from "./circular-slider.vue";
@@ -71,7 +71,7 @@
         }
 
         mounted() {
-            this.pubsub.$on("bezelRotation", this.bezelRotation);
+            this.pubsub.$on(AppEvent.BEZEL_ROTATION, this.bezelRotation);
             if (!SystemInfo.instance.has(Capability.BEZEL_SUPPORT)) {
                 this.swipeListener = new SwipeListener(this.touchSource, {lockAxis: true});
                 this.touchSource.addEventListener("swiping", this.onSwiping as EventListener);
@@ -79,8 +79,8 @@
             }
         }
 
-        destroyed() {
-            this.pubsub.$off("bezelRotation", this.bezelRotation);
+        beforeDestroy() {
+            this.pubsub.$off(AppEvent.BEZEL_ROTATION, this.bezelRotation);
             if (this.swipeListener) {
                 this.touchSource.removeEventListener("swiping", this.onSwiping as EventListener);
                 this.touchSource.removeEventListener("swiperelease", this.onSwipeRelease);

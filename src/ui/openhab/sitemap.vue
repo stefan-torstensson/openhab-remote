@@ -54,7 +54,7 @@
             this.setActivePage();
         }
 
-        destroyed() {
+        beforeDestroy() {
             this.pubsub.$off(AppEvent.ONLINE_CHANGE, this.onOnlineChange);
             this.pubsub.$off(AppEvent.REFRESH_PAGE, this.setActivePage);
         }

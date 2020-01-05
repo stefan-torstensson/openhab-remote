@@ -66,7 +66,7 @@
             });
         }
 
-        destroyed() {
+        beforeDestroy() {
             this.pubsub.$off(AppEvent.BEZEL_ROTATION, this.bezelRotation);
         }
 
