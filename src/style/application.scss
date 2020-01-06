@@ -1,5 +1,9 @@
 @import "settings";
 
+:focus {
+  outline: none;
+}
+
 .application-root {
   position: absolute;
   top:0;

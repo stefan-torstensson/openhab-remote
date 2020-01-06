@@ -204,6 +204,7 @@
             -webkit-overflow-scrolling: touch;
             overflow-scrolling: touch;
             position: relative;
+            overflow: hidden;
         }
 
         .list-heading {
