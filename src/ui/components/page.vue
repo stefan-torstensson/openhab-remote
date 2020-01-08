@@ -3,7 +3,8 @@
         <div class="header kb-hidden" v-if="hasHeader">
             <slot name="header"></slot>
         </div>
-        <div class="content" :class="{'content--footer-hidden': !hasFooter, 'content--header-hidden': !hasHeader}">
+        <div ref="content"
+             class="content" :class="{'content--footer-hidden': !hasFooter, 'content--header-hidden': !hasHeader}">
             <slot></slot>
         </div>
         <div class="footer kb-hidden" v-if="hasFooter">
@@ -13,17 +14,39 @@
 </template>
 
 <script lang="ts">
-    import {Component} from "vue-property-decorator";
+    import {Component, Ref} from "vue-property-decorator";
     import Vue from "vue";
+    import {Inject} from "@app/ui/ioc";
+    import {AppEvent, PubSub} from "@app/ui/event-bus";
 
     @Component({})
     export default class Page extends Vue {
+        @Inject(PubSub)
+        private pubsub: PubSub;
+
+        @Ref("content")
+        private readonly contentDiv: HTMLDivElement;
+
         get hasFooter(): boolean {
             return !!this.$slots.footer;
         }
 
         get hasHeader(): boolean {
             return !!this.$slots.header;
+        }
+
+        mounted() {
+            this.pubsub.$on(AppEvent.BEZEL_ROTATION, this.bezelRotation);
+        }
+
+        beforeDestroy() {
+            this.pubsub.$off(AppEvent.BEZEL_ROTATION, this.bezelRotation);
+        }
+
+        private bezelRotation(direction: string) {
+            const scrollSign = direction === "CW" ? 1 : -1;
+            const scrollLength = this.contentDiv.offsetHeight - 120;
+            this.contentDiv.scrollTop = this.contentDiv.scrollTop + (scrollSign * scrollLength);
         }
     }
 </script>
