@@ -17,7 +17,7 @@ Vue.use(VueRouter);
 const pubsub: PubSub = container.get(PubSub);
 Vue.config.errorHandler = (err: Error, vm: Vue, info: string) => {
     pubsub.$emit(ApplicationError.eventName,
-        new ApplicationError("Vue Error", `${err.message} ${info}`, err));
+        new ApplicationError(`${err.message} ${info}`, "Vue Error", err));
 };
 
 global.document.addEventListener("DOMContentLoaded", () => {

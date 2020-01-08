@@ -36,7 +36,7 @@
 
 <script lang="ts">
     import Vue from "vue";
-    import {Component, Watch} from "vue-property-decorator";
+    import {Component, Ref, Watch} from "vue-property-decorator";
     import {SettingsButton, Modal, NotificationArea} from "@app/ui/components";
     import {AppEvent, PubSub} from "../ui/event-bus";
     import {Inject} from "@app/ui/ioc";
@@ -55,13 +55,12 @@
         @Inject(AppSettings)
         private appSettings: AppSettings;
 
+        @Ref("modal")
+        private modal: Modal;
+
         private loading: boolean = false;
 
         private theme: string = "";
-
-        get modal(): Modal {
-            return this.$refs.modal as Modal;
-        }
 
         @Watch("$route")
         setTitle(route: Route) {
