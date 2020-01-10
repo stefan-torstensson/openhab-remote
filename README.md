@@ -5,6 +5,10 @@ i.e. the Gear and Galaxy line of smart watches with a circular display.
 The UI is implemented with [Vue.js](https://vuejs.org/) and uses the openHAB REST API to retrieve a 
 [sitemap](https://www.openhab.org/docs/configuration/sitemaps.html) which is then rendered on the watch.
 
+Visit the Samsung Galaxy Store to install on a compatible device:
+
+[<img src="https://img.samsungapps.com/seller/images/badges/galaxyStore/png_big/GalaxyStore_English.png" alt="Available on Samsung Galaxy Store" width="300px">](https://galaxy.store/ohremote)
+
 Currently the following sitemap element types are supported:
 * _Frame_ - Displays a heading before its contents
 * _Group_ - Displays the label and links to a sub-view
@@ -16,6 +20,7 @@ Currently the following sitemap element types are supported:
 
 Any other element type will be ignored when rendering and won't show up. 
 
+
 ## Screenshots
 
 ![Settings screen](screenshots/settings.png)
@@ -24,6 +29,7 @@ Any other element type will be ignored when rendering and won't show up.
 ![Dimmer control](screenshots/dimmer.png)
 ![Media player control](screenshots/media-player.png)
 ![Roller shutter control](screenshots/roller-shutter.png)
+
 
 ## Developing
 Development is best done in a local browser and your editor/IDE of choice supporting modern web technology.
