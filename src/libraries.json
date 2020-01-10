@@ -3,7 +3,7 @@
         "licenses": "MIT",
         "publisher": "Evan You",
         "name": "vue",
-        "version": "2.6.10",
+        "version": "2.6.11",
         "description": "Reactive, component-oriented view layer for modern web interfaces.",
         "copyright": "Copyright (c) 2013-present, Yuxi (Evan) You"
     },
@@ -64,9 +64,9 @@
     {
         "licenses": "MIT",
         "name": "core-js",
-        "version": "3.4.2",
+        "version": "3.6.2",
         "description": "Standard library",
-        "copyright": "Copyright (c) 2014-2019 Denis Pushkarev"
+        "copyright": "Copyright (c) 2014-2020 Denis Pushkarev"
     },
     {
         "licenses": "MIT",
@@ -78,20 +78,12 @@
     },
     {
         "licenses": "MIT",
-        "publisher": "Aslak Hellesøy",
-        "email": "aslak.hellesoy@gmail.com",
-        "name": "eventsource",
-        "version": "1.0.7",
-        "description": "W3C compliant EventSource client for Node.js and browser (polyfill)",
-        "copyright": "Copyright (c) EventSource GitHub organisation"
-    },
-    {
-        "licenses": "MIT",
-        "publisher": "Arnout Kazemier",
-        "name": "original",
-        "version": "1.0.2",
-        "description": "Generate the origin from an URL or check if two URL/Origins are the same",
-        "copyright": "Copyright (c) 2015 Unshift.io, Arnout Kazemier,  the Contributors."
+        "publisher": "Yaffle",
+        "url": "https://github.com/Yaffle",
+        "name": "event-source-polyfill",
+        "version": "1.0.11",
+        "description": "A polyfill for http://www.w3.org/TR/eventsource/ ",
+        "copyright": "Copyright (c) 2018 Viktor"
     },
     {
         "licenses": "MIT",
@@ -112,14 +104,6 @@
         "copyright": ""
     },
     {
-        "licenses": "MIT",
-        "publisher": "Arnout Kazemier",
-        "name": "querystringify",
-        "version": "2.1.1",
-        "description": "Querystringify - Small, simple but powerful query string parser.",
-        "copyright": "Copyright (c) 2015 Unshift.io, Arnout Kazemier,  the Contributors."
-    },
-    {
         "licenses": "Apache-2.0",
         "publisher": "Ron Buckton",
         "email": "ron.buckton@microsoft.com",
@@ -128,14 +112,6 @@
         "version": "0.1.13",
         "description": "Polyfill for Metadata Reflection API",
         "copyright": ""
-    },
-    {
-        "licenses": "MIT",
-        "publisher": "Arnout Kazemier",
-        "name": "requires-port",
-        "version": "1.0.0",
-        "description": "Check if a protocol requires a certain port number to be added to an URL.",
-        "copyright": "Copyright (c) 2015 Unshift.io, Arnout Kazemier,  the Contributors."
     },
     {
         "licenses": "BSD-3-Clause",
@@ -153,14 +129,6 @@
         "version": "1.1.0",
         "description": "Zero-dependency, minimal swipe-gesture listener for the web.",
         "copyright": "Copyright (c) 2018 Umang Galaiya"
-    },
-    {
-        "licenses": "MIT",
-        "publisher": "Arnout Kazemier",
-        "name": "url-parse",
-        "version": "1.4.7",
-        "description": "Small footprint URL parser that works seamlessly across Node.js and browser environments",
-        "copyright": "Copyright (c) 2015 Unshift.io, Arnout Kazemier,  the Contributors."
     },
     {
         "licenses": "MIT",
