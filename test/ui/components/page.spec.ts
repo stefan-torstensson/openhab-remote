@@ -47,7 +47,7 @@ describe("Page tests", () => {
                     slots: {
                         default: "Default content"
                     }
-                })
+                });
             });
 
             it("should not have any header", () => {
@@ -59,12 +59,12 @@ describe("Page tests", () => {
             });
 
             it("should render content", () => {
-                const content =component.find("div.content");
+                const content = component.find("div.content");
                 expect(content.text()).to.equal("Default content");
             });
 
             it("should render content", () => {
-                const content =component.find("div.content");
+                const content = component.find("div.content");
                 expect(content.element.className).to.include("content");
                 expect(content.element.className).to.include("content--footer-hidden");
                 expect(content.element.className).to.include("content--header-hidden");
@@ -78,7 +78,7 @@ describe("Page tests", () => {
                         header: "Header",
                         default: "Content"
                     }
-                })
+                });
             });
 
             it("should render header", () => {
@@ -91,7 +91,7 @@ describe("Page tests", () => {
             });
 
             it("should render content", () => {
-                const content =component.find("div.content");
+                const content = component.find("div.content");
                 expect(content.element.className).to.not.include("content--header-hidden");
                 expect(content.element.className).to.include("content--footer-hidden");
             });
@@ -104,7 +104,7 @@ describe("Page tests", () => {
                         default: "Content",
                         footer: "Footer"
                     }
-                })
+                });
             });
 
             it("should not render header", () => {
@@ -117,7 +117,7 @@ describe("Page tests", () => {
             });
 
             it("should render content", () => {
-                const content =component.find("div.content");
+                const content = component.find("div.content");
                 expect(content.element.className).to.include("content--header-hidden");
                 expect(content.element.className).to.not.include("content--footer-hidden");
             });

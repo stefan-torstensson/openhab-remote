@@ -36,15 +36,14 @@
     .library-info {
         list-style: none;
         padding: 0;
+        overflow-wrap: break-word;
 
         li {
             margin-bottom: 1.5em;
-        //    border-bottom: 1px solid $color-primary
         }
 
         .name {
             font-weight: bold;
-            /*text-decoration: underline;*/
         }
     }
 </style>
