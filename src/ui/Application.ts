@@ -38,9 +38,10 @@ export class Application {
     start(rootId: string) {
         this.on("tizenhwkey", this.onHWKey);
         this.on("rotarydetent", this.onBezelRotation);
-        this.on("visibilitychange", this._onVisibilityChange);
+        this.on("visibilitychange", this.onVisibilityChange);
         this.on("online", this.onOnlineChanged, global);
         this.on("offline", this.onOnlineChanged, global);
+        this.on("resize", this.onWindowResize, global);
 
         this._pubsub.$on(AppEvent.HIDE, Application.hide);
         this._pubsub.$on(AppEvent.QUIT, Application.quit);
@@ -79,7 +80,15 @@ export class Application {
         this.emitOnline((e.type === "online"));
     }
 
-    private _onVisibilityChange() {
+    private onVisibilityChange() {
         this.emitOnline(this._doc.visibilityState === "visible" && global.navigator.onLine);
+    }
+
+    private onWindowResize() {
+        const {activeElement} = this._doc;
+        const kbVisible = (global.innerHeight <= global.screen.availHeight / 2);
+        if (kbVisible && activeElement && activeElement.tagName === "INPUT") {
+            activeElement.scrollIntoView(false);
+        }
     }
 }
