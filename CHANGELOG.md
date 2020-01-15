@@ -1,3 +1,25 @@
+# [1.2.0](https://github.com/stefan-torstensson/openhab-remote/compare/v1.1.0...v1.2.0) (2020-01-15)
+
+
+### Bug Fixes
+
+* Correct order of heading and message when displaying Vue errors ([80b0ce6](https://github.com/stefan-torstensson/openhab-remote/commit/80b0ce6fff0aef696c556433d517c28f70b865c7))
+* Don't show network state notifications on settings screen ([a4a3bd5](https://github.com/stefan-torstensson/openhab-remote/commit/a4a3bd51b017ed6ce39b691c62fab710b0d68746))
+* Hide overflowing ripple effect in list items ([1238fa2](https://github.com/stefan-torstensson/openhab-remote/commit/1238fa288a2b45aecff83400ca8c63e060777d71))
+* Scroll focused input into view when virtual keyboard is shown ([f12540b](https://github.com/stefan-torstensson/openhab-remote/commit/f12540b52edcafa651a4b21c5c9622227cc96326))
+* Show loading indicator when loading on initial startup ([4ac03d5](https://github.com/stefan-torstensson/openhab-remote/commit/4ac03d59809bfdddc0120409151f70e2e05b7f09))
+* Text overflow in item list and library info ([178f6c6](https://github.com/stefan-torstensson/openhab-remote/commit/178f6c6af6504442020981435b4a394e4db48ecb))
+* Unsubscribe from pubsub events in beforeDestroy rather than destroy ([6d1c6d3](https://github.com/stefan-torstensson/openhab-remote/commit/6d1c6d3a08744bc17a253e6a294a1c39aa6f7779))
+
+
+### Features
+
+* Added different color themes ([a1ea708](https://github.com/stefan-torstensson/openhab-remote/commit/a1ea7081f611df27f776d3119f7371a6a2e125ca))
+* Added support for basic authentication ([e3077df](https://github.com/stefan-torstensson/openhab-remote/commit/e3077df4ec05789212cfd7b64cde40de168e354c))
+* Added support for scrolling with the bezel in content views ([b041416](https://github.com/stefan-torstensson/openhab-remote/commit/b04141616a404a595f06d97e66a184c4c670e0c0))
+
+
+
 # [1.1.0](https://github.com/stefan-torstensson/openhab-remote/compare/v1.0.2...v1.1.0) (2019-12-09)
 
 
