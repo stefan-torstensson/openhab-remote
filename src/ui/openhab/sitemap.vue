@@ -5,8 +5,18 @@
         </div>
         <widget-renderer v-else-if="widgetId" :widget="selectedWidget"></widget-renderer>
         <widget-list v-else :widgets="widgets" :title="state.pageTitle"></widget-list>
+        <notification-area class="notification-area"></notification-area>
     </div>
 </template>
+
+<style lang="scss" scoped>
+    .notification-area {
+        position: absolute;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+    }
+</style>
 
 <script lang="ts">
     import Vue from "vue";
@@ -17,11 +27,13 @@
     import {Widget} from "@app/api/openhab-types";
     import {AppEvent, PubSub} from "@app/ui/event-bus";
     import WidgetRenderer from "./widget-renderer.vue";
+    import {NotificationArea} from "@app/ui/components";
 
     @Component({
         components: {
             WidgetList,
-            WidgetRenderer
+            WidgetRenderer,
+            NotificationArea
         }
     })
     export default class Sitemap extends Vue {
