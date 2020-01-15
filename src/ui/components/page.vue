@@ -46,7 +46,7 @@
         private bezelRotation(direction: string) {
             const scrollSign = direction === "CW" ? 1 : -1;
             const scrollLength = this.contentDiv.offsetHeight - 120;
-            this.contentDiv.scrollTop = this.contentDiv.scrollTop + (scrollSign * scrollLength);
+            this.contentDiv.scrollTop += (scrollSign * scrollLength);
         }
     }
 </script>

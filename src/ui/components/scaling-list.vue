@@ -71,16 +71,8 @@
         }
 
         bezelRotation(direction: string) {
-            const scrollTop = this.$el.scrollTop;
-            const scrollSize = this.height / 3;
-            switch (direction) {
-                case "CW":
-                    this.$el.scrollTop = scrollTop + scrollSize;
-                    break;
-                case "CCW":
-                    this.$el.scrollTop = scrollTop - scrollSize;
-                    break;
-            }
+            const scrollSize = (direction === "CW" ? 1 : -1) * (this.height / 3);
+            this.$el.scrollTop += scrollSize;
         }
 
         get scalingLookup() {
