@@ -15,7 +15,11 @@
     export default class SelectionControl extends WidgetControl {
 
         get component(): new (...args: any[]) => WidgetControl {
-            switch (this.item && this.item.type) {
+            let itemType = this.item && this.item.type;
+            if (itemType === "Group" && this.item.groupType) {
+                itemType = this.item.groupType;
+            }
+            switch (itemType) {
                 case "Rollershutter":
                     return RollerShutter;
                 case "Player":

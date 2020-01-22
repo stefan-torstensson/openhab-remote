@@ -16,7 +16,13 @@
             if (mappings && mappings.length) {
                 return false;
             }
-            return !equalsIgnoreCase("rollershutter", this.item.type);
+            if (equalsIgnoreCase("rollershutter", this.item.type)) {
+                return false;
+            }
+            if (equalsIgnoreCase("group", this.item.type) && equalsIgnoreCase("rollershutter", this.item.groupType)) {
+                return false;
+            }
+            return true;
         }
 
         get link(): Location {
