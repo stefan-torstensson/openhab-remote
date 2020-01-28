@@ -1,3 +1,12 @@
+## [1.2.1](https://github.com/stefan-torstensson/openhab-remote/compare/v1.2.0...v1.2.1) (2020-01-28)
+
+
+### Bug Fixes
+
+* Added possibility to use a group of rollershutters ([c0ec366](https://github.com/stefan-torstensson/openhab-remote/commit/c0ec3663fb1dc37db2b091fbf5b93f7618d13ab4))
+
+
+
 # [1.2.0](https://github.com/stefan-torstensson/openhab-remote/compare/v1.1.0...v1.2.0) (2020-01-15)
 
 
