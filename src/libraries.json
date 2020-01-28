@@ -11,7 +11,7 @@
         "licenses": "MIT",
         "publisher": "Evan You",
         "name": "vue-class-component",
-        "version": "7.1.0",
+        "version": "7.2.2",
         "description": "ES201X/TypeScript class decorator for Vue components",
         "copyright": "Copyright (c) 2015-present Evan You"
     },
@@ -27,7 +27,7 @@
         "licenses": "MIT",
         "publisher": "Evan You",
         "name": "vue-router",
-        "version": "3.1.3",
+        "version": "3.1.5",
         "description": "Official router for Vue.js 2",
         "copyright": "Copyright (c) 2013-present Evan You"
     },
@@ -64,7 +64,7 @@
     {
         "licenses": "MIT",
         "name": "core-js",
-        "version": "3.6.2",
+        "version": "3.6.4",
         "description": "Standard library",
         "copyright": "Copyright (c) 2014-2020 Denis Pushkarev"
     },
@@ -81,7 +81,7 @@
         "publisher": "Yaffle",
         "url": "https://github.com/Yaffle",
         "name": "event-source-polyfill",
-        "version": "1.0.11",
+        "version": "1.0.12",
         "description": "A polyfill for http://www.w3.org/TR/eventsource/ ",
         "copyright": "Copyright (c) 2018 Viktor"
     },
