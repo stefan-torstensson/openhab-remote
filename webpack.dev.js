@@ -1,6 +1,7 @@
 const common = require("./webpack.common");
 const merge = require("webpack-merge");
 const HtmlPlugin = require('html-webpack-plugin');
+const DefinePlugin = require("webpack").DefinePlugin;
 const pkg = require("./package");
 
 const templateParameters = {
@@ -33,6 +34,9 @@ module.exports = env => merge(common(env), {
             chunks: ['vendors', 'debug', 'playground'],
             chunksSortMode: 'manual',
             templateParameters
+        }),
+        new DefinePlugin({
+            BROWSER_CONSOLE: JSON.stringify(true)
         })
     ]
 });

@@ -22,13 +22,13 @@ describe("Logging tests", () => {
 
         const mockLogger = LoggerFactory.get(MockClass);
         mockLogger.error("message");
-        expect(console.error).calledOnceWith("MockClass: ", "message");
+        expect(console.error).calledOnceWith("MockClass: message");
     });
 
     it("should use string as prefix", () => {
         const mockLogger = LoggerFactory.get("logger name");
         mockLogger.error("message");
-        expect(console.error).calledOnceWith("logger name: ", "message");
+        expect(console.error).calledOnceWith("logger name: message");
     });
 
     describe("LogLevels", () => {
@@ -45,22 +45,22 @@ describe("Logging tests", () => {
 
             it("should debug log", () => {
                 logger.debug("bar");
-                expect(console.debug).calledOnceWith("foo: ", "bar");
+                expect(console.debug).calledOnceWith("foo: bar");
             });
 
             it("should info log", () => {
                 logger.info("bar");
-                expect(console.info).calledOnceWith("foo: ", "bar");
+                expect(console.info).calledOnceWith("foo: bar");
             });
 
             it("should warn log", () => {
                 logger.warn("bar");
-                expect(console.warn).calledOnceWith("foo: ", "bar");
+                expect(console.warn).calledOnceWith("foo: bar");
             });
 
             it("should error log", () => {
                 logger.error("bar");
-                expect(console.error).calledOnceWith("foo: ", "bar");
+                expect(console.error).calledOnceWith("foo: bar");
             });
         });
 
@@ -76,17 +76,17 @@ describe("Logging tests", () => {
 
             it("should info log", () => {
                 logger.info("bar");
-                expect(console.info).calledOnceWith("foo: ", "bar");
+                expect(console.info).calledOnceWith("foo: bar");
             });
 
             it("should warn log", () => {
                 logger.warn("bar");
-                expect(console.warn).calledOnceWith("foo: ", "bar");
+                expect(console.warn).calledOnceWith("foo: bar");
             });
 
             it("should error log", () => {
                 logger.error("bar");
-                expect(console.error).calledOnceWith("foo: ", "bar");
+                expect(console.error).calledOnceWith("foo: bar");
             });
         });
 
@@ -107,12 +107,12 @@ describe("Logging tests", () => {
 
             it("should warn log", () => {
                 logger.warn("bar");
-                expect(console.warn).calledOnceWith("foo: ", "bar");
+                expect(console.warn).calledOnceWith("foo: bar");
             });
 
             it("should error log", () => {
                 logger.error("bar");
-                expect(console.error).calledOnceWith("foo: ", "bar");
+                expect(console.error).calledOnceWith("foo: bar");
             });
         });
 
@@ -138,7 +138,7 @@ describe("Logging tests", () => {
 
             it("should error log", () => {
                 logger.error("bar");
-                expect(console.error).calledOnceWith("foo: ", "bar");
+                expect(console.error).calledOnceWith("foo: bar");
             });
         });
 

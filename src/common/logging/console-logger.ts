@@ -1,35 +1,44 @@
 import {getLogLevel, Logger} from "./logging";
 import {LogLevel} from "./log-level";
+import {ENV_BROWSER_CONSOLE} from "@app/ui/globals";
 
 export class ConsoleLogger extends Logger {
     private readonly name: string;
 
     constructor(loggerName: string) {
         super();
-        this.name = loggerName + ": ";
+        this.name = loggerName + ":";
     }
 
     debug(...args: any[]): void {
         if (getLogLevel() <= LogLevel.DEBUG) {
-            console.debug(this.name, ...args);
+            this.write(console.debug, ...args);
         }
     }
 
     info(...args: any[]): void {
         if (getLogLevel() <= LogLevel.INFO) {
-            console.info(this.name, ...args);
+            this.write(console.info, ...args);
         }
     }
 
     warn(...args: any[]): void {
         if (getLogLevel() <= LogLevel.WARN) {
-            console.warn(this.name, ...args);
+            this.write(console.warn, ...args);
         }
     }
 
     error(...args: any[]): void {
         if (getLogLevel() <= LogLevel.ERROR) {
-            console.error(this.name, ...args);
+            this.write(console.error, ...args);
+        }
+    }
+
+    private write(logMethod: (...m: any[]) => void, ...args: any[]): void {
+        if (ENV_BROWSER_CONSOLE) {
+            logMethod.call(console, this.name, ...args);
+        } else {
+            logMethod.call(console, Logger.format(this.name, ...args));
         }
     }
 }

@@ -36,18 +36,6 @@ export class FileWriter {
 }
 
 export class FileLogger extends Logger {
-    private static format(...args: any[]): string {
-        return args.map(arg => {
-            if (typeof arg === "string") {
-                return arg;
-            }
-            if (typeof arg === "number") {
-                return arg.toString();
-            }
-            return JSON.stringify(arg);
-        }).join(" ");
-    }
-
     private readonly name: string;
 
     private readonly fileWriter: FileWriter;
@@ -80,7 +68,7 @@ export class FileLogger extends Logger {
         }
         const timestamp = new Date().toLocaleString("sv-SE");
         const level = LogLevel[logLevel];
-        const message = FileLogger.format(`${timestamp}  ${level}: ${this.name}:`, ...text) + "\n";
+        const message = Logger.format(`${timestamp}  ${level}: ${this.name}:`, ...text) + "\n";
         console.log(message);
         await this.fileWriter.write(message);
     }
