@@ -3,7 +3,7 @@ import {parse, resolve} from "url";
 import {inject} from "aurelia-dependency-injection";
 import {PubSub} from "@app/ui/event-bus";
 import {NetworkError, ResponseError} from "@app/common/application-error";
-import {AppSettings} from "@app/configuration/app-settings";
+import {AppSettings} from "@app/configuration";
 import {logger} from "@app/common/logging";
 import {ResponseParser, JsonResponseParser} from "./response-parser";
 import {AuthenticationProvider, BasicAuthentication} from "@app/api/authentication/basic-authentication";

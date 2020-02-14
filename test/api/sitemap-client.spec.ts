@@ -2,7 +2,7 @@ import {expect, sinon} from "test-env";
 import {SitemapClient} from "@app/api";
 import {VerificationResult} from "@app/api/sitemap-client";
 import {JsonResponseParser} from "@app/api/response-parser";
-import {AppSettings} from "@app/configuration/app-settings";
+import {AppSettings} from "@app/configuration";
 import {PubSub} from "@app/ui/event-bus";
 import {SinonStub} from "sinon";
 import {Sitemap} from "@app/api/openhab-types";

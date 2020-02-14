@@ -21,7 +21,7 @@
     import {ArcButton, Page, FormInput} from "@app/ui/components";
     import {Inject} from "@app/ui/ioc";
     import {SitemapClient} from "@app/api";
-    import {AppSettings} from "@app/configuration/app-settings";
+    import {AppSettings} from "@app/configuration";
     import {VerificationResult} from "@app/api/sitemap-client";
     import {AppEvent, PubSub} from "@app/ui/event-bus";
     import {isNullOrEmpty} from "@app/common/string-utils";

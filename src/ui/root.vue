@@ -35,7 +35,7 @@
     import {ApplicationError} from "@app/common/application-error";
     import {Route} from "vue-router";
     import LoadingIndicator from "@app/ui/components/loading-indicator.vue";
-    import {AppSettings} from "@app/configuration/app-settings";
+    import {AppSettings} from "@app/configuration";
 
     @Component({
         components: {LoadingIndicator, SettingsButton, Modal}

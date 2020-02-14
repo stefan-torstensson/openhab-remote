@@ -1,5 +1,5 @@
 import {inject} from "aurelia-dependency-injection";
-import {AppSettings} from "@app/configuration/app-settings";
+import {AppSettings} from "@app/configuration";
 import {isNullOrEmpty} from "@app/common/string-utils";
 
 export const AUTHORIZATION_HEADER = "Authorization";

@@ -1,6 +1,6 @@
 import {expect} from "test-env";
 import {AuthenticationProvider, BasicAuthentication} from "@app/api/authentication/basic-authentication";
-import {AppSettings} from "@app/configuration/app-settings";
+import {AppSettings} from "@app/configuration";
 import {StubbedInstance, stubInterface} from "ts-sinon";
 
 describe("BasicAuthentication tests", () => {

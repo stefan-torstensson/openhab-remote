@@ -22,7 +22,7 @@
     import {Component} from "vue-property-decorator";
     import {ScalingList, ScalingListItem, ListLabel} from "@app/ui/components";
     import {Inject} from "@app/ui/ioc";
-    import {AppSettings} from "@app/configuration/app-settings";
+    import {AppSettings} from "@app/configuration";
     import {Icon} from "@app/svg";
     import {AppEvent, PubSub} from "@app/ui/event-bus";
     import {RawLocation, Route} from "vue-router";

@@ -6,7 +6,7 @@
     import Vue from "vue";
     import {Component, Watch} from "vue-property-decorator";
     import {OptionList, SelectOption} from "@app/ui/components";
-    import {AppSettings} from "@app/configuration/app-settings";
+    import {AppSettings} from "@app/configuration";
     import {Inject} from "@app/ui/ioc";
     import {AppEvent, PubSub} from "@app/ui/event-bus";
     import {AVAILABLE_THEMES} from "@app/ui/settings/themes";

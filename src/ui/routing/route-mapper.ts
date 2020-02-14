@@ -1,7 +1,7 @@
 import {Sitemap} from "@app/ui/openhab";
 import {Location, Route, RouteConfig} from "vue-router";
 import {inject} from "aurelia-dependency-injection";
-import {AppSettings} from "@app/configuration/app-settings";
+import {AppSettings} from "@app/configuration";
 import SettingsControl from "../settings/settings.vue";
 import {routes} from "../settings/routes";
 import SetupWizard from "../settings/setup-wizard.vue";

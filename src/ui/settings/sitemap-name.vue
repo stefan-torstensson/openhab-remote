@@ -8,7 +8,7 @@
     import {SitemapClient} from "@app/api";
     import {Inject} from "@app/ui/ioc";
     import {OptionList, ScalingList, ScalingListItem, SelectOption} from "@app/ui/components";
-    import {AppSettings} from "@app/configuration/app-settings";
+    import {AppSettings} from "@app/configuration";
     import {AppEvent, PubSub} from "@app/ui/event-bus";
 
     @Component({

@@ -5,7 +5,7 @@
     import Vue from "vue";
     import {Component} from "vue-property-decorator";
     import {Inject} from "@app/ui/ioc";
-    import {AppSettings} from "@app/configuration/app-settings";
+    import {AppSettings} from "@app/configuration";
 
 
     @Component({})
