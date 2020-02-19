@@ -76,16 +76,19 @@ describe("Sitemap tests", () => {
             expect(mockData.state.setActivePage).to.have.been.calledOnceWith("sitemap name", "01");
         });
 
-        it("should render widget list", () => {
+        it("should render widget list", async () => {
             mockData.state.widgets.push({} as Widget);
+            await Vue.nextTick();
+
             assert(!sitemap.contains("div.startup-logo"));
             assert(sitemap.contains(WidgetList));
             assert(!sitemap.contains(WidgetRenderer));
         });
 
-        it("should set props on widget list", () => {
+        it("should set props on widget list", async () => {
             mockData.state.widgets.push({} as Widget);
             mockData.state.pageTitle = "tt";
+            await Vue.nextTick();
 
             const widgetList = sitemap.find(WidgetList);
             expect(widgetList.props().widgets).to.deep.equal(mockData.state.widgets);
@@ -137,16 +140,20 @@ describe("Sitemap tests", () => {
             assert(sitemap.contains("div.startup-logo"));
         });
 
-        it("should ", () => {
+        it("should ", async () => {
             mockData.state.widgets.push({widgetId: "wId"} as Widget);
+            await Vue.nextTick();
+
             assert(sitemap.contains(WidgetRenderer));
             assert(!sitemap.contains("div.startup-logo"));
             assert(!sitemap.contains(WidgetList));
         });
 
-        it("should ", () => {
+        it("should ", async () => {
             mockData.state.widgets.push({widgetId: "foo"} as Widget);
             mockData.state.widgets.push({widgetId: "wId"} as Widget);
+            await Vue.nextTick();
+
             const widgetRenderer = sitemap.find(WidgetRenderer);
 
             expect(widgetRenderer.props().widget).to.equal(mockData.state.widgets[1]);

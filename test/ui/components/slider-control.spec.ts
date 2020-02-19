@@ -77,6 +77,7 @@ describe("SliderControl tests", () => {
         describe("when bezel has been rotated clockwise", () => {
             beforeEach(async () => {
                 pubsub.$emit(AppEvent.BEZEL_ROTATION, "CW");
+                await Vue.nextTick();
                 await sleep(205);
             });
 
@@ -98,6 +99,7 @@ describe("SliderControl tests", () => {
         describe("when bezel has been rotated counter clockwise", () => {
             beforeEach(async () => {
                 pubsub.$emit(AppEvent.BEZEL_ROTATION, "CCW");
+                await Vue.nextTick();
                 await sleep(205);
             });
 
@@ -136,13 +138,17 @@ describe("SliderControl tests", () => {
             expect(component.text()).to.equal("15");
         });
 
-        it("should not decrease below min value", () => {
+        it("should not decrease below min value", async () => {
             pubsub.$emit(AppEvent.BEZEL_ROTATION, "CCW");
+            await Vue.nextTick();
+
             expect(component.text()).to.equal("10");
         });
 
-        it("should not increase above max value", () => {
+        it("should not increase above max value", async () => {
             pubsub.$emit(AppEvent.BEZEL_ROTATION, "CW");
+            await Vue.nextTick();
+
             expect(component.text()).to.equal("20");
         });
     });
