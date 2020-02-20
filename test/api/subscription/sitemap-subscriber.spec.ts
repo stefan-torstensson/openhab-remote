@@ -1,5 +1,5 @@
 import {expect, sinon} from "test-env";
-import {StubbedInstance, stubConstructor} from "ts-sinon";
+import {StubbedInstance, stubConstructor, stubInterface} from "ts-sinon";
 import {OpenhabSitemapSubscriber, SitemapClient} from "@app/api";
 import {EventSourceListener} from "@app/api/subscription/event-source-listener";
 import {AppEvent, PubSub} from "@app/ui/event-bus";
@@ -22,7 +22,7 @@ describe("SitemapSubscriber tests", () => {
 
     beforeEach(() => {
         eventSourceListenerStub = stubConstructor(EventSourceListener);
-        sitemapClientStub = stubConstructor(SitemapClient);
+        sitemapClientStub = stubInterface(SitemapClient);
         pubsubStub = stubConstructor(PubSub);
         subscriber = new OpenhabSitemapSubscriber(
             eventSourceListenerStub,
@@ -57,7 +57,7 @@ describe("SitemapSubscriber tests", () => {
 
                 it("should emit subscription inactive", () => {
                     clock.tick(1000);
-                    expect(pubsubStub.$emit).to.have.been.calledWith(AppEvent.SUBSCRIPTION_ACTIVE_CHANGE, false);
+                    expect(pubsubStub.$emit).to.have.been.calledOnceWith(AppEvent.SUBSCRIPTION_ACTIVE_CHANGE, false);
                 });
             });
 
@@ -76,21 +76,7 @@ describe("SitemapSubscriber tests", () => {
                     expect(pubsubStub.$emit).to.have.been.calledWith(AppEvent.SUBSCRIPTION_ACTIVE_CHANGE, true);
                 });
             });
-
-            // describe("when eventSource is already started", () => {
-            //     beforeEach(() => {
-            //         eventSourceListenerStub.started.returns(true);
-            //         subscriber.start();
-            //     });
-            //
-            //     it("should not start event source again", () => {
-            //         expect(eventSourceListenerStub.start).to.not.have.been.called;
-            //     });
-            //
-            // });
         });
-
-
     });
 
     describe("when subscription can't be created", () => {

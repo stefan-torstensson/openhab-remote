@@ -21,8 +21,8 @@ export interface Widget {
     widgetId: string;
     type: string;
     label: string;
-    icon: string;
-    mappings: Mapping[];
+    icon?: string;
+    mappings?: Mapping[];
     linkedPage?: Page;
     item: Item;
     widgets: Widget[];
@@ -47,11 +47,16 @@ export interface StateDescription {
     step: number;
 }
 
+export interface CommandDescription {
+    commandOptions: Mapping[];
+}
+
 export interface Item {
     link: string;
     state: string;
     transformedState?: string,
     stateDescription?: StateDescription;
+    commandDescription?: CommandDescription;
     editable?: boolean;
     type: string;
     name?: string;

@@ -1,19 +1,18 @@
 <script lang="ts">
     import {Component} from "vue-property-decorator";
-    import WidgetControl from "./widget-control";
     import {Icon} from "@app/svg";
     import {equalsIgnoreCase} from "@app/common/string-utils";
     import {ListLabel, Toggle} from "@app/ui/components";
     import {Location} from "vue-router";
+    import OptionControl from "@app/ui/openhab/widgets/option-control";
 
 
     @Component({
         components: {Toggle, Icon, ListLabel}
     })
-    export default class SwitchControl extends WidgetControl {
+    export default class SwitchControl extends OptionControl {
         get isSimpleSwitch(): boolean {
-            const {mappings} = this.widget;
-            if (mappings && mappings.length) {
+            if (this.hasCommands) {
                 return false;
             }
             if (equalsIgnoreCase("rollershutter", this.item.type)) {

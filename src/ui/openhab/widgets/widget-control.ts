@@ -26,15 +26,12 @@ export default class WidgetControl extends Vue {
     }
 
     get stateLabel(): string {
-        const {state} = parseLabel(this.widget.label);
-        if (state) {
-            const mapping = this.widget.mappings.find(m => m.command === state);
-            return mapping ? mapping.label : state;
-        }
-        return null;
+        return parseLabel(this.widget.label).state;
     }
 
     setState(state: string): void {
         this.sitemapState.postUpdate(this.item, state);
     }
+
+    render() {}
 }
