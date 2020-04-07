@@ -1,7 +1,7 @@
 <template>
     <scaling-list heading="Components">
         <scaling-list-item v-for="route in availableRoutes" :key="route.name">
-            <router-link :to="route" append class="list-control">
+            <router-link :to="route" append class="list-control ripple-effect">
                 <list-label :label="route.name">
                     <icon type="arrow"></icon>
                 </list-label>

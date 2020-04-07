@@ -25,7 +25,7 @@
     overflow: hidden;
     width: 100%;
     padding-left: 75px;
-    padding-right: 10px;
+    padding-right: 15px;
   }
 
   &_label {
@@ -48,7 +48,7 @@
     width: 40px;
     height: 40px;
     left: 0;
-    margin-left: 15px;
+    margin-left: 20px;
     text-align: center;
     @include theme-color-active();
   }

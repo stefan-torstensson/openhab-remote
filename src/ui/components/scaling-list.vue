@@ -188,7 +188,6 @@
             display: block;
             width: $screen-width - 8;
             height: $screen-height/3;
-            padding: 0 .4em;
             margin: 0 4px;
             background-color: $color-tile;
             border: 2px solid #222;
@@ -210,11 +209,6 @@
         li:last-child {
             margin-bottom: 33%;
         }
-
-        .ripple-effect {
-            @include ripple-effect($color-tile);
-        }
-
     }
 
     .widget-list_item {

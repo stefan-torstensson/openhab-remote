@@ -2,17 +2,36 @@
 @import "theming";
 
 @mixin ripple-effect($background-color) {
-  background-position: center;
-  transition: background 0.4s;
+  overflow: hidden;
+  position: relative;
 
-  &:hover {
-    background: $background-color radial-gradient(circle, transparent 0.7%, $background-color 1%) center/12000%;
+  &::after {
+    @include theme-color-ripple("background-color");
+    display: block;
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+
+    width: 100px;
+    height: 100px;
+    margin-top: -50px;
+    margin-left: -50px;
+
+    /* Center the ripple */
+    top: 50%;
+    left: 50%;
+
+    //animation: ripple 0.6s;
+    opacity: 0;
+    transition: transform 1s, opacity 1s;
+    transform: scale3d(8,8,1);
   }
 
-  &:active {
-    @include theme-color-ripple("background-color");
-    background-size: 100%;
-    transition: background 0s;
+  &:active::after {
+    opacity: .6;
+    transition: transform 0s;
+    transform: scale3d(0,0,1);
   }
 }
 
