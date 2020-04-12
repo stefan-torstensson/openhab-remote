@@ -11,7 +11,7 @@
         "licenses": "MIT",
         "publisher": "Evan You",
         "name": "vue-class-component",
-        "version": "7.2.2",
+        "version": "7.2.3",
         "description": "ES201X/TypeScript class decorator for Vue components",
         "copyright": "Copyright (c) 2015-present Evan You"
     },
@@ -19,7 +19,7 @@
         "licenses": "MIT",
         "publisher": "kaorun343",
         "name": "vue-property-decorator",
-        "version": "8.3.0",
+        "version": "8.4.1",
         "description": "property decorators for Vue Component",
         "copyright": "Copyright (c) 2018 kaorun343"
     },
@@ -27,7 +27,7 @@
         "licenses": "MIT",
         "publisher": "Evan You",
         "name": "vue-router",
-        "version": "3.1.5",
+        "version": "3.1.6",
         "description": "Official router for Vue.js 2",
         "copyright": "Copyright (c) 2013-present Evan You"
     },
@@ -64,7 +64,7 @@
     {
         "licenses": "MIT",
         "name": "core-js",
-        "version": "3.6.4",
+        "version": "3.6.5",
         "description": "Standard library",
         "copyright": "Copyright (c) 2014-2020 Denis Pushkarev"
     },
