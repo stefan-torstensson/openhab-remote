@@ -1,3 +1,13 @@
+## [1.2.2](https://github.com/stefan-torstensson/openhab-remote/compare/v1.2.1...v1.2.2) (2020-04-18)
+
+
+### Bug Fixes
+
+* Smoother ripple animation ([f5e7e10](https://github.com/stefan-torstensson/openhab-remote/commit/f5e7e10d7645341f77b1b3a21b02ddad4dc4547d))
+* Use raw item state instead of label value for command mapping ([cd5bc6a](https://github.com/stefan-torstensson/openhab-remote/commit/cd5bc6a11fba3688ae7977dc68fc9437f93e44a5)), closes [#2](https://github.com/stefan-torstensson/openhab-remote/issues/2)
+
+
+
 ## [1.2.1](https://github.com/stefan-torstensson/openhab-remote/compare/v1.2.0...v1.2.1) (2020-01-28)
 
 
