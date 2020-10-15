@@ -1,5 +1,5 @@
 import {inject} from "aurelia-dependency-injection";
-import {Item, Page, Sitemap, Widget} from "./openhab-types";
+import {Item, Page, Widget} from "./openhab-types";
 import {SitemapClient} from "./sitemap-client";
 import {SitemapSubscriber} from "./subscription/sitemap-subscriber";
 import {assign} from "@app/common/assign";
@@ -10,6 +10,7 @@ import {synchronized} from "@app/common/synchronized";
 import {loadingIndication} from "@app/ui/loading-state";
 import {ApplicationError, ResponseError} from "@app/common/application-error";
 import {findWidgetById} from "./widget-utils";
+import {PageCache} from "./page-cache";
 
 export abstract class SitemapState {
     abstract pageTitle: string;
@@ -22,22 +23,23 @@ export abstract class SitemapState {
     abstract postUpdate(item: Item, state: string): Promise<void> ;
 }
 
-@inject(SitemapClient, SitemapSubscriber, PubSub)
+@inject(SitemapClient, SitemapSubscriber, PageCache, PubSub)
 export class OpenhabSitemapState implements SitemapState {
     public pageTitle: string;
     private readonly log = logger.get(OpenhabSitemapState);
     private pubsub: PubSub;
-    private sitemap: Sitemap;
     private currentPage: Page;
     private client: SitemapClient;
     private sitemapSubscriber: SitemapSubscriber;
     private _widgets: Widget[] = [];
+    private pageCache: PageCache;
 
-    constructor(client: SitemapClient, sitemapSubscriber: SitemapSubscriber, pubsub: PubSub) {
+    constructor(client: SitemapClient, sitemapSubscriber: SitemapSubscriber, pageCache: PageCache, pubsub: PubSub) {
         this.client = client;
         this.sitemapSubscriber = sitemapSubscriber;
         this.sitemapSubscriber.onUpdate(this.updateWidget.bind(this));
         this.pubsub = pubsub;
+        this.pageCache = pageCache;
         pubsub.$on(AppEvent.ONLINE_CHANGE, this.onOnlineChange.bind(this));
     }
 
@@ -54,14 +56,23 @@ export class OpenhabSitemapState implements SitemapState {
     async setActivePage(sitemapName: string, pageId: string): Promise<void> {
         this.log.info(`setActivePage(${sitemapName}, ${pageId})`);
         try {
-            await this.setSitemap(sitemapName);
-            this.currentPage = await this.getPage(sitemapName, pageId);
-            this.pageTitle = this.currentPage.title;
-            this.setWidgets(this.currentPage.widgets);
+            const cachedPage = this.pageCache.get(sitemapName, pageId);
+            if (cachedPage) {
+                this.setCurrentPage(cachedPage);
+            }
+            const page = await this.getPage(sitemapName, pageId);
+            this.pageCache.set(sitemapName, pageId, page);
+            this.setCurrentPage(page);
         } catch (e) {
             this.log.error("setActivePage failed:", e);
             this.pubsub.$emit(ApplicationError.eventName, e);
         }
+    }
+
+    private setCurrentPage(page: Page) : void {
+        this.currentPage = page;
+        this.pageTitle = page.title;
+        this.setWidgets(page.widgets);
     }
 
     async postUpdate(item: Item, state: string): Promise<void> {
@@ -92,13 +103,6 @@ export class OpenhabSitemapState implements SitemapState {
             }
             throw e;
         }
-    }
-
-    private async setSitemap(name: string): Promise<Sitemap> {
-        if (!this.sitemap || this.sitemap.name !== name) {
-            this.sitemap = await this.client.getSitemap(name);
-        }
-        return this.sitemap;
     }
 
     private setWidgets(value: Widget[]) {
