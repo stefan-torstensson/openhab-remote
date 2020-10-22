@@ -51,11 +51,11 @@ describe("Page tests", () => {
             });
 
             it("should not have any header", () => {
-                expect(component.contains("div.header")).to.be.false;
+                expect(component.find("div.header").exists()).to.be.false;
             });
 
             it("should not have any footer", () => {
-                expect(component.contains("div.footer")).to.be.false;
+                expect(component.find("div.footer").exists()).to.be.false;
             });
 
             it("should render content", () => {
@@ -87,7 +87,7 @@ describe("Page tests", () => {
             });
 
             it("should not have any footer", () => {
-                expect(component.contains("div.footer")).to.be.false;
+                expect(component.find("div.footer").exists()).to.be.false;
             });
 
             it("should render content", () => {
@@ -108,7 +108,7 @@ describe("Page tests", () => {
             });
 
             it("should not render header", () => {
-                expect(component.contains("div.header")).to.be.false;
+                expect(component.find("div.header").exists()).to.be.false;
             });
 
             it("should render footer", () => {

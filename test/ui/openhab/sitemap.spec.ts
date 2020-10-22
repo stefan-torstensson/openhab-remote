@@ -45,9 +45,9 @@ describe("Sitemap tests", () => {
         });
 
         it("should render startup logo", () => {
-            assert(sitemap.contains("div.startup-logo"));
-            assert(!sitemap.contains(WidgetList));
-            assert(!sitemap.contains(WidgetRenderer));
+            expect(sitemap.find("div.startup-logo").exists()).to.be.true;
+            expect(sitemap.findComponent(WidgetList).exists()).to.be.false;
+            expect(sitemap.findComponent(WidgetRenderer).exists()).to.be.false;
         });
 
         it("should not call setActivePage", () => {
@@ -69,7 +69,7 @@ describe("Sitemap tests", () => {
         });
 
         it("should initially render startup logo", () => {
-            assert(sitemap.contains("div.startup-logo"));
+            assert(sitemap.find("div.startup-logo").exists());
         });
 
         it("should setActivePage", () => {
@@ -80,9 +80,9 @@ describe("Sitemap tests", () => {
             mockData.state.widgets.push({} as Widget);
             await Vue.nextTick();
 
-            assert(!sitemap.contains("div.startup-logo"));
-            assert(sitemap.contains(WidgetList));
-            assert(!sitemap.contains(WidgetRenderer));
+            assert(!sitemap.find("div.startup-logo").exists());
+            assert(sitemap.findComponent(WidgetList).exists());
+            assert(!sitemap.findComponent(WidgetRenderer).exists());
         });
 
         it("should set props on widget list", async () => {
@@ -90,7 +90,7 @@ describe("Sitemap tests", () => {
             mockData.state.pageTitle = "tt";
             await Vue.nextTick();
 
-            const widgetList = sitemap.find(WidgetList);
+            const widgetList = sitemap.findComponent(WidgetList);
             expect(widgetList.props().widgets).to.deep.equal(mockData.state.widgets);
             expect(widgetList.props().title).to.equal("tt");
         });
@@ -137,16 +137,16 @@ describe("Sitemap tests", () => {
         });
 
         it("should initially render startup logo", () => {
-            assert(sitemap.contains("div.startup-logo"));
+            assert(sitemap.find("div.startup-logo").exists());
         });
 
         it("should ", async () => {
             mockData.state.widgets.push({widgetId: "wId"} as Widget);
             await Vue.nextTick();
 
-            assert(sitemap.contains(WidgetRenderer));
-            assert(!sitemap.contains("div.startup-logo"));
-            assert(!sitemap.contains(WidgetList));
+            assert(sitemap.findComponent(WidgetRenderer).exists());
+            assert(!sitemap.find("div.startup-logo").exists());
+            assert(!sitemap.findComponent(WidgetList).exists());
         });
 
         it("should ", async () => {
@@ -154,7 +154,7 @@ describe("Sitemap tests", () => {
             mockData.state.widgets.push({widgetId: "wId"} as Widget);
             await Vue.nextTick();
 
-            const widgetRenderer = sitemap.find(WidgetRenderer);
+            const widgetRenderer = sitemap.findComponent(WidgetRenderer);
 
             expect(widgetRenderer.props().widget).to.equal(mockData.state.widgets[1]);
         });

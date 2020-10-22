@@ -33,7 +33,7 @@ describe("SliderControl tests", () => {
         });
 
         it("should contain a circular slider", () => {
-            expect(component.contains(CircularSlider)).to.be.true;
+            expect(component.findComponent(CircularSlider).exists()).to.be.true;
         });
 
         it("should render value text", () => {
@@ -41,7 +41,7 @@ describe("SliderControl tests", () => {
         });
 
         it("should set value on CircularSlider", () => {
-            const slider = component.find(CircularSlider);
+            const slider = component.findComponent(CircularSlider);
             expect(slider.props().value).to.equal(20);
         });
     });
@@ -70,7 +70,7 @@ describe("SliderControl tests", () => {
         });
 
         it("should set normalized value on CircularSlider", () => {
-            const slider = component.find(CircularSlider);
+            const slider = component.findComponent(CircularSlider);
             expect(slider.props().value).to.equal(50);
         });
 
@@ -87,7 +87,7 @@ describe("SliderControl tests", () => {
             });
 
             it("should set update normalized value on CircularSlider", () => {
-                const slider = component.find(CircularSlider);
+                const slider = component.findComponent(CircularSlider);
                 expect(slider.props().value).to.equal(60);
             });
 
@@ -109,7 +109,7 @@ describe("SliderControl tests", () => {
             });
 
             it("should set updated normalized value on CircularSlider", () => {
-                const slider = component.find(CircularSlider);
+                const slider = component.findComponent(CircularSlider);
                 expect(slider.props().value).to.equal(40);
             });
 

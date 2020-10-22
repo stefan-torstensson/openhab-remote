@@ -25,23 +25,23 @@ describe("NotificationArea tests", () => {
         });
 
         it("should not show any notifications when loaded", () => {
-            expect(component.isEmpty()).to.be.true;
+            expect(component.element.hasChildNodes()).to.be.false;
         });
 
         it("should show offline icon when ONLINE is false", async () => {
             pubSub.$emit(AppEvent.ONLINE_CHANGE, false);
             await Vue.nextTick();
 
-            expect(component.contains(OfflineIcon)).to.be.true;
-            expect(component.contains(ReloadIcon)).to.be.false;
+            expect(component.findComponent(OfflineIcon).exists()).to.be.true;
+            expect(component.findComponent(ReloadIcon).exists()).to.be.false;
         });
 
         it("should reload icon when SUBSCRIPTION_ACTIVE is false", async () => {
             pubSub.$emit(AppEvent.SUBSCRIPTION_ACTIVE_CHANGE, false);
             await Vue.nextTick();
 
-            expect(component.contains(OfflineIcon)).to.be.false;
-            expect(component.contains(ReloadIcon)).to.be.true;
+            expect(component.findComponent(OfflineIcon).exists()).to.be.false;
+            expect(component.findComponent(ReloadIcon).exists()).to.be.true;
         });
 
         it("should only show offline icon when offline with no subscription", async () => {
@@ -49,8 +49,8 @@ describe("NotificationArea tests", () => {
             pubSub.$emit(AppEvent.SUBSCRIPTION_ACTIVE_CHANGE, false);
             await Vue.nextTick();
 
-            expect(component.contains(OfflineIcon)).to.be.true;
-            expect(component.contains(ReloadIcon)).to.be.false;
+            expect(component.findComponent(OfflineIcon).exists()).to.be.true;
+            expect(component.findComponent(ReloadIcon).exists()).to.be.false;
         });
     });
 });
