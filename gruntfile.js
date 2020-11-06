@@ -6,10 +6,10 @@ const options = {
 const convertSvg = require("./grunt/svg2png");
 
 module.exports = grunt => {
-    const certificate = "Samsung";
     const prod = grunt.option("prod");
     const logLevel = grunt.option("logLevel");
     const fileLogger = grunt.option("fileLogger");
+    const certificate = grunt.option("cert") || (prod ? "Samsung" : "Tizen");
 
     if (grunt.option("time")) {
         require("time-grunt")(grunt);
@@ -39,7 +39,10 @@ module.exports = grunt => {
     });
 
     grunt.registerTask("default", "watch");
-    grunt.registerTask("build", "Build deployment package. Add --prod flag for optimized build.",
+    grunt.registerTask("build",
+        `Build deployment package. Available params:\n` +
+        `--prod         - Optimizes the build\n` +
+        `--cert=[name]  - Sign with a different security profile (default: "Samsung")`,
         ["clean", "bundle", "package"]);
     grunt.registerTask("test", ["shell:test"]);
 
@@ -53,7 +56,7 @@ module.exports = grunt => {
 
     grunt.registerTask("bundle", "Build application bundle. Add --prod flag for optimized bundling.",
         ["env:prod", `shell:bundle:${bundleParams}`]);
-    grunt.registerTask("package", "Assemble Tizen package from build output.",
+    grunt.registerTask("package", "Assemble Tizen package from build output. Add --cert=[name] to sign with a different certificate.",
         ["convert-icon", "shell:tizen-build", `shell:tizen-package:${certificate}`]);
     grunt.registerTask("watch", "Start dev server on port 80 and watch for file changes", [`shell:watch:${bundleParams}`]);
 };
