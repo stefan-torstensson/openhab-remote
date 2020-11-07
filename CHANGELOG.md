@@ -1,3 +1,13 @@
+# [1.3.0](https://github.com/stefan-torstensson/openhab-remote/compare/v1.2.2...v1.3.0) (2020-11-07)
+
+
+### Features
+
+* Added a caching of sitemap pages for quicker page switches ([0557940](https://github.com/stefan-torstensson/openhab-remote/commit/0557940da800179da522d8cb6cb83fc376a84784))
+* Allow connections to openHAB 3+ ([5aded66](https://github.com/stefan-torstensson/openhab-remote/commit/5aded6655c41d8e004d1a88dd780b3dfcbdb1ae8))
+
+
+
 ## [1.2.2](https://github.com/stefan-torstensson/openhab-remote/compare/v1.2.1...v1.2.2) (2020-04-18)
 
 
