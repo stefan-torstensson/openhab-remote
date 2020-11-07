@@ -15,13 +15,13 @@ describe("ResponseParser tests", () => {
             expect(await parser.looksLikeOpenhab(response)).to.be.true;
         });
 
-        it("should return true for openHAB rest api v3", async () => {
-            const response = new Response(JSON.stringify({links: [], version: "3"}));
+        it("should return true for openHAB rest api v4", async () => {
+            const response = new Response(JSON.stringify({links: [], version: "4"}));
             expect(await parser.looksLikeOpenhab(response)).to.be.true;
         });
 
-        it("should return false for openHAB rest api v4", async () => {
-            const response = new Response(JSON.stringify({links: [], version: "4"}));
+        it("should return false for openHAB rest api v0", async () => {
+            const response = new Response(JSON.stringify({links: [], version: "0"}));
             expect(await parser.looksLikeOpenhab(response)).to.be.false;
         });
 
