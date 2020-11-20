@@ -54,10 +54,10 @@
         }
 
         private updateAnimation(): void {
-            this.endPos += 2;
+            this.endPos += 1;
             this.startPos = this.endPos - 10;
             if (this.running) {
-                requestAnimationFrame(this.animate.bind(this));
+                this.animate();
             }
         }
     }
