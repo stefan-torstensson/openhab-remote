@@ -1,5 +1,5 @@
 <template>
-    <option-list :options="sitemapOptions" v-model="value"></option-list>
+    <option-list :options="sitemapOptions" v-model="value" heading="Sitemaps"></option-list>
 </template>
 
 <script lang="ts">
@@ -10,6 +10,7 @@
     import {OptionList, ScalingList, ScalingListItem, SelectOption} from "@app/ui/components";
     import {AppSettings} from "@app/configuration";
     import {AppEvent, PubSub} from "@app/ui/event-bus";
+    import {ApplicationError} from "@app/common/application-error";
 
     @Component({
         components: {OptionList, ScalingList, ScalingListItem}
@@ -29,8 +30,16 @@
         private value: string = "";
 
         mounted() {
-            this.value = this.appSettings.sitemapName;
-            this.loadSitemaps();
+            if (this.appSettings.remoteUrl) {
+                this.value = this.appSettings.sitemapName;
+                this.loadSitemaps();
+            } else {
+                this.$router.replace({name: "setup"});
+                this.pubSub.$emit(ApplicationError.eventName, new ApplicationError(
+                    "openHAB url must be configured before selecting a sitemap",
+                    "openHAB url not configured"
+                ));
+            }
         }
 
         @Watch("value")
@@ -43,8 +52,12 @@
         }
 
         private async loadSitemaps() {
-            const sitemaps = await this.sitemapClient.getSitemaps();
-            this.sitemapOptions = sitemaps.map(sitemap => new SelectOption(sitemap.name, sitemap.label));
+            try {
+                const sitemaps = await this.sitemapClient.getSitemaps();
+                this.sitemapOptions = sitemaps.map(sitemap => new SelectOption(sitemap.name, sitemap.label));
+            } catch (e) {
+                this.pubSub.$emit(ApplicationError.eventName, e);
+            }
         }
 
     }

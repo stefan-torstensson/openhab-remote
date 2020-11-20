@@ -30,6 +30,16 @@ class KeyManager {
     }
 }
 
+class Application {
+    getCurrentApplication() {
+        return this;
+    }
+
+    hide() {
+        alert("Hidden");
+    }
+}
+
 if (!global.tizen) {
     global.tizen = {
         systeminfo: {
@@ -37,7 +47,8 @@ if (!global.tizen) {
                 return false;
             }
         },
-        keymanager: new KeyManager()
+        keymanager: new KeyManager(),
+        application: new Application()
     };
 }
 
