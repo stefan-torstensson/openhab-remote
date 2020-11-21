@@ -105,7 +105,7 @@
                         "chrome": "47"
                     },
                     "useBuiltIns": "usage",
-                    "corejs": "3.6"
+                    "corejs": "3.7"
                 }
             ],
             "@babel/preset-typescript"

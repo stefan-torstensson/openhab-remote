@@ -27,7 +27,7 @@
         "licenses": "MIT",
         "publisher": "Evan You",
         "name": "vue-router",
-        "version": "3.4.7",
+        "version": "3.4.9",
         "description": "Official router for Vue.js 2",
         "copyright": "Copyright (c) 2013-present Evan You"
     },
@@ -47,7 +47,7 @@
         "email": "rob@bluespire.com",
         "url": "http://robeisenberg.com/",
         "name": "aurelia-metadata",
-        "version": "1.0.6",
+        "version": "1.0.7",
         "description": "Utilities for reading and writing the metadata of JavaScript functions.",
         "copyright": "Copyright (c) 2010 - 2018 Blue Spire Inc."
     },
@@ -64,7 +64,7 @@
     {
         "licenses": "MIT",
         "name": "core-js",
-        "version": "3.6.5",
+        "version": "3.7.0",
         "description": "Standard library",
         "copyright": "Copyright (c) 2014-2020 Denis Pushkarev"
     },
