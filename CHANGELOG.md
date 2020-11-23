@@ -1,3 +1,13 @@
+## [1.3.1](https://github.com/stefan-torstensson/openhab-remote/compare/v1.3.0...v1.3.1) (2020-11-23)
+
+
+### Bug Fixes
+
+* Don't allow navigating to sitemap selection before OH url is configured ([8145c2a](https://github.com/stefan-torstensson/openhab-remote/commit/8145c2a747d0b321e609c2cd43f71dc40a8fc266))
+* Smoother loading indicator by removing superfluous requestAnimationFrame ([98355fe](https://github.com/stefan-torstensson/openhab-remote/commit/98355fe3ba1977e7c3a160f5bcc8047e89e440be))
+
+
+
 # [1.3.0](https://github.com/stefan-torstensson/openhab-remote/compare/v1.2.2...v1.3.0) (2020-11-07)
 
 
