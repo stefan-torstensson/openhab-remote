@@ -64,9 +64,9 @@
     {
         "licenses": "MIT",
         "name": "core-js",
-        "version": "3.7.0",
+        "version": "3.8.3",
         "description": "Standard library",
-        "copyright": "Copyright (c) 2014-2020 Denis Pushkarev"
+        "copyright": "Copyright (c) 2014-2021 Denis Pushkarev"
     },
     {
         "licenses": "MIT",
@@ -81,7 +81,7 @@
         "publisher": "Yaffle",
         "url": "https://github.com/Yaffle",
         "name": "event-source-polyfill",
-        "version": "1.0.21",
+        "version": "1.0.22",
         "description": "A polyfill for http://www.w3.org/TR/eventsource/ ",
         "copyright": "Copyright (c) 2018 Viktor"
     },
