@@ -20,7 +20,11 @@ export abstract class Logger {
             if (typeof arg === "number") {
                 return arg.toString();
             }
-            return JSON.stringify(arg);
+            try {
+                return JSON.stringify(arg);
+            } catch(e) {
+                return e.message;
+            }
         }).join(" ");
     }
 

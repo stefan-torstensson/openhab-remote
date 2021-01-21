@@ -1,6 +1,8 @@
 import {expect, sinon} from "test-env";
 import {Logger, LogLevel, setLogLevel} from "@app/common/logging";
 import {LoggerFactory} from "@app/common/logging/logger-factory";
+import {describe} from "mocha";
+import {ENV_BROWSER_CONSOLE} from "@app/ui/globals";
 
 describe("Logging tests", () => {
 
@@ -14,6 +16,10 @@ describe("Logging tests", () => {
 
     afterEach(() => {
         sinon.restore();
+    });
+
+    it('should ensure Logger.format is used', () => {
+        expect(ENV_BROWSER_CONSOLE).to.be.false;
     });
 
     it("should use class name as prefix", () => {
@@ -30,6 +36,18 @@ describe("Logging tests", () => {
         mockLogger.error("message");
         expect(console.error).calledOnceWith("logger name: message");
     });
+
+    it('should not throw on circular structures', () => {
+        const mockLogger = LoggerFactory.get("test");
+
+        const item: any = {parent: null};
+        const parent = {item};
+        item.parent = parent;
+
+        mockLogger.error(parent);
+        expect(console.error).calledOnceWith(sinon.match("test: Converting circular structure"));
+    });
+
 
     describe("LogLevels", () => {
         let logger: Logger;
