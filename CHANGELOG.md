@@ -1,3 +1,13 @@
+## [1.3.2](https://github.com/stefan-torstensson/openhab-remote/compare/v1.3.1...v1.3.2) (2021-01-21)
+
+
+### Bug Fixes
+
+* Better explanation of connection errors when configuring openHAB url ([18447ef](https://github.com/stefan-torstensson/openhab-remote/commit/18447ef3f8a240fdc68da267092ee38c8eaaed91))
+* Logging should not fail on circular structures ([bd454ac](https://github.com/stefan-torstensson/openhab-remote/commit/bd454ac0aa6afc18ff40f14d702f6b949db27479))
+
+
+
 ## [1.3.1](https://github.com/stefan-torstensson/openhab-remote/compare/v1.3.0...v1.3.1) (2020-11-23)
 
 
